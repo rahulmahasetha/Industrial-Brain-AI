@@ -1,0 +1,174 @@
+{
+  "company": "FreshFlow Beverages Pvt. Ltd.",
+  "plant": "Pune Production Facility",
+  "datasets": {
+    "knowledge_graph": {
+      "count": 1,
+      "files": [
+        "graph_relationships.json"
+      ]
+    },
+    "shift_logs": {
+      "count": 1,
+      "files": [
+        "shift_logs.csv"
+      ]
+    },
+    "sensor_data": {
+      "count": 1,
+      "files": [
+        "sensor_readings.csv"
+      ]
+    },
+    "training_manuals": {
+      "count": 50,
+      "files": [
+        "TRN-026.pdf",
+        "TRN-032.pdf",
+        "TRN-033.pdf",
+        "TRN-027.pdf",
+        "TRN-031.pdf",
+        "TRN-025.pdf",
+        "TRN-019.pdf",
+        "TRN-018.pdf",
+        "TRN-024.pdf",
+        "TRN-030.pdf",
+        "..."
+      ]
+    },
+    "maintenance_logs": {
+      "count": 1,
+      "files": [
+        "maintenance_logs.csv"
+      ]
+    },
+    "compliance": {
+      "count": 80,
+      "files": [
+        "COMP-048.pdf",
+        "COMP-060.pdf",
+        "COMP-074.pdf",
+        "COMP-075.pdf",
+        "COMP-061.pdf",
+        "COMP-049.pdf",
+        "COMP-077.pdf",
+        "COMP-063.pdf",
+        "COMP-062.pdf",
+        "COMP-076.pdf",
+        "..."
+      ]
+    },
+    "inspections": {
+      "count": 300,
+      "files": [
+        "INSP-063.pdf",
+        "INSP-077.pdf",
+        "INSP-088.pdf",
+        "INSP-261.pdf",
+        "INSP-275.pdf",
+        "INSP-249.pdf",
+        "INSP-117.pdf",
+        "INSP-103.pdf",
+        "INSP-102.pdf",
+        "INSP-116.pdf",
+        "..."
+      ]
+    },
+    "rca": {
+      "count": 200,
+      "files": [
+        "RCA-122.pdf",
+        "RCA-136.pdf",
+        "RCA-056.pdf",
+        "RCA-042.pdf",
+        "RCA-095.pdf",
+        "RCA-081.pdf",
+        "RCA-080.pdf",
+        "RCA-094.pdf",
+        "RCA-043.pdf",
+        "RCA-057.pdf",
+        "..."
+      ]
+    },
+    "quality_reports": {
+      "count": 200,
+      "files": [
+        "QA-0200.pdf",
+        "QA-0016.pdf",
+        "QA-0002.pdf",
+        "QA-0189.pdf",
+        "QA-0162.pdf",
+        "QA-0176.pdf",
+        "QA-0177.pdf",
+        "QA-0163.pdf",
+        "QA-0188.pdf",
+        "QA-0003.pdf",
+        "..."
+      ]
+    },
+    "manuals": {
+      "count": 60,
+      "files": [
+        "Manual_CH104.pdf",
+        "Manual_DG101.pdf",
+        "Manual_FM104.pdf",
+        "Manual_CP104.pdf",
+        "Manual_P104.pdf",
+        "Manual_DG102.pdf",
+        "Manual_DG103.pdf",
+        "Manual_CP103.pdf",
+        "Manual_P101.pdf",
+        "Manual_CH102.pdf",
+        "..."
+      ]
+    },
+    "expert_notes": {
+      "count": 300,
+      "files": [
+        "NOTE-093.md",
+        "NOTE-242.md",
+        "NOTE-213.md",
+        "NOTE-182.md",
+        "NOTE-031.md",
+        "NOTE-171.md",
+        "NOTE-060.md",
+        "NOTE-120.md",
+        "NOTE-227.md",
+        "NOTE-276.md",
+        "..."
+      ]
+    },
+    "sops": {
+      "count": 100,
+      "files": [
+        "SOP-067.pdf",
+        "SOP-073.pdf",
+        "SOP-098.pdf",
+        "SOP-099.pdf",
+        "SOP-072.pdf",
+        "SOP-066.pdf",
+        "SOP-070.pdf",
+        "SOP-064.pdf",
+        "SOP-058.pdf",
+        "SOP-059.pdf",
+        "..."
+      ]
+    },
+    "incidents": {
+      "count": 237,
+      "files": [
+        "INC-249.pdf",
+        "INC-063.pdf",
+        "INC-077.pdf",
+        "INC-088.pdf",
+        "INC-117.pdf",
+        "INC-103.pdf",
+        "INC-102.pdf",
+        "INC-116.pdf",
+        "INC-089.pdf",
+        "INC-076.pdf",
+        "..."
+      ]
+    }
+  }
+}
