@@ -1,0 +1,1096 @@
+Date,Shift,Shift_Supervisor,Target_Production_Units,Actual_Production_Units,OEE_Percentage,Safety_Incidents,Quality_Rejects,Handover_Notes
+2023-01-01,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,85177,85.2,0,163,Short staffed by 2 operators. Redistributed workload.
+2023-01-01,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,89261,89.3,0,1404,"Compressor tripped on high temp, reset after 10 mins."
+2023-01-01,Night (22:00-06:00),Anita Desai (EMP022),100000,95852,95.9,0,1067,Waiting on QA clearance for batch 402.
+2023-01-02,Morning (06:00-14:00),Meera Patil (EMP023),100000,86825,86.8,0,669,Filler A jammed twice. Maintenance cleared it.
+2023-01-02,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,89072,89.1,0,311,"Compressor tripped on high temp, reset after 10 mins."
+2023-01-02,Night (22:00-06:00),Meera Patil (EMP023),100000,96636,96.6,0,842,"Compressor tripped on high temp, reset after 10 mins."
+2023-01-03,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,93058,93.1,0,1337,Smooth shift. No major issues.
+2023-01-03,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,86322,86.3,0,187,Short staffed by 2 operators. Redistributed workload.
+2023-01-03,Night (22:00-06:00),Anita Desai (EMP022),100000,96484,96.5,0,161,CIP completed on Mixer B. Ready for morning start.
+2023-01-04,Morning (06:00-14:00),Anita Desai (EMP022),100000,87462,87.5,0,470,Filler A jammed twice. Maintenance cleared it.
+2023-01-04,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,91436,91.4,0,621,Smooth shift. No major issues.
+2023-01-04,Night (22:00-06:00),Anita Desai (EMP022),100000,95782,95.8,0,254,Filler A jammed twice. Maintenance cleared it.
+2023-01-05,Morning (06:00-14:00),Meera Patil (EMP023),100000,96731,96.7,0,707,CIP completed on Mixer B. Ready for morning start.
+2023-01-05,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,85493,85.5,0,675,Smooth shift. No major issues.
+2023-01-05,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,86944,86.9,0,940,Filler A jammed twice. Maintenance cleared it.
+2023-01-06,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,94282,94.3,0,281,Smooth shift. No major issues.
+2023-01-06,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,90780,90.8,0,485,Waiting on QA clearance for batch 402.
+2023-01-06,Night (22:00-06:00),Anita Desai (EMP022),100000,89212,89.2,0,1289,Short staffed by 2 operators. Redistributed workload.
+2023-01-07,Morning (06:00-14:00),Anita Desai (EMP022),100000,89545,89.5,0,141,"Compressor tripped on high temp, reset after 10 mins."
+2023-01-07,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,97985,98.0,0,726,Short staffed by 2 operators. Redistributed workload.
+2023-01-07,Night (22:00-06:00),Meera Patil (EMP023),100000,96044,96.0,0,794,CIP completed on Mixer B. Ready for morning start.
+2023-01-08,Morning (06:00-14:00),Meera Patil (EMP023),100000,92187,92.2,0,1166,Short staffed by 2 operators. Redistributed workload.
+2023-01-08,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,87538,87.5,0,235,"Compressor tripped on high temp, reset after 10 mins."
+2023-01-08,Night (22:00-06:00),Meera Patil (EMP023),100000,97730,97.7,0,357,Short staffed by 2 operators. Redistributed workload.
+2023-01-09,Morning (06:00-14:00),Meera Patil (EMP023),100000,85582,85.6,0,1471,Filler A jammed twice. Maintenance cleared it.
+2023-01-09,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,91890,91.9,0,1178,Smooth shift. No major issues.
+2023-01-09,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,92155,92.2,0,1391,Smooth shift. No major issues.
+2023-01-10,Morning (06:00-14:00),Anita Desai (EMP022),100000,86100,86.1,0,1316,Power dip caused VFD faults across line 1. Recovered.
+2023-01-10,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,93243,93.2,1,1272,Waiting on QA clearance for batch 402.
+2023-01-10,Night (22:00-06:00),Meera Patil (EMP023),100000,88316,88.3,0,1137,Smooth shift. No major issues.
+2023-01-11,Morning (06:00-14:00),Meera Patil (EMP023),100000,87873,87.9,0,424,Smooth shift. No major issues.
+2023-01-11,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,99992,100.0,0,295,"Compressor tripped on high temp, reset after 10 mins."
+2023-01-11,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,86615,86.6,0,380,Power dip caused VFD faults across line 1. Recovered.
+2023-01-12,Morning (06:00-14:00),Anita Desai (EMP022),100000,94376,94.4,0,255,Waiting on QA clearance for batch 402.
+2023-01-12,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,86955,87.0,0,1368,Smooth shift. No major issues.
+2023-01-12,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,92677,92.7,0,362,Short staffed by 2 operators. Redistributed workload.
+2023-01-13,Morning (06:00-14:00),Anita Desai (EMP022),100000,98273,98.3,0,362,Waiting on QA clearance for batch 402.
+2023-01-13,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,96332,96.3,0,351,Smooth shift. No major issues.
+2023-01-13,Night (22:00-06:00),Anita Desai (EMP022),100000,97194,97.2,0,1312,Power dip caused VFD faults across line 1. Recovered.
+2023-01-14,Morning (06:00-14:00),Meera Patil (EMP023),100000,90882,90.9,0,1070,Smooth shift. No major issues.
+2023-01-14,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,96790,96.8,0,714,Smooth shift. No major issues.
+2023-01-14,Night (22:00-06:00),Anita Desai (EMP022),100000,87308,87.3,0,1054,"Compressor tripped on high temp, reset after 10 mins."
+2023-01-15,Morning (06:00-14:00),Anita Desai (EMP022),100000,87070,87.1,0,910,"Compressor tripped on high temp, reset after 10 mins."
+2023-01-15,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,92930,92.9,0,574,Power dip caused VFD faults across line 1. Recovered.
+2023-01-15,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,99656,99.7,0,483,Filler A jammed twice. Maintenance cleared it.
+2023-01-16,Morning (06:00-14:00),Meera Patil (EMP023),100000,88157,88.2,0,1161,Filler A jammed twice. Maintenance cleared it.
+2023-01-16,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,98672,98.7,0,1481,Power dip caused VFD faults across line 1. Recovered.
+2023-01-16,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,86012,86.0,0,1311,Waiting on QA clearance for batch 402.
+2023-01-17,Morning (06:00-14:00),Anita Desai (EMP022),100000,93954,94.0,0,1045,Smooth shift. No major issues.
+2023-01-17,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,92897,92.9,0,1409,Smooth shift. No major issues.
+2023-01-17,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,89659,89.7,0,1049,CIP completed on Mixer B. Ready for morning start.
+2023-01-18,Morning (06:00-14:00),Anita Desai (EMP022),100000,93044,93.0,0,1200,"Compressor tripped on high temp, reset after 10 mins."
+2023-01-18,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,97606,97.6,0,1463,Smooth shift. No major issues.
+2023-01-18,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,85281,85.3,1,120,CIP completed on Mixer B. Ready for morning start.
+2023-01-19,Morning (06:00-14:00),Anita Desai (EMP022),100000,92132,92.1,0,412,Short staffed by 2 operators. Redistributed workload.
+2023-01-19,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,94646,94.6,0,533,Power dip caused VFD faults across line 1. Recovered.
+2023-01-19,Night (22:00-06:00),Meera Patil (EMP023),100000,92555,92.6,0,606,Smooth shift. No major issues.
+2023-01-20,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,88360,88.4,0,1023,Waiting on QA clearance for batch 402.
+2023-01-20,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,99549,99.5,0,843,Power dip caused VFD faults across line 1. Recovered.
+2023-01-20,Night (22:00-06:00),Meera Patil (EMP023),100000,91218,91.2,0,839,Short staffed by 2 operators. Redistributed workload.
+2023-01-21,Morning (06:00-14:00),Meera Patil (EMP023),100000,97650,97.7,0,315,Short staffed by 2 operators. Redistributed workload.
+2023-01-21,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,85997,86.0,0,658,Filler A jammed twice. Maintenance cleared it.
+2023-01-21,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,86228,86.2,0,526,CIP completed on Mixer B. Ready for morning start.
+2023-01-22,Morning (06:00-14:00),Anita Desai (EMP022),100000,91470,91.5,0,445,"Compressor tripped on high temp, reset after 10 mins."
+2023-01-22,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,92046,92.0,0,661,Filler A jammed twice. Maintenance cleared it.
+2023-01-22,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,98135,98.1,0,815,Filler A jammed twice. Maintenance cleared it.
+2023-01-23,Morning (06:00-14:00),Meera Patil (EMP023),100000,90000,90.0,0,1025,Short staffed by 2 operators. Redistributed workload.
+2023-01-23,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,96584,96.6,0,1217,Short staffed by 2 operators. Redistributed workload.
+2023-01-23,Night (22:00-06:00),Meera Patil (EMP023),100000,86080,86.1,0,914,Smooth shift. No major issues.
+2023-01-24,Morning (06:00-14:00),Anita Desai (EMP022),100000,86424,86.4,0,884,"Compressor tripped on high temp, reset after 10 mins."
+2023-01-24,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,99182,99.2,0,229,"Compressor tripped on high temp, reset after 10 mins."
+2023-01-24,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,92961,93.0,0,1067,Short staffed by 2 operators. Redistributed workload.
+2023-01-25,Morning (06:00-14:00),Meera Patil (EMP023),100000,93670,93.7,0,1489,"Compressor tripped on high temp, reset after 10 mins."
+2023-01-25,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,89575,89.6,0,188,Filler A jammed twice. Maintenance cleared it.
+2023-01-25,Night (22:00-06:00),Anita Desai (EMP022),100000,93011,93.0,0,298,Power dip caused VFD faults across line 1. Recovered.
+2023-01-26,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,89132,89.1,0,501,Short staffed by 2 operators. Redistributed workload.
+2023-01-26,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,94742,94.7,0,1480,Smooth shift. No major issues.
+2023-01-26,Night (22:00-06:00),Meera Patil (EMP023),100000,94700,94.7,0,896,CIP completed on Mixer B. Ready for morning start.
+2023-01-27,Morning (06:00-14:00),Anita Desai (EMP022),100000,86476,86.5,0,243,Waiting on QA clearance for batch 402.
+2023-01-27,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,90942,90.9,0,1455,"Compressor tripped on high temp, reset after 10 mins."
+2023-01-27,Night (22:00-06:00),Anita Desai (EMP022),100000,96130,96.1,0,621,"Compressor tripped on high temp, reset after 10 mins."
+2023-01-28,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,87075,87.1,0,1097,Power dip caused VFD faults across line 1. Recovered.
+2023-01-28,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,97818,97.8,0,301,Filler A jammed twice. Maintenance cleared it.
+2023-01-28,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,86772,86.8,0,880,Power dip caused VFD faults across line 1. Recovered.
+2023-01-29,Morning (06:00-14:00),Anita Desai (EMP022),100000,91944,91.9,0,162,"Compressor tripped on high temp, reset after 10 mins."
+2023-01-29,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,91721,91.7,0,425,CIP completed on Mixer B. Ready for morning start.
+2023-01-29,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,89989,90.0,0,692,Filler A jammed twice. Maintenance cleared it.
+2023-01-30,Morning (06:00-14:00),Anita Desai (EMP022),100000,98947,98.9,0,519,Power dip caused VFD faults across line 1. Recovered.
+2023-01-30,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,93811,93.8,0,107,Short staffed by 2 operators. Redistributed workload.
+2023-01-30,Night (22:00-06:00),Anita Desai (EMP022),100000,99114,99.1,0,981,Waiting on QA clearance for batch 402.
+2023-01-31,Morning (06:00-14:00),Meera Patil (EMP023),100000,87779,87.8,0,992,Short staffed by 2 operators. Redistributed workload.
+2023-01-31,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,98944,98.9,0,1471,Waiting on QA clearance for batch 402.
+2023-01-31,Night (22:00-06:00),Anita Desai (EMP022),100000,91761,91.8,0,1015,Short staffed by 2 operators. Redistributed workload.
+2023-02-01,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,88683,88.7,0,872,Filler A jammed twice. Maintenance cleared it.
+2023-02-01,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,86187,86.2,0,1437,Smooth shift. No major issues.
+2023-02-01,Night (22:00-06:00),Meera Patil (EMP023),100000,95794,95.8,0,512,CIP completed on Mixer B. Ready for morning start.
+2023-02-02,Morning (06:00-14:00),Anita Desai (EMP022),100000,86636,86.6,0,1372,Smooth shift. No major issues.
+2023-02-02,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,90566,90.6,0,884,Filler A jammed twice. Maintenance cleared it.
+2023-02-02,Night (22:00-06:00),Meera Patil (EMP023),100000,99847,99.8,0,1320,Smooth shift. No major issues.
+2023-02-03,Morning (06:00-14:00),Anita Desai (EMP022),100000,95564,95.6,0,812,Power dip caused VFD faults across line 1. Recovered.
+2023-02-03,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,85093,85.1,0,1027,CIP completed on Mixer B. Ready for morning start.
+2023-02-03,Night (22:00-06:00),Anita Desai (EMP022),100000,92417,92.4,0,295,"Compressor tripped on high temp, reset after 10 mins."
+2023-02-04,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,97408,97.4,0,534,CIP completed on Mixer B. Ready for morning start.
+2023-02-04,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,91420,91.4,0,180,Short staffed by 2 operators. Redistributed workload.
+2023-02-04,Night (22:00-06:00),Anita Desai (EMP022),100000,91746,91.7,0,456,Waiting on QA clearance for batch 402.
+2023-02-05,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,91382,91.4,0,943,Smooth shift. No major issues.
+2023-02-05,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,88534,88.5,0,1039,Short staffed by 2 operators. Redistributed workload.
+2023-02-05,Night (22:00-06:00),Meera Patil (EMP023),100000,86881,86.9,0,767,"Compressor tripped on high temp, reset after 10 mins."
+2023-02-06,Morning (06:00-14:00),Meera Patil (EMP023),100000,95582,95.6,0,849,Filler A jammed twice. Maintenance cleared it.
+2023-02-06,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,97207,97.2,0,748,Filler A jammed twice. Maintenance cleared it.
+2023-02-06,Night (22:00-06:00),Meera Patil (EMP023),100000,90697,90.7,0,625,Power dip caused VFD faults across line 1. Recovered.
+2023-02-07,Morning (06:00-14:00),Anita Desai (EMP022),100000,89787,89.8,0,529,CIP completed on Mixer B. Ready for morning start.
+2023-02-07,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,93163,93.2,0,211,Short staffed by 2 operators. Redistributed workload.
+2023-02-07,Night (22:00-06:00),Anita Desai (EMP022),100000,87884,87.9,0,264,Power dip caused VFD faults across line 1. Recovered.
+2023-02-08,Morning (06:00-14:00),Anita Desai (EMP022),100000,97359,97.4,0,158,"Compressor tripped on high temp, reset after 10 mins."
+2023-02-08,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,92852,92.9,0,591,Short staffed by 2 operators. Redistributed workload.
+2023-02-08,Night (22:00-06:00),Anita Desai (EMP022),100000,88566,88.6,0,258,"Compressor tripped on high temp, reset after 10 mins."
+2023-02-09,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,98918,98.9,0,227,Filler A jammed twice. Maintenance cleared it.
+2023-02-09,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,90721,90.7,0,351,Waiting on QA clearance for batch 402.
+2023-02-09,Night (22:00-06:00),Anita Desai (EMP022),100000,91440,91.4,0,1315,Power dip caused VFD faults across line 1. Recovered.
+2023-02-10,Morning (06:00-14:00),Meera Patil (EMP023),100000,91422,91.4,0,1296,Short staffed by 2 operators. Redistributed workload.
+2023-02-10,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,86046,86.0,0,1177,Short staffed by 2 operators. Redistributed workload.
+2023-02-10,Night (22:00-06:00),Meera Patil (EMP023),100000,91713,91.7,0,1023,CIP completed on Mixer B. Ready for morning start.
+2023-02-11,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,85122,85.1,0,735,"Compressor tripped on high temp, reset after 10 mins."
+2023-02-11,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,86934,86.9,0,460,Smooth shift. No major issues.
+2023-02-11,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,93246,93.2,0,622,"Compressor tripped on high temp, reset after 10 mins."
+2023-02-12,Morning (06:00-14:00),Meera Patil (EMP023),100000,96893,96.9,0,1430,CIP completed on Mixer B. Ready for morning start.
+2023-02-12,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,93199,93.2,0,780,Filler A jammed twice. Maintenance cleared it.
+2023-02-12,Night (22:00-06:00),Anita Desai (EMP022),100000,87022,87.0,0,1230,Short staffed by 2 operators. Redistributed workload.
+2023-02-13,Morning (06:00-14:00),Anita Desai (EMP022),100000,90108,90.1,0,748,Short staffed by 2 operators. Redistributed workload.
+2023-02-13,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,87646,87.6,0,128,Power dip caused VFD faults across line 1. Recovered.
+2023-02-13,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,93111,93.1,0,299,Smooth shift. No major issues.
+2023-02-14,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,97796,97.8,0,1309,Waiting on QA clearance for batch 402.
+2023-02-14,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,92852,92.9,0,1477,Smooth shift. No major issues.
+2023-02-14,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,89957,90.0,0,1136,"Compressor tripped on high temp, reset after 10 mins."
+2023-02-15,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,85737,85.7,0,883,"Compressor tripped on high temp, reset after 10 mins."
+2023-02-15,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,99041,99.0,1,112,Smooth shift. No major issues.
+2023-02-15,Night (22:00-06:00),Meera Patil (EMP023),100000,92186,92.2,0,213,"Compressor tripped on high temp, reset after 10 mins."
+2023-02-16,Morning (06:00-14:00),Anita Desai (EMP022),100000,94776,94.8,0,973,Power dip caused VFD faults across line 1. Recovered.
+2023-02-16,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,90570,90.6,0,1082,Smooth shift. No major issues.
+2023-02-16,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,87783,87.8,0,249,Filler A jammed twice. Maintenance cleared it.
+2023-02-17,Morning (06:00-14:00),Anita Desai (EMP022),100000,85620,85.6,0,825,Waiting on QA clearance for batch 402.
+2023-02-17,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,91123,91.1,0,1129,Smooth shift. No major issues.
+2023-02-17,Night (22:00-06:00),Anita Desai (EMP022),100000,85413,85.4,0,188,Short staffed by 2 operators. Redistributed workload.
+2023-02-18,Morning (06:00-14:00),Meera Patil (EMP023),100000,87060,87.1,0,136,Waiting on QA clearance for batch 402.
+2023-02-18,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,86805,86.8,0,1079,Power dip caused VFD faults across line 1. Recovered.
+2023-02-18,Night (22:00-06:00),Anita Desai (EMP022),100000,87102,87.1,0,804,Short staffed by 2 operators. Redistributed workload.
+2023-02-19,Morning (06:00-14:00),Anita Desai (EMP022),100000,90103,90.1,0,313,Filler A jammed twice. Maintenance cleared it.
+2023-02-19,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,87822,87.8,0,567,Power dip caused VFD faults across line 1. Recovered.
+2023-02-19,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,91351,91.4,0,1311,Short staffed by 2 operators. Redistributed workload.
+2023-02-20,Morning (06:00-14:00),Meera Patil (EMP023),100000,93846,93.8,0,1260,Smooth shift. No major issues.
+2023-02-20,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,86900,86.9,0,727,Smooth shift. No major issues.
+2023-02-20,Night (22:00-06:00),Meera Patil (EMP023),100000,96781,96.8,0,1226,Smooth shift. No major issues.
+2023-02-21,Morning (06:00-14:00),Anita Desai (EMP022),100000,97016,97.0,1,510,"Compressor tripped on high temp, reset after 10 mins."
+2023-02-21,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,85724,85.7,0,314,Short staffed by 2 operators. Redistributed workload.
+2023-02-21,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,86624,86.6,0,1344,Smooth shift. No major issues.
+2023-02-22,Morning (06:00-14:00),Meera Patil (EMP023),100000,93264,93.3,1,393,Smooth shift. No major issues.
+2023-02-22,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,89747,89.7,0,549,Filler A jammed twice. Maintenance cleared it.
+2023-02-22,Night (22:00-06:00),Meera Patil (EMP023),100000,89473,89.5,0,932,CIP completed on Mixer B. Ready for morning start.
+2023-02-23,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,94922,94.9,0,1215,Smooth shift. No major issues.
+2023-02-23,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,91870,91.9,0,925,"Compressor tripped on high temp, reset after 10 mins."
+2023-02-23,Night (22:00-06:00),Meera Patil (EMP023),100000,95765,95.8,0,407,CIP completed on Mixer B. Ready for morning start.
+2023-02-24,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,99691,99.7,0,904,Waiting on QA clearance for batch 402.
+2023-02-24,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,96516,96.5,0,1261,Filler A jammed twice. Maintenance cleared it.
+2023-02-24,Night (22:00-06:00),Anita Desai (EMP022),100000,95912,95.9,0,1386,Filler A jammed twice. Maintenance cleared it.
+2023-02-25,Morning (06:00-14:00),Anita Desai (EMP022),100000,92295,92.3,0,1045,Filler A jammed twice. Maintenance cleared it.
+2023-02-25,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,97357,97.4,0,1093,Smooth shift. No major issues.
+2023-02-25,Night (22:00-06:00),Anita Desai (EMP022),100000,88908,88.9,0,1454,Short staffed by 2 operators. Redistributed workload.
+2023-02-26,Morning (06:00-14:00),Anita Desai (EMP022),100000,99122,99.1,1,200,Waiting on QA clearance for batch 402.
+2023-02-26,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,99943,99.9,0,1452,Filler A jammed twice. Maintenance cleared it.
+2023-02-26,Night (22:00-06:00),Anita Desai (EMP022),100000,90086,90.1,0,1111,CIP completed on Mixer B. Ready for morning start.
+2023-02-27,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,96713,96.7,0,499,"Compressor tripped on high temp, reset after 10 mins."
+2023-02-27,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,88601,88.6,0,1462,Filler A jammed twice. Maintenance cleared it.
+2023-02-27,Night (22:00-06:00),Meera Patil (EMP023),100000,99510,99.5,0,438,Waiting on QA clearance for batch 402.
+2023-02-28,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,91380,91.4,0,730,CIP completed on Mixer B. Ready for morning start.
+2023-02-28,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,98129,98.1,0,926,"Compressor tripped on high temp, reset after 10 mins."
+2023-02-28,Night (22:00-06:00),Meera Patil (EMP023),100000,92334,92.3,0,583,Short staffed by 2 operators. Redistributed workload.
+2023-03-01,Morning (06:00-14:00),Anita Desai (EMP022),100000,95460,95.5,0,104,Waiting on QA clearance for batch 402.
+2023-03-01,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,98339,98.3,0,114,"Compressor tripped on high temp, reset after 10 mins."
+2023-03-01,Night (22:00-06:00),Anita Desai (EMP022),100000,88252,88.3,0,474,CIP completed on Mixer B. Ready for morning start.
+2023-03-02,Morning (06:00-14:00),Meera Patil (EMP023),100000,86187,86.2,0,601,Smooth shift. No major issues.
+2023-03-02,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,86722,86.7,0,835,Short staffed by 2 operators. Redistributed workload.
+2023-03-02,Night (22:00-06:00),Meera Patil (EMP023),100000,92458,92.5,0,393,Waiting on QA clearance for batch 402.
+2023-03-03,Morning (06:00-14:00),Meera Patil (EMP023),100000,93907,93.9,0,670,Power dip caused VFD faults across line 1. Recovered.
+2023-03-03,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,96920,96.9,0,665,CIP completed on Mixer B. Ready for morning start.
+2023-03-03,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,95681,95.7,1,1365,CIP completed on Mixer B. Ready for morning start.
+2023-03-04,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,95386,95.4,0,404,Smooth shift. No major issues.
+2023-03-04,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,95846,95.8,0,972,"Compressor tripped on high temp, reset after 10 mins."
+2023-03-04,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,99761,99.8,0,394,Power dip caused VFD faults across line 1. Recovered.
+2023-03-05,Morning (06:00-14:00),Anita Desai (EMP022),100000,89909,89.9,0,151,Filler A jammed twice. Maintenance cleared it.
+2023-03-05,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,93237,93.2,0,246,Waiting on QA clearance for batch 402.
+2023-03-05,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,88129,88.1,0,323,CIP completed on Mixer B. Ready for morning start.
+2023-03-06,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,99190,99.2,0,854,CIP completed on Mixer B. Ready for morning start.
+2023-03-06,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,99770,99.8,0,885,CIP completed on Mixer B. Ready for morning start.
+2023-03-06,Night (22:00-06:00),Anita Desai (EMP022),100000,91927,91.9,0,640,"Compressor tripped on high temp, reset after 10 mins."
+2023-03-07,Morning (06:00-14:00),Meera Patil (EMP023),100000,89908,89.9,0,483,Short staffed by 2 operators. Redistributed workload.
+2023-03-07,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,91144,91.1,0,1494,CIP completed on Mixer B. Ready for morning start.
+2023-03-07,Night (22:00-06:00),Anita Desai (EMP022),100000,85771,85.8,0,1163,Short staffed by 2 operators. Redistributed workload.
+2023-03-08,Morning (06:00-14:00),Anita Desai (EMP022),100000,96304,96.3,0,602,Waiting on QA clearance for batch 402.
+2023-03-08,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,95810,95.8,0,841,Waiting on QA clearance for batch 402.
+2023-03-08,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,97467,97.5,0,1419,Filler A jammed twice. Maintenance cleared it.
+2023-03-09,Morning (06:00-14:00),Anita Desai (EMP022),100000,91009,91.0,0,1027,Filler A jammed twice. Maintenance cleared it.
+2023-03-09,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,92308,92.3,0,1014,"Compressor tripped on high temp, reset after 10 mins."
+2023-03-09,Night (22:00-06:00),Meera Patil (EMP023),100000,87086,87.1,0,599,Waiting on QA clearance for batch 402.
+2023-03-10,Morning (06:00-14:00),Anita Desai (EMP022),100000,94218,94.2,0,320,"Compressor tripped on high temp, reset after 10 mins."
+2023-03-10,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,99557,99.6,0,353,Short staffed by 2 operators. Redistributed workload.
+2023-03-10,Night (22:00-06:00),Meera Patil (EMP023),100000,85403,85.4,0,797,Filler A jammed twice. Maintenance cleared it.
+2023-03-11,Morning (06:00-14:00),Anita Desai (EMP022),100000,89130,89.1,0,124,Waiting on QA clearance for batch 402.
+2023-03-11,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,90903,90.9,0,674,Waiting on QA clearance for batch 402.
+2023-03-11,Night (22:00-06:00),Meera Patil (EMP023),100000,88876,88.9,0,1459,CIP completed on Mixer B. Ready for morning start.
+2023-03-12,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,97597,97.6,0,705,Short staffed by 2 operators. Redistributed workload.
+2023-03-12,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,95097,95.1,0,458,Filler A jammed twice. Maintenance cleared it.
+2023-03-12,Night (22:00-06:00),Meera Patil (EMP023),100000,92456,92.5,0,1029,Filler A jammed twice. Maintenance cleared it.
+2023-03-13,Morning (06:00-14:00),Meera Patil (EMP023),100000,93192,93.2,0,315,Smooth shift. No major issues.
+2023-03-13,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,92509,92.5,0,996,Waiting on QA clearance for batch 402.
+2023-03-13,Night (22:00-06:00),Meera Patil (EMP023),100000,85492,85.5,0,778,Power dip caused VFD faults across line 1. Recovered.
+2023-03-14,Morning (06:00-14:00),Meera Patil (EMP023),100000,98390,98.4,0,584,"Compressor tripped on high temp, reset after 10 mins."
+2023-03-14,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,88234,88.2,1,457,Waiting on QA clearance for batch 402.
+2023-03-14,Night (22:00-06:00),Meera Patil (EMP023),100000,88922,88.9,0,1410,Waiting on QA clearance for batch 402.
+2023-03-15,Morning (06:00-14:00),Meera Patil (EMP023),100000,90724,90.7,0,682,Power dip caused VFD faults across line 1. Recovered.
+2023-03-15,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,97005,97.0,0,215,Power dip caused VFD faults across line 1. Recovered.
+2023-03-15,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,87606,87.6,0,820,CIP completed on Mixer B. Ready for morning start.
+2023-03-16,Morning (06:00-14:00),Anita Desai (EMP022),100000,87028,87.0,0,329,Waiting on QA clearance for batch 402.
+2023-03-16,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,88901,88.9,0,466,"Compressor tripped on high temp, reset after 10 mins."
+2023-03-16,Night (22:00-06:00),Anita Desai (EMP022),100000,89451,89.5,0,627,Short staffed by 2 operators. Redistributed workload.
+2023-03-17,Morning (06:00-14:00),Meera Patil (EMP023),100000,98110,98.1,0,1260,Filler A jammed twice. Maintenance cleared it.
+2023-03-17,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,86653,86.7,0,641,Power dip caused VFD faults across line 1. Recovered.
+2023-03-17,Night (22:00-06:00),Meera Patil (EMP023),100000,95605,95.6,1,1238,Filler A jammed twice. Maintenance cleared it.
+2023-03-18,Morning (06:00-14:00),Meera Patil (EMP023),100000,85283,85.3,0,677,Smooth shift. No major issues.
+2023-03-18,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,98608,98.6,0,289,Waiting on QA clearance for batch 402.
+2023-03-18,Night (22:00-06:00),Meera Patil (EMP023),100000,94065,94.1,0,420,CIP completed on Mixer B. Ready for morning start.
+2023-03-19,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,99341,99.3,0,1035,Smooth shift. No major issues.
+2023-03-19,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,94572,94.6,1,709,Power dip caused VFD faults across line 1. Recovered.
+2023-03-19,Night (22:00-06:00),Anita Desai (EMP022),100000,91930,91.9,0,693,Power dip caused VFD faults across line 1. Recovered.
+2023-03-20,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,87113,87.1,0,414,CIP completed on Mixer B. Ready for morning start.
+2023-03-20,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,87287,87.3,0,1206,Filler A jammed twice. Maintenance cleared it.
+2023-03-20,Night (22:00-06:00),Anita Desai (EMP022),100000,91984,92.0,0,1271,Power dip caused VFD faults across line 1. Recovered.
+2023-03-21,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,97194,97.2,0,1189,Short staffed by 2 operators. Redistributed workload.
+2023-03-21,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,89210,89.2,0,1000,"Compressor tripped on high temp, reset after 10 mins."
+2023-03-21,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,97308,97.3,0,1188,Power dip caused VFD faults across line 1. Recovered.
+2023-03-22,Morning (06:00-14:00),Meera Patil (EMP023),100000,86112,86.1,0,1379,CIP completed on Mixer B. Ready for morning start.
+2023-03-22,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,89626,89.6,0,1018,Power dip caused VFD faults across line 1. Recovered.
+2023-03-22,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,92213,92.2,0,1283,Filler A jammed twice. Maintenance cleared it.
+2023-03-23,Morning (06:00-14:00),Anita Desai (EMP022),100000,86349,86.3,0,426,Filler A jammed twice. Maintenance cleared it.
+2023-03-23,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,92915,92.9,0,841,Power dip caused VFD faults across line 1. Recovered.
+2023-03-23,Night (22:00-06:00),Meera Patil (EMP023),100000,93970,94.0,0,168,Filler A jammed twice. Maintenance cleared it.
+2023-03-24,Morning (06:00-14:00),Anita Desai (EMP022),100000,85498,85.5,0,215,Power dip caused VFD faults across line 1. Recovered.
+2023-03-24,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,98054,98.1,0,1488,Power dip caused VFD faults across line 1. Recovered.
+2023-03-24,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,91318,91.3,0,970,CIP completed on Mixer B. Ready for morning start.
+2023-03-25,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,88870,88.9,0,212,Smooth shift. No major issues.
+2023-03-25,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,89890,89.9,0,653,Power dip caused VFD faults across line 1. Recovered.
+2023-03-25,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,85956,86.0,0,271,"Compressor tripped on high temp, reset after 10 mins."
+2023-03-26,Morning (06:00-14:00),Meera Patil (EMP023),100000,94243,94.2,0,102,"Compressor tripped on high temp, reset after 10 mins."
+2023-03-26,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,89889,89.9,0,1472,Filler A jammed twice. Maintenance cleared it.
+2023-03-26,Night (22:00-06:00),Anita Desai (EMP022),100000,89792,89.8,0,514,CIP completed on Mixer B. Ready for morning start.
+2023-03-27,Morning (06:00-14:00),Anita Desai (EMP022),100000,97760,97.8,0,910,Power dip caused VFD faults across line 1. Recovered.
+2023-03-27,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,98061,98.1,0,868,Power dip caused VFD faults across line 1. Recovered.
+2023-03-27,Night (22:00-06:00),Meera Patil (EMP023),100000,96891,96.9,0,1208,"Compressor tripped on high temp, reset after 10 mins."
+2023-03-28,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,92288,92.3,0,1454,Short staffed by 2 operators. Redistributed workload.
+2023-03-28,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,93023,93.0,1,977,Filler A jammed twice. Maintenance cleared it.
+2023-03-28,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,94795,94.8,0,1257,CIP completed on Mixer B. Ready for morning start.
+2023-03-29,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,98285,98.3,0,1409,Waiting on QA clearance for batch 402.
+2023-03-29,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,97923,97.9,0,1171,"Compressor tripped on high temp, reset after 10 mins."
+2023-03-29,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,98407,98.4,0,1279,CIP completed on Mixer B. Ready for morning start.
+2023-03-30,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,98875,98.9,0,1361,Smooth shift. No major issues.
+2023-03-30,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,96826,96.8,0,1102,Smooth shift. No major issues.
+2023-03-30,Night (22:00-06:00),Meera Patil (EMP023),100000,94129,94.1,0,814,Smooth shift. No major issues.
+2023-03-31,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,86058,86.1,0,1223,Filler A jammed twice. Maintenance cleared it.
+2023-03-31,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,91898,91.9,0,939,Waiting on QA clearance for batch 402.
+2023-03-31,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,96581,96.6,0,689,Waiting on QA clearance for batch 402.
+2023-04-01,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,91796,91.8,0,1377,Short staffed by 2 operators. Redistributed workload.
+2023-04-01,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,87494,87.5,0,1193,Power dip caused VFD faults across line 1. Recovered.
+2023-04-01,Night (22:00-06:00),Meera Patil (EMP023),100000,89488,89.5,0,116,Filler A jammed twice. Maintenance cleared it.
+2023-04-02,Morning (06:00-14:00),Meera Patil (EMP023),100000,99033,99.0,0,564,Power dip caused VFD faults across line 1. Recovered.
+2023-04-02,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,97676,97.7,0,507,Power dip caused VFD faults across line 1. Recovered.
+2023-04-02,Night (22:00-06:00),Anita Desai (EMP022),100000,93587,93.6,0,993,Filler A jammed twice. Maintenance cleared it.
+2023-04-03,Morning (06:00-14:00),Anita Desai (EMP022),100000,93668,93.7,0,909,Short staffed by 2 operators. Redistributed workload.
+2023-04-03,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,98276,98.3,0,520,Filler A jammed twice. Maintenance cleared it.
+2023-04-03,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,89871,89.9,0,746,Power dip caused VFD faults across line 1. Recovered.
+2023-04-04,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,99395,99.4,0,437,Filler A jammed twice. Maintenance cleared it.
+2023-04-04,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,90802,90.8,0,496,Short staffed by 2 operators. Redistributed workload.
+2023-04-04,Night (22:00-06:00),Meera Patil (EMP023),100000,91364,91.4,0,1116,CIP completed on Mixer B. Ready for morning start.
+2023-04-05,Morning (06:00-14:00),Anita Desai (EMP022),100000,85831,85.8,0,358,Smooth shift. No major issues.
+2023-04-05,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,95599,95.6,0,1471,Short staffed by 2 operators. Redistributed workload.
+2023-04-05,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,87418,87.4,0,1337,Short staffed by 2 operators. Redistributed workload.
+2023-04-06,Morning (06:00-14:00),Meera Patil (EMP023),100000,88625,88.6,0,1351,Short staffed by 2 operators. Redistributed workload.
+2023-04-06,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,85977,86.0,0,323,Short staffed by 2 operators. Redistributed workload.
+2023-04-06,Night (22:00-06:00),Anita Desai (EMP022),100000,95461,95.5,0,222,CIP completed on Mixer B. Ready for morning start.
+2023-04-07,Morning (06:00-14:00),Meera Patil (EMP023),100000,92798,92.8,0,254,"Compressor tripped on high temp, reset after 10 mins."
+2023-04-07,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,87556,87.6,0,1093,CIP completed on Mixer B. Ready for morning start.
+2023-04-07,Night (22:00-06:00),Meera Patil (EMP023),100000,95473,95.5,0,705,CIP completed on Mixer B. Ready for morning start.
+2023-04-08,Morning (06:00-14:00),Anita Desai (EMP022),100000,90631,90.6,0,572,CIP completed on Mixer B. Ready for morning start.
+2023-04-08,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,94768,94.8,0,1041,CIP completed on Mixer B. Ready for morning start.
+2023-04-08,Night (22:00-06:00),Anita Desai (EMP022),100000,89055,89.1,0,854,Power dip caused VFD faults across line 1. Recovered.
+2023-04-09,Morning (06:00-14:00),Meera Patil (EMP023),100000,85064,85.1,0,503,Filler A jammed twice. Maintenance cleared it.
+2023-04-09,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,89291,89.3,0,863,Power dip caused VFD faults across line 1. Recovered.
+2023-04-09,Night (22:00-06:00),Meera Patil (EMP023),100000,93812,93.8,0,577,Filler A jammed twice. Maintenance cleared it.
+2023-04-10,Morning (06:00-14:00),Meera Patil (EMP023),100000,93314,93.3,0,1334,"Compressor tripped on high temp, reset after 10 mins."
+2023-04-10,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,86610,86.6,0,1329,CIP completed on Mixer B. Ready for morning start.
+2023-04-10,Night (22:00-06:00),Anita Desai (EMP022),100000,86618,86.6,0,505,Waiting on QA clearance for batch 402.
+2023-04-11,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,86244,86.2,0,349,Power dip caused VFD faults across line 1. Recovered.
+2023-04-11,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,92465,92.5,0,984,Short staffed by 2 operators. Redistributed workload.
+2023-04-11,Night (22:00-06:00),Meera Patil (EMP023),100000,99826,99.8,1,582,Short staffed by 2 operators. Redistributed workload.
+2023-04-12,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,91835,91.8,0,657,Short staffed by 2 operators. Redistributed workload.
+2023-04-12,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,92694,92.7,0,1439,"Compressor tripped on high temp, reset after 10 mins."
+2023-04-12,Night (22:00-06:00),Meera Patil (EMP023),100000,90780,90.8,0,125,CIP completed on Mixer B. Ready for morning start.
+2023-04-13,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,85892,85.9,0,1146,Power dip caused VFD faults across line 1. Recovered.
+2023-04-13,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,98047,98.0,1,528,Smooth shift. No major issues.
+2023-04-13,Night (22:00-06:00),Meera Patil (EMP023),100000,93123,93.1,0,1107,Smooth shift. No major issues.
+2023-04-14,Morning (06:00-14:00),Anita Desai (EMP022),100000,97701,97.7,0,1044,Waiting on QA clearance for batch 402.
+2023-04-14,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,98960,99.0,0,1314,Short staffed by 2 operators. Redistributed workload.
+2023-04-14,Night (22:00-06:00),Anita Desai (EMP022),100000,85477,85.5,0,1434,Short staffed by 2 operators. Redistributed workload.
+2023-04-15,Morning (06:00-14:00),Anita Desai (EMP022),100000,91021,91.0,0,315,"Compressor tripped on high temp, reset after 10 mins."
+2023-04-15,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,96118,96.1,0,924,Power dip caused VFD faults across line 1. Recovered.
+2023-04-15,Night (22:00-06:00),Meera Patil (EMP023),100000,87836,87.8,0,1117,"Compressor tripped on high temp, reset after 10 mins."
+2023-04-16,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,90088,90.1,0,173,Smooth shift. No major issues.
+2023-04-16,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,99461,99.5,0,405,Waiting on QA clearance for batch 402.
+2023-04-16,Night (22:00-06:00),Meera Patil (EMP023),100000,93101,93.1,0,1473,CIP completed on Mixer B. Ready for morning start.
+2023-04-17,Morning (06:00-14:00),Meera Patil (EMP023),100000,91558,91.6,0,651,Power dip caused VFD faults across line 1. Recovered.
+2023-04-17,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,88857,88.9,0,351,Smooth shift. No major issues.
+2023-04-17,Night (22:00-06:00),Anita Desai (EMP022),100000,97247,97.2,0,721,Filler A jammed twice. Maintenance cleared it.
+2023-04-18,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,92403,92.4,0,1234,CIP completed on Mixer B. Ready for morning start.
+2023-04-18,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,85400,85.4,0,819,Waiting on QA clearance for batch 402.
+2023-04-18,Night (22:00-06:00),Meera Patil (EMP023),100000,87251,87.3,0,191,"Compressor tripped on high temp, reset after 10 mins."
+2023-04-19,Morning (06:00-14:00),Anita Desai (EMP022),100000,93656,93.7,0,1296,Short staffed by 2 operators. Redistributed workload.
+2023-04-19,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,86314,86.3,0,1438,Short staffed by 2 operators. Redistributed workload.
+2023-04-19,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,87882,87.9,0,1494,Waiting on QA clearance for batch 402.
+2023-04-20,Morning (06:00-14:00),Meera Patil (EMP023),100000,91158,91.2,0,744,Power dip caused VFD faults across line 1. Recovered.
+2023-04-20,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,87052,87.1,0,284,"Compressor tripped on high temp, reset after 10 mins."
+2023-04-20,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,97223,97.2,0,1148,Power dip caused VFD faults across line 1. Recovered.
+2023-04-21,Morning (06:00-14:00),Meera Patil (EMP023),100000,92314,92.3,0,1025,Power dip caused VFD faults across line 1. Recovered.
+2023-04-21,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,97828,97.8,0,613,Waiting on QA clearance for batch 402.
+2023-04-21,Night (22:00-06:00),Anita Desai (EMP022),100000,94604,94.6,0,136,Waiting on QA clearance for batch 402.
+2023-04-22,Morning (06:00-14:00),Anita Desai (EMP022),100000,93683,93.7,0,368,Filler A jammed twice. Maintenance cleared it.
+2023-04-22,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,87962,88.0,0,645,Short staffed by 2 operators. Redistributed workload.
+2023-04-22,Night (22:00-06:00),Anita Desai (EMP022),100000,92651,92.7,0,1304,Waiting on QA clearance for batch 402.
+2023-04-23,Morning (06:00-14:00),Meera Patil (EMP023),100000,89488,89.5,0,971,Waiting on QA clearance for batch 402.
+2023-04-23,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,89088,89.1,0,1097,Filler A jammed twice. Maintenance cleared it.
+2023-04-23,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,88668,88.7,0,1176,Filler A jammed twice. Maintenance cleared it.
+2023-04-24,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,96840,96.8,0,196,"Compressor tripped on high temp, reset after 10 mins."
+2023-04-24,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,98771,98.8,0,1238,Filler A jammed twice. Maintenance cleared it.
+2023-04-24,Night (22:00-06:00),Meera Patil (EMP023),100000,89124,89.1,0,1500,Power dip caused VFD faults across line 1. Recovered.
+2023-04-25,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,93766,93.8,0,228,Waiting on QA clearance for batch 402.
+2023-04-25,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,85543,85.5,1,1059,Filler A jammed twice. Maintenance cleared it.
+2023-04-25,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,92419,92.4,0,492,Smooth shift. No major issues.
+2023-04-26,Morning (06:00-14:00),Anita Desai (EMP022),100000,89418,89.4,0,1000,Waiting on QA clearance for batch 402.
+2023-04-26,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,98160,98.2,0,747,"Compressor tripped on high temp, reset after 10 mins."
+2023-04-26,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,95759,95.8,0,301,CIP completed on Mixer B. Ready for morning start.
+2023-04-27,Morning (06:00-14:00),Anita Desai (EMP022),100000,92648,92.6,0,500,CIP completed on Mixer B. Ready for morning start.
+2023-04-27,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,96932,96.9,0,932,Short staffed by 2 operators. Redistributed workload.
+2023-04-27,Night (22:00-06:00),Anita Desai (EMP022),100000,94932,94.9,0,132,Waiting on QA clearance for batch 402.
+2023-04-28,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,98333,98.3,0,496,Waiting on QA clearance for batch 402.
+2023-04-28,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,93790,93.8,0,586,Waiting on QA clearance for batch 402.
+2023-04-28,Night (22:00-06:00),Anita Desai (EMP022),100000,94150,94.2,0,493,"Compressor tripped on high temp, reset after 10 mins."
+2023-04-29,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,85948,85.9,0,120,Power dip caused VFD faults across line 1. Recovered.
+2023-04-29,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,96805,96.8,0,1110,Short staffed by 2 operators. Redistributed workload.
+2023-04-29,Night (22:00-06:00),Meera Patil (EMP023),100000,99722,99.7,0,171,CIP completed on Mixer B. Ready for morning start.
+2023-04-30,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,97240,97.2,0,549,Power dip caused VFD faults across line 1. Recovered.
+2023-04-30,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,93878,93.9,0,127,Filler A jammed twice. Maintenance cleared it.
+2023-04-30,Night (22:00-06:00),Anita Desai (EMP022),100000,99243,99.2,0,227,Filler A jammed twice. Maintenance cleared it.
+2023-05-01,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,88514,88.5,0,397,Smooth shift. No major issues.
+2023-05-01,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,95869,95.9,0,1186,"Compressor tripped on high temp, reset after 10 mins."
+2023-05-01,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,95888,95.9,0,1410,Smooth shift. No major issues.
+2023-05-02,Morning (06:00-14:00),Anita Desai (EMP022),100000,86948,86.9,1,1224,Smooth shift. No major issues.
+2023-05-02,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,99328,99.3,0,160,Short staffed by 2 operators. Redistributed workload.
+2023-05-02,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,86757,86.8,0,1313,"Compressor tripped on high temp, reset after 10 mins."
+2023-05-03,Morning (06:00-14:00),Meera Patil (EMP023),100000,99521,99.5,0,921,CIP completed on Mixer B. Ready for morning start.
+2023-05-03,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,95935,95.9,0,867,Short staffed by 2 operators. Redistributed workload.
+2023-05-03,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,87757,87.8,0,1004,Short staffed by 2 operators. Redistributed workload.
+2023-05-04,Morning (06:00-14:00),Anita Desai (EMP022),100000,90350,90.3,0,594,Power dip caused VFD faults across line 1. Recovered.
+2023-05-04,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,85310,85.3,0,1411,Short staffed by 2 operators. Redistributed workload.
+2023-05-04,Night (22:00-06:00),Anita Desai (EMP022),100000,93510,93.5,0,360,Short staffed by 2 operators. Redistributed workload.
+2023-05-05,Morning (06:00-14:00),Anita Desai (EMP022),100000,88866,88.9,0,1095,Waiting on QA clearance for batch 402.
+2023-05-05,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,87109,87.1,0,965,Smooth shift. No major issues.
+2023-05-05,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,85206,85.2,0,1165,Smooth shift. No major issues.
+2023-05-06,Morning (06:00-14:00),Meera Patil (EMP023),100000,97439,97.4,0,105,Filler A jammed twice. Maintenance cleared it.
+2023-05-06,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,93179,93.2,0,1037,Waiting on QA clearance for batch 402.
+2023-05-06,Night (22:00-06:00),Anita Desai (EMP022),100000,98763,98.8,0,1017,Power dip caused VFD faults across line 1. Recovered.
+2023-05-07,Morning (06:00-14:00),Anita Desai (EMP022),100000,91486,91.5,1,914,Power dip caused VFD faults across line 1. Recovered.
+2023-05-07,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,96809,96.8,0,1171,Smooth shift. No major issues.
+2023-05-07,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,87072,87.1,0,939,CIP completed on Mixer B. Ready for morning start.
+2023-05-08,Morning (06:00-14:00),Anita Desai (EMP022),100000,87248,87.2,0,591,Waiting on QA clearance for batch 402.
+2023-05-08,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,86033,86.0,0,1323,Power dip caused VFD faults across line 1. Recovered.
+2023-05-08,Night (22:00-06:00),Anita Desai (EMP022),100000,99719,99.7,0,539,Power dip caused VFD faults across line 1. Recovered.
+2023-05-09,Morning (06:00-14:00),Anita Desai (EMP022),100000,98463,98.5,0,1386,Filler A jammed twice. Maintenance cleared it.
+2023-05-09,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,90960,91.0,0,444,Short staffed by 2 operators. Redistributed workload.
+2023-05-09,Night (22:00-06:00),Meera Patil (EMP023),100000,92151,92.2,0,993,Power dip caused VFD faults across line 1. Recovered.
+2023-05-10,Morning (06:00-14:00),Anita Desai (EMP022),100000,86989,87.0,0,1210,CIP completed on Mixer B. Ready for morning start.
+2023-05-10,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,99335,99.3,0,810,Filler A jammed twice. Maintenance cleared it.
+2023-05-10,Night (22:00-06:00),Anita Desai (EMP022),100000,97560,97.6,0,930,"Compressor tripped on high temp, reset after 10 mins."
+2023-05-11,Morning (06:00-14:00),Meera Patil (EMP023),100000,88839,88.8,0,1139,Filler A jammed twice. Maintenance cleared it.
+2023-05-11,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,97668,97.7,0,1389,Power dip caused VFD faults across line 1. Recovered.
+2023-05-11,Night (22:00-06:00),Meera Patil (EMP023),100000,90572,90.6,0,104,Power dip caused VFD faults across line 1. Recovered.
+2023-05-12,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,95461,95.5,0,1227,Smooth shift. No major issues.
+2023-05-12,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,98700,98.7,0,946,"Compressor tripped on high temp, reset after 10 mins."
+2023-05-12,Night (22:00-06:00),Meera Patil (EMP023),100000,89361,89.4,0,223,Short staffed by 2 operators. Redistributed workload.
+2023-05-13,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,91653,91.7,0,1354,Smooth shift. No major issues.
+2023-05-13,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,99902,99.9,0,158,Filler A jammed twice. Maintenance cleared it.
+2023-05-13,Night (22:00-06:00),Anita Desai (EMP022),100000,94843,94.8,0,1185,CIP completed on Mixer B. Ready for morning start.
+2023-05-14,Morning (06:00-14:00),Meera Patil (EMP023),100000,95246,95.2,0,632,Power dip caused VFD faults across line 1. Recovered.
+2023-05-14,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,85857,85.9,0,510,Smooth shift. No major issues.
+2023-05-14,Night (22:00-06:00),Meera Patil (EMP023),100000,95974,96.0,0,1176,Short staffed by 2 operators. Redistributed workload.
+2023-05-15,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,97815,97.8,0,944,Power dip caused VFD faults across line 1. Recovered.
+2023-05-15,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,98492,98.5,0,271,"Compressor tripped on high temp, reset after 10 mins."
+2023-05-15,Night (22:00-06:00),Anita Desai (EMP022),100000,97504,97.5,0,1097,Short staffed by 2 operators. Redistributed workload.
+2023-05-16,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,98328,98.3,0,784,Power dip caused VFD faults across line 1. Recovered.
+2023-05-16,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,92464,92.5,0,736,Filler A jammed twice. Maintenance cleared it.
+2023-05-16,Night (22:00-06:00),Meera Patil (EMP023),100000,98825,98.8,0,1345,Power dip caused VFD faults across line 1. Recovered.
+2023-05-17,Morning (06:00-14:00),Anita Desai (EMP022),100000,87802,87.8,0,120,Power dip caused VFD faults across line 1. Recovered.
+2023-05-17,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,96487,96.5,0,1028,CIP completed on Mixer B. Ready for morning start.
+2023-05-17,Night (22:00-06:00),Anita Desai (EMP022),100000,94949,94.9,0,231,Power dip caused VFD faults across line 1. Recovered.
+2023-05-18,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,95437,95.4,0,967,Waiting on QA clearance for batch 402.
+2023-05-18,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,85749,85.7,0,1057,Filler A jammed twice. Maintenance cleared it.
+2023-05-18,Night (22:00-06:00),Anita Desai (EMP022),100000,88387,88.4,0,617,Power dip caused VFD faults across line 1. Recovered.
+2023-05-19,Morning (06:00-14:00),Anita Desai (EMP022),100000,91344,91.3,0,1043,"Compressor tripped on high temp, reset after 10 mins."
+2023-05-19,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,97381,97.4,1,543,Filler A jammed twice. Maintenance cleared it.
+2023-05-19,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,96538,96.5,0,846,Waiting on QA clearance for batch 402.
+2023-05-20,Morning (06:00-14:00),Anita Desai (EMP022),100000,88615,88.6,0,358,Filler A jammed twice. Maintenance cleared it.
+2023-05-20,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,85328,85.3,0,463,Power dip caused VFD faults across line 1. Recovered.
+2023-05-20,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,89086,89.1,0,781,Filler A jammed twice. Maintenance cleared it.
+2023-05-21,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,97420,97.4,0,1355,Power dip caused VFD faults across line 1. Recovered.
+2023-05-21,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,85098,85.1,0,427,"Compressor tripped on high temp, reset after 10 mins."
+2023-05-21,Night (22:00-06:00),Anita Desai (EMP022),100000,98635,98.6,0,1049,Short staffed by 2 operators. Redistributed workload.
+2023-05-22,Morning (06:00-14:00),Anita Desai (EMP022),100000,94648,94.6,0,1176,"Compressor tripped on high temp, reset after 10 mins."
+2023-05-22,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,94634,94.6,1,677,Filler A jammed twice. Maintenance cleared it.
+2023-05-22,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,96030,96.0,0,686,Smooth shift. No major issues.
+2023-05-23,Morning (06:00-14:00),Meera Patil (EMP023),100000,91697,91.7,0,320,Short staffed by 2 operators. Redistributed workload.
+2023-05-23,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,92041,92.0,0,127,Waiting on QA clearance for batch 402.
+2023-05-23,Night (22:00-06:00),Meera Patil (EMP023),100000,85509,85.5,0,887,Short staffed by 2 operators. Redistributed workload.
+2023-05-24,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,90704,90.7,0,168,Power dip caused VFD faults across line 1. Recovered.
+2023-05-24,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,85871,85.9,1,268,Short staffed by 2 operators. Redistributed workload.
+2023-05-24,Night (22:00-06:00),Anita Desai (EMP022),100000,87888,87.9,0,493,Waiting on QA clearance for batch 402.
+2023-05-25,Morning (06:00-14:00),Anita Desai (EMP022),100000,96107,96.1,0,707,Short staffed by 2 operators. Redistributed workload.
+2023-05-25,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,87424,87.4,0,1303,Filler A jammed twice. Maintenance cleared it.
+2023-05-25,Night (22:00-06:00),Meera Patil (EMP023),100000,88425,88.4,0,233,"Compressor tripped on high temp, reset after 10 mins."
+2023-05-26,Morning (06:00-14:00),Anita Desai (EMP022),100000,90879,90.9,0,294,Short staffed by 2 operators. Redistributed workload.
+2023-05-26,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,95582,95.6,0,356,Smooth shift. No major issues.
+2023-05-26,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,87789,87.8,0,290,Smooth shift. No major issues.
+2023-05-27,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,85478,85.5,0,1058,CIP completed on Mixer B. Ready for morning start.
+2023-05-27,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,91887,91.9,0,234,Filler A jammed twice. Maintenance cleared it.
+2023-05-27,Night (22:00-06:00),Meera Patil (EMP023),100000,86544,86.5,0,1046,Short staffed by 2 operators. Redistributed workload.
+2023-05-28,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,92924,92.9,0,1175,Filler A jammed twice. Maintenance cleared it.
+2023-05-28,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,87848,87.8,0,279,Short staffed by 2 operators. Redistributed workload.
+2023-05-28,Night (22:00-06:00),Meera Patil (EMP023),100000,92749,92.7,0,740,Waiting on QA clearance for batch 402.
+2023-05-29,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,91847,91.8,0,771,"Compressor tripped on high temp, reset after 10 mins."
+2023-05-29,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,89765,89.8,0,606,"Compressor tripped on high temp, reset after 10 mins."
+2023-05-29,Night (22:00-06:00),Meera Patil (EMP023),100000,85621,85.6,0,885,Short staffed by 2 operators. Redistributed workload.
+2023-05-30,Morning (06:00-14:00),Anita Desai (EMP022),100000,96629,96.6,0,540,CIP completed on Mixer B. Ready for morning start.
+2023-05-30,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,86152,86.2,0,181,CIP completed on Mixer B. Ready for morning start.
+2023-05-30,Night (22:00-06:00),Anita Desai (EMP022),100000,92462,92.5,0,117,Smooth shift. No major issues.
+2023-05-31,Morning (06:00-14:00),Meera Patil (EMP023),100000,85938,85.9,0,1481,"Compressor tripped on high temp, reset after 10 mins."
+2023-05-31,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,90155,90.2,1,1327,Filler A jammed twice. Maintenance cleared it.
+2023-05-31,Night (22:00-06:00),Anita Desai (EMP022),100000,88241,88.2,0,1134,"Compressor tripped on high temp, reset after 10 mins."
+2023-06-01,Morning (06:00-14:00),Anita Desai (EMP022),100000,98709,98.7,0,1265,Smooth shift. No major issues.
+2023-06-01,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,91496,91.5,0,875,"Compressor tripped on high temp, reset after 10 mins."
+2023-06-01,Night (22:00-06:00),Meera Patil (EMP023),100000,99599,99.6,0,282,Power dip caused VFD faults across line 1. Recovered.
+2023-06-02,Morning (06:00-14:00),Anita Desai (EMP022),100000,91735,91.7,0,761,Waiting on QA clearance for batch 402.
+2023-06-02,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,91331,91.3,0,852,Power dip caused VFD faults across line 1. Recovered.
+2023-06-02,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,92892,92.9,0,166,Waiting on QA clearance for batch 402.
+2023-06-03,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,94811,94.8,0,1227,Waiting on QA clearance for batch 402.
+2023-06-03,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,86544,86.5,0,292,Filler A jammed twice. Maintenance cleared it.
+2023-06-03,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,91179,91.2,0,958,Smooth shift. No major issues.
+2023-06-04,Morning (06:00-14:00),Meera Patil (EMP023),100000,97543,97.5,0,626,Smooth shift. No major issues.
+2023-06-04,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,88815,88.8,0,1319,Smooth shift. No major issues.
+2023-06-04,Night (22:00-06:00),Anita Desai (EMP022),100000,99408,99.4,1,1272,CIP completed on Mixer B. Ready for morning start.
+2023-06-05,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,89127,89.1,0,1124,Smooth shift. No major issues.
+2023-06-05,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,92683,92.7,0,1038,Power dip caused VFD faults across line 1. Recovered.
+2023-06-05,Night (22:00-06:00),Anita Desai (EMP022),100000,89003,89.0,0,1122,Smooth shift. No major issues.
+2023-06-06,Morning (06:00-14:00),Anita Desai (EMP022),100000,99080,99.1,0,1255,Filler A jammed twice. Maintenance cleared it.
+2023-06-06,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,88338,88.3,1,1317,Filler A jammed twice. Maintenance cleared it.
+2023-06-06,Night (22:00-06:00),Anita Desai (EMP022),100000,89369,89.4,0,679,CIP completed on Mixer B. Ready for morning start.
+2023-06-07,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,85982,86.0,0,1416,CIP completed on Mixer B. Ready for morning start.
+2023-06-07,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,91277,91.3,0,1458,Waiting on QA clearance for batch 402.
+2023-06-07,Night (22:00-06:00),Meera Patil (EMP023),100000,99070,99.1,0,499,Filler A jammed twice. Maintenance cleared it.
+2023-06-08,Morning (06:00-14:00),Anita Desai (EMP022),100000,88089,88.1,1,466,"Compressor tripped on high temp, reset after 10 mins."
+2023-06-08,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,92615,92.6,0,751,"Compressor tripped on high temp, reset after 10 mins."
+2023-06-08,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,99949,99.9,0,784,"Compressor tripped on high temp, reset after 10 mins."
+2023-06-09,Morning (06:00-14:00),Meera Patil (EMP023),100000,88179,88.2,0,506,CIP completed on Mixer B. Ready for morning start.
+2023-06-09,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,95281,95.3,0,1263,"Compressor tripped on high temp, reset after 10 mins."
+2023-06-09,Night (22:00-06:00),Anita Desai (EMP022),100000,90513,90.5,0,1181,Short staffed by 2 operators. Redistributed workload.
+2023-06-10,Morning (06:00-14:00),Anita Desai (EMP022),100000,92417,92.4,0,685,CIP completed on Mixer B. Ready for morning start.
+2023-06-10,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,99843,99.8,0,869,"Compressor tripped on high temp, reset after 10 mins."
+2023-06-10,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,91208,91.2,0,1399,Short staffed by 2 operators. Redistributed workload.
+2023-06-11,Morning (06:00-14:00),Anita Desai (EMP022),100000,99069,99.1,0,153,CIP completed on Mixer B. Ready for morning start.
+2023-06-11,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,97479,97.5,0,883,Power dip caused VFD faults across line 1. Recovered.
+2023-06-11,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,90405,90.4,0,874,CIP completed on Mixer B. Ready for morning start.
+2023-06-12,Morning (06:00-14:00),Meera Patil (EMP023),100000,93438,93.4,0,1483,Power dip caused VFD faults across line 1. Recovered.
+2023-06-12,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,95813,95.8,0,980,"Compressor tripped on high temp, reset after 10 mins."
+2023-06-12,Night (22:00-06:00),Anita Desai (EMP022),100000,88728,88.7,0,1291,Filler A jammed twice. Maintenance cleared it.
+2023-06-13,Morning (06:00-14:00),Meera Patil (EMP023),100000,94050,94.0,0,335,Waiting on QA clearance for batch 402.
+2023-06-13,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,93288,93.3,0,1335,Filler A jammed twice. Maintenance cleared it.
+2023-06-13,Night (22:00-06:00),Anita Desai (EMP022),100000,92478,92.5,0,685,Smooth shift. No major issues.
+2023-06-14,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,93136,93.1,0,1077,Short staffed by 2 operators. Redistributed workload.
+2023-06-14,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,88473,88.5,0,294,Waiting on QA clearance for batch 402.
+2023-06-14,Night (22:00-06:00),Meera Patil (EMP023),100000,86201,86.2,0,330,Short staffed by 2 operators. Redistributed workload.
+2023-06-15,Morning (06:00-14:00),Meera Patil (EMP023),100000,85322,85.3,0,656,Power dip caused VFD faults across line 1. Recovered.
+2023-06-15,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,91432,91.4,1,1072,Power dip caused VFD faults across line 1. Recovered.
+2023-06-15,Night (22:00-06:00),Anita Desai (EMP022),100000,94649,94.6,0,1185,Power dip caused VFD faults across line 1. Recovered.
+2023-06-16,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,95037,95.0,0,749,"Compressor tripped on high temp, reset after 10 mins."
+2023-06-16,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,85924,85.9,0,319,Filler A jammed twice. Maintenance cleared it.
+2023-06-16,Night (22:00-06:00),Meera Patil (EMP023),100000,88267,88.3,0,1447,Waiting on QA clearance for batch 402.
+2023-06-17,Morning (06:00-14:00),Anita Desai (EMP022),100000,87749,87.7,0,323,CIP completed on Mixer B. Ready for morning start.
+2023-06-17,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,96146,96.1,0,1144,CIP completed on Mixer B. Ready for morning start.
+2023-06-17,Night (22:00-06:00),Meera Patil (EMP023),100000,99681,99.7,0,1147,Power dip caused VFD faults across line 1. Recovered.
+2023-06-18,Morning (06:00-14:00),Anita Desai (EMP022),100000,86825,86.8,0,409,Waiting on QA clearance for batch 402.
+2023-06-18,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,89316,89.3,0,552,Short staffed by 2 operators. Redistributed workload.
+2023-06-18,Night (22:00-06:00),Anita Desai (EMP022),100000,95664,95.7,0,1151,Smooth shift. No major issues.
+2023-06-19,Morning (06:00-14:00),Anita Desai (EMP022),100000,97620,97.6,0,539,Waiting on QA clearance for batch 402.
+2023-06-19,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,85825,85.8,0,466,Waiting on QA clearance for batch 402.
+2023-06-19,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,92497,92.5,0,826,Filler A jammed twice. Maintenance cleared it.
+2023-06-20,Morning (06:00-14:00),Meera Patil (EMP023),100000,90971,91.0,0,556,Smooth shift. No major issues.
+2023-06-20,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,95989,96.0,1,652,Filler A jammed twice. Maintenance cleared it.
+2023-06-20,Night (22:00-06:00),Anita Desai (EMP022),100000,96270,96.3,0,785,Filler A jammed twice. Maintenance cleared it.
+2023-06-21,Morning (06:00-14:00),Anita Desai (EMP022),100000,87570,87.6,0,765,CIP completed on Mixer B. Ready for morning start.
+2023-06-21,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,91948,91.9,0,1103,Power dip caused VFD faults across line 1. Recovered.
+2023-06-21,Night (22:00-06:00),Anita Desai (EMP022),100000,87648,87.6,0,950,Filler A jammed twice. Maintenance cleared it.
+2023-06-22,Morning (06:00-14:00),Meera Patil (EMP023),100000,87219,87.2,0,1276,Filler A jammed twice. Maintenance cleared it.
+2023-06-22,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,95369,95.4,0,1249,Power dip caused VFD faults across line 1. Recovered.
+2023-06-22,Night (22:00-06:00),Anita Desai (EMP022),100000,90136,90.1,0,788,Power dip caused VFD faults across line 1. Recovered.
+2023-06-23,Morning (06:00-14:00),Anita Desai (EMP022),100000,99358,99.4,0,353,Power dip caused VFD faults across line 1. Recovered.
+2023-06-23,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,91038,91.0,1,336,"Compressor tripped on high temp, reset after 10 mins."
+2023-06-23,Night (22:00-06:00),Meera Patil (EMP023),100000,90314,90.3,0,1070,Waiting on QA clearance for batch 402.
+2023-06-24,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,93792,93.8,0,931,Filler A jammed twice. Maintenance cleared it.
+2023-06-24,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,98010,98.0,0,615,"Compressor tripped on high temp, reset after 10 mins."
+2023-06-24,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,90203,90.2,1,1429,Power dip caused VFD faults across line 1. Recovered.
+2023-06-25,Morning (06:00-14:00),Meera Patil (EMP023),100000,97221,97.2,0,434,Short staffed by 2 operators. Redistributed workload.
+2023-06-25,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,85351,85.4,0,1079,Short staffed by 2 operators. Redistributed workload.
+2023-06-25,Night (22:00-06:00),Anita Desai (EMP022),100000,89470,89.5,0,781,Waiting on QA clearance for batch 402.
+2023-06-26,Morning (06:00-14:00),Meera Patil (EMP023),100000,88906,88.9,0,108,Filler A jammed twice. Maintenance cleared it.
+2023-06-26,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,89826,89.8,0,535,Short staffed by 2 operators. Redistributed workload.
+2023-06-26,Night (22:00-06:00),Meera Patil (EMP023),100000,92353,92.4,0,734,Smooth shift. No major issues.
+2023-06-27,Morning (06:00-14:00),Anita Desai (EMP022),100000,89076,89.1,0,956,Power dip caused VFD faults across line 1. Recovered.
+2023-06-27,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,90977,91.0,1,455,"Compressor tripped on high temp, reset after 10 mins."
+2023-06-27,Night (22:00-06:00),Anita Desai (EMP022),100000,97405,97.4,0,1342,Smooth shift. No major issues.
+2023-06-28,Morning (06:00-14:00),Meera Patil (EMP023),100000,91082,91.1,0,443,Waiting on QA clearance for batch 402.
+2023-06-28,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,92934,92.9,0,585,Short staffed by 2 operators. Redistributed workload.
+2023-06-28,Night (22:00-06:00),Anita Desai (EMP022),100000,92358,92.4,0,926,"Compressor tripped on high temp, reset after 10 mins."
+2023-06-29,Morning (06:00-14:00),Meera Patil (EMP023),100000,94485,94.5,0,326,"Compressor tripped on high temp, reset after 10 mins."
+2023-06-29,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,85312,85.3,0,1269,Power dip caused VFD faults across line 1. Recovered.
+2023-06-29,Night (22:00-06:00),Meera Patil (EMP023),100000,96798,96.8,0,1359,Smooth shift. No major issues.
+2023-06-30,Morning (06:00-14:00),Anita Desai (EMP022),100000,94272,94.3,0,653,CIP completed on Mixer B. Ready for morning start.
+2023-06-30,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,99853,99.9,1,195,Waiting on QA clearance for batch 402.
+2023-06-30,Night (22:00-06:00),Anita Desai (EMP022),100000,93855,93.9,0,1491,"Compressor tripped on high temp, reset after 10 mins."
+2023-07-01,Morning (06:00-14:00),Meera Patil (EMP023),100000,98726,98.7,0,392,Short staffed by 2 operators. Redistributed workload.
+2023-07-01,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,94210,94.2,0,307,Smooth shift. No major issues.
+2023-07-01,Night (22:00-06:00),Meera Patil (EMP023),100000,96628,96.6,0,1137,Short staffed by 2 operators. Redistributed workload.
+2023-07-02,Morning (06:00-14:00),Meera Patil (EMP023),100000,92601,92.6,0,164,Power dip caused VFD faults across line 1. Recovered.
+2023-07-02,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,97194,97.2,1,124,Filler A jammed twice. Maintenance cleared it.
+2023-07-02,Night (22:00-06:00),Meera Patil (EMP023),100000,98691,98.7,0,1107,"Compressor tripped on high temp, reset after 10 mins."
+2023-07-03,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,93655,93.7,0,119,Power dip caused VFD faults across line 1. Recovered.
+2023-07-03,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,92095,92.1,0,465,CIP completed on Mixer B. Ready for morning start.
+2023-07-03,Night (22:00-06:00),Meera Patil (EMP023),100000,98055,98.1,0,227,Filler A jammed twice. Maintenance cleared it.
+2023-07-04,Morning (06:00-14:00),Meera Patil (EMP023),100000,97826,97.8,0,1446,Short staffed by 2 operators. Redistributed workload.
+2023-07-04,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,97649,97.6,0,457,Short staffed by 2 operators. Redistributed workload.
+2023-07-04,Night (22:00-06:00),Anita Desai (EMP022),100000,98657,98.7,0,736,Waiting on QA clearance for batch 402.
+2023-07-05,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,87763,87.8,0,828,Smooth shift. No major issues.
+2023-07-05,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,86286,86.3,0,152,CIP completed on Mixer B. Ready for morning start.
+2023-07-05,Night (22:00-06:00),Anita Desai (EMP022),100000,99955,100.0,0,560,Smooth shift. No major issues.
+2023-07-06,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,86403,86.4,0,551,Short staffed by 2 operators. Redistributed workload.
+2023-07-06,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,92995,93.0,0,1418,Power dip caused VFD faults across line 1. Recovered.
+2023-07-06,Night (22:00-06:00),Meera Patil (EMP023),100000,92572,92.6,0,1066,CIP completed on Mixer B. Ready for morning start.
+2023-07-07,Morning (06:00-14:00),Anita Desai (EMP022),100000,92015,92.0,0,394,Short staffed by 2 operators. Redistributed workload.
+2023-07-07,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,96391,96.4,0,1498,Filler A jammed twice. Maintenance cleared it.
+2023-07-07,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,92551,92.6,0,1059,"Compressor tripped on high temp, reset after 10 mins."
+2023-07-08,Morning (06:00-14:00),Meera Patil (EMP023),100000,88951,89.0,0,1039,Short staffed by 2 operators. Redistributed workload.
+2023-07-08,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,99388,99.4,0,1488,Filler A jammed twice. Maintenance cleared it.
+2023-07-08,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,92108,92.1,0,354,Filler A jammed twice. Maintenance cleared it.
+2023-07-09,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,89119,89.1,0,525,Waiting on QA clearance for batch 402.
+2023-07-09,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,85917,85.9,0,878,Short staffed by 2 operators. Redistributed workload.
+2023-07-09,Night (22:00-06:00),Anita Desai (EMP022),100000,93497,93.5,1,1234,Short staffed by 2 operators. Redistributed workload.
+2023-07-10,Morning (06:00-14:00),Meera Patil (EMP023),100000,97541,97.5,0,535,"Compressor tripped on high temp, reset after 10 mins."
+2023-07-10,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,98705,98.7,0,152,CIP completed on Mixer B. Ready for morning start.
+2023-07-10,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,90103,90.1,0,1073,Filler A jammed twice. Maintenance cleared it.
+2023-07-11,Morning (06:00-14:00),Anita Desai (EMP022),100000,92235,92.2,0,1410,Waiting on QA clearance for batch 402.
+2023-07-11,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,87803,87.8,0,327,Short staffed by 2 operators. Redistributed workload.
+2023-07-11,Night (22:00-06:00),Anita Desai (EMP022),100000,92453,92.5,0,1132,"Compressor tripped on high temp, reset after 10 mins."
+2023-07-12,Morning (06:00-14:00),Anita Desai (EMP022),100000,89302,89.3,0,1208,Waiting on QA clearance for batch 402.
+2023-07-12,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,87035,87.0,0,405,Short staffed by 2 operators. Redistributed workload.
+2023-07-12,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,86691,86.7,0,1315,CIP completed on Mixer B. Ready for morning start.
+2023-07-13,Morning (06:00-14:00),Meera Patil (EMP023),100000,93329,93.3,0,1126,Smooth shift. No major issues.
+2023-07-13,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,85199,85.2,0,1430,Short staffed by 2 operators. Redistributed workload.
+2023-07-13,Night (22:00-06:00),Meera Patil (EMP023),100000,95011,95.0,0,1085,Power dip caused VFD faults across line 1. Recovered.
+2023-07-14,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,89204,89.2,0,279,Filler A jammed twice. Maintenance cleared it.
+2023-07-14,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,89883,89.9,0,615,Filler A jammed twice. Maintenance cleared it.
+2023-07-14,Night (22:00-06:00),Meera Patil (EMP023),100000,85031,85.0,0,715,Filler A jammed twice. Maintenance cleared it.
+2023-07-15,Morning (06:00-14:00),Anita Desai (EMP022),100000,97832,97.8,0,200,Filler A jammed twice. Maintenance cleared it.
+2023-07-15,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,99141,99.1,0,391,Smooth shift. No major issues.
+2023-07-15,Night (22:00-06:00),Anita Desai (EMP022),100000,95281,95.3,0,1208,Filler A jammed twice. Maintenance cleared it.
+2023-07-16,Morning (06:00-14:00),Anita Desai (EMP022),100000,89318,89.3,0,651,Filler A jammed twice. Maintenance cleared it.
+2023-07-16,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,94014,94.0,0,725,Filler A jammed twice. Maintenance cleared it.
+2023-07-16,Night (22:00-06:00),Anita Desai (EMP022),100000,99645,99.6,0,884,Filler A jammed twice. Maintenance cleared it.
+2023-07-17,Morning (06:00-14:00),Meera Patil (EMP023),100000,98648,98.6,0,1248,Short staffed by 2 operators. Redistributed workload.
+2023-07-17,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,85587,85.6,1,112,Power dip caused VFD faults across line 1. Recovered.
+2023-07-17,Night (22:00-06:00),Anita Desai (EMP022),100000,94027,94.0,0,210,Filler A jammed twice. Maintenance cleared it.
+2023-07-18,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,93225,93.2,0,779,"Compressor tripped on high temp, reset after 10 mins."
+2023-07-18,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,95602,95.6,0,714,Waiting on QA clearance for batch 402.
+2023-07-18,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,87884,87.9,0,1095,Smooth shift. No major issues.
+2023-07-19,Morning (06:00-14:00),Anita Desai (EMP022),100000,90229,90.2,0,643,Filler A jammed twice. Maintenance cleared it.
+2023-07-19,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,98554,98.6,0,1072,Smooth shift. No major issues.
+2023-07-19,Night (22:00-06:00),Meera Patil (EMP023),100000,98874,98.9,0,127,Waiting on QA clearance for batch 402.
+2023-07-20,Morning (06:00-14:00),Meera Patil (EMP023),100000,95515,95.5,0,914,CIP completed on Mixer B. Ready for morning start.
+2023-07-20,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,86375,86.4,0,636,Waiting on QA clearance for batch 402.
+2023-07-20,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,88644,88.6,0,1273,Power dip caused VFD faults across line 1. Recovered.
+2023-07-21,Morning (06:00-14:00),Meera Patil (EMP023),100000,97124,97.1,0,224,"Compressor tripped on high temp, reset after 10 mins."
+2023-07-21,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,87705,87.7,0,577,CIP completed on Mixer B. Ready for morning start.
+2023-07-21,Night (22:00-06:00),Anita Desai (EMP022),100000,99559,99.6,0,785,Filler A jammed twice. Maintenance cleared it.
+2023-07-22,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,92910,92.9,0,802,Smooth shift. No major issues.
+2023-07-22,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,88675,88.7,0,1085,CIP completed on Mixer B. Ready for morning start.
+2023-07-22,Night (22:00-06:00),Meera Patil (EMP023),100000,85055,85.1,0,350,Smooth shift. No major issues.
+2023-07-23,Morning (06:00-14:00),Meera Patil (EMP023),100000,94678,94.7,0,899,Filler A jammed twice. Maintenance cleared it.
+2023-07-23,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,86075,86.1,1,278,Smooth shift. No major issues.
+2023-07-23,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,95851,95.9,0,1136,Waiting on QA clearance for batch 402.
+2023-07-24,Morning (06:00-14:00),Meera Patil (EMP023),100000,85876,85.9,0,667,Waiting on QA clearance for batch 402.
+2023-07-24,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,87828,87.8,0,1109,Waiting on QA clearance for batch 402.
+2023-07-24,Night (22:00-06:00),Meera Patil (EMP023),100000,86411,86.4,0,754,Smooth shift. No major issues.
+2023-07-25,Morning (06:00-14:00),Anita Desai (EMP022),100000,95020,95.0,0,605,Smooth shift. No major issues.
+2023-07-25,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,95785,95.8,0,125,Filler A jammed twice. Maintenance cleared it.
+2023-07-25,Night (22:00-06:00),Anita Desai (EMP022),100000,95384,95.4,0,1435,Power dip caused VFD faults across line 1. Recovered.
+2023-07-26,Morning (06:00-14:00),Meera Patil (EMP023),100000,96940,96.9,0,903,Power dip caused VFD faults across line 1. Recovered.
+2023-07-26,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,92996,93.0,0,785,Power dip caused VFD faults across line 1. Recovered.
+2023-07-26,Night (22:00-06:00),Meera Patil (EMP023),100000,94001,94.0,0,1372,Power dip caused VFD faults across line 1. Recovered.
+2023-07-27,Morning (06:00-14:00),Anita Desai (EMP022),100000,88013,88.0,0,210,Waiting on QA clearance for batch 402.
+2023-07-27,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,89936,89.9,0,635,Filler A jammed twice. Maintenance cleared it.
+2023-07-27,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,98760,98.8,0,997,Filler A jammed twice. Maintenance cleared it.
+2023-07-28,Morning (06:00-14:00),Meera Patil (EMP023),100000,97392,97.4,0,179,CIP completed on Mixer B. Ready for morning start.
+2023-07-28,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,92896,92.9,0,221,Power dip caused VFD faults across line 1. Recovered.
+2023-07-28,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,88184,88.2,1,926,Short staffed by 2 operators. Redistributed workload.
+2023-07-29,Morning (06:00-14:00),Anita Desai (EMP022),100000,90462,90.5,0,1387,Waiting on QA clearance for batch 402.
+2023-07-29,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,96564,96.6,0,1034,Short staffed by 2 operators. Redistributed workload.
+2023-07-29,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,89197,89.2,0,986,Filler A jammed twice. Maintenance cleared it.
+2023-07-30,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,94391,94.4,0,243,CIP completed on Mixer B. Ready for morning start.
+2023-07-30,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,85239,85.2,0,962,Filler A jammed twice. Maintenance cleared it.
+2023-07-30,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,91436,91.4,0,1247,Filler A jammed twice. Maintenance cleared it.
+2023-07-31,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,96575,96.6,0,314,Waiting on QA clearance for batch 402.
+2023-07-31,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,91118,91.1,0,614,Filler A jammed twice. Maintenance cleared it.
+2023-07-31,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,97718,97.7,0,536,Power dip caused VFD faults across line 1. Recovered.
+2023-08-01,Morning (06:00-14:00),Anita Desai (EMP022),100000,98970,99.0,0,725,Filler A jammed twice. Maintenance cleared it.
+2023-08-01,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,89419,89.4,0,928,CIP completed on Mixer B. Ready for morning start.
+2023-08-01,Night (22:00-06:00),Meera Patil (EMP023),100000,92388,92.4,1,762,Filler A jammed twice. Maintenance cleared it.
+2023-08-02,Morning (06:00-14:00),Anita Desai (EMP022),100000,96755,96.8,0,690,Waiting on QA clearance for batch 402.
+2023-08-02,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,99367,99.4,0,622,Short staffed by 2 operators. Redistributed workload.
+2023-08-02,Night (22:00-06:00),Meera Patil (EMP023),100000,98264,98.3,0,839,"Compressor tripped on high temp, reset after 10 mins."
+2023-08-03,Morning (06:00-14:00),Anita Desai (EMP022),100000,85600,85.6,1,324,"Compressor tripped on high temp, reset after 10 mins."
+2023-08-03,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,99819,99.8,0,1449,Short staffed by 2 operators. Redistributed workload.
+2023-08-03,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,97194,97.2,0,1321,CIP completed on Mixer B. Ready for morning start.
+2023-08-04,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,93728,93.7,0,490,Filler A jammed twice. Maintenance cleared it.
+2023-08-04,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,87921,87.9,0,1254,Waiting on QA clearance for batch 402.
+2023-08-04,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,93622,93.6,0,1202,CIP completed on Mixer B. Ready for morning start.
+2023-08-05,Morning (06:00-14:00),Anita Desai (EMP022),100000,86810,86.8,0,782,"Compressor tripped on high temp, reset after 10 mins."
+2023-08-05,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,95609,95.6,0,340,Filler A jammed twice. Maintenance cleared it.
+2023-08-05,Night (22:00-06:00),Meera Patil (EMP023),100000,98759,98.8,0,901,Short staffed by 2 operators. Redistributed workload.
+2023-08-06,Morning (06:00-14:00),Meera Patil (EMP023),100000,92436,92.4,0,1376,"Compressor tripped on high temp, reset after 10 mins."
+2023-08-06,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,96319,96.3,0,1127,Smooth shift. No major issues.
+2023-08-06,Night (22:00-06:00),Anita Desai (EMP022),100000,94003,94.0,0,264,Waiting on QA clearance for batch 402.
+2023-08-07,Morning (06:00-14:00),Meera Patil (EMP023),100000,99934,99.9,0,534,Power dip caused VFD faults across line 1. Recovered.
+2023-08-07,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,85036,85.0,0,1224,Waiting on QA clearance for batch 402.
+2023-08-07,Night (22:00-06:00),Anita Desai (EMP022),100000,86145,86.1,0,987,Waiting on QA clearance for batch 402.
+2023-08-08,Morning (06:00-14:00),Anita Desai (EMP022),100000,94632,94.6,1,487,Power dip caused VFD faults across line 1. Recovered.
+2023-08-08,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,93910,93.9,0,1152,Waiting on QA clearance for batch 402.
+2023-08-08,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,97487,97.5,0,1081,Filler A jammed twice. Maintenance cleared it.
+2023-08-09,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,89718,89.7,0,129,"Compressor tripped on high temp, reset after 10 mins."
+2023-08-09,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,93150,93.2,1,308,Waiting on QA clearance for batch 402.
+2023-08-09,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,98557,98.6,0,326,Waiting on QA clearance for batch 402.
+2023-08-10,Morning (06:00-14:00),Anita Desai (EMP022),100000,90350,90.3,0,693,Filler A jammed twice. Maintenance cleared it.
+2023-08-10,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,96307,96.3,0,234,CIP completed on Mixer B. Ready for morning start.
+2023-08-10,Night (22:00-06:00),Anita Desai (EMP022),100000,91949,91.9,0,1129,"Compressor tripped on high temp, reset after 10 mins."
+2023-08-11,Morning (06:00-14:00),Meera Patil (EMP023),100000,91386,91.4,0,1161,CIP completed on Mixer B. Ready for morning start.
+2023-08-11,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,96797,96.8,0,686,"Compressor tripped on high temp, reset after 10 mins."
+2023-08-11,Night (22:00-06:00),Anita Desai (EMP022),100000,85553,85.6,0,1286,CIP completed on Mixer B. Ready for morning start.
+2023-08-12,Morning (06:00-14:00),Meera Patil (EMP023),100000,94937,94.9,0,427,Short staffed by 2 operators. Redistributed workload.
+2023-08-12,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,85704,85.7,0,619,"Compressor tripped on high temp, reset after 10 mins."
+2023-08-12,Night (22:00-06:00),Meera Patil (EMP023),100000,93782,93.8,0,1087,Power dip caused VFD faults across line 1. Recovered.
+2023-08-13,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,89618,89.6,0,325,"Compressor tripped on high temp, reset after 10 mins."
+2023-08-13,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,92478,92.5,0,335,"Compressor tripped on high temp, reset after 10 mins."
+2023-08-13,Night (22:00-06:00),Meera Patil (EMP023),100000,99266,99.3,0,439,Short staffed by 2 operators. Redistributed workload.
+2023-08-14,Morning (06:00-14:00),Meera Patil (EMP023),100000,90539,90.5,0,815,Power dip caused VFD faults across line 1. Recovered.
+2023-08-14,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,97198,97.2,0,1147,Short staffed by 2 operators. Redistributed workload.
+2023-08-14,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,91894,91.9,0,155,Smooth shift. No major issues.
+2023-08-15,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,88050,88.0,1,826,Short staffed by 2 operators. Redistributed workload.
+2023-08-15,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,97636,97.6,0,808,Filler A jammed twice. Maintenance cleared it.
+2023-08-15,Night (22:00-06:00),Anita Desai (EMP022),100000,91067,91.1,0,617,Smooth shift. No major issues.
+2023-08-16,Morning (06:00-14:00),Anita Desai (EMP022),100000,91998,92.0,0,1495,Waiting on QA clearance for batch 402.
+2023-08-16,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,97683,97.7,0,670,Waiting on QA clearance for batch 402.
+2023-08-16,Night (22:00-06:00),Anita Desai (EMP022),100000,92459,92.5,0,1039,Short staffed by 2 operators. Redistributed workload.
+2023-08-17,Morning (06:00-14:00),Anita Desai (EMP022),100000,94247,94.2,0,246,Smooth shift. No major issues.
+2023-08-17,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,89604,89.6,0,200,Power dip caused VFD faults across line 1. Recovered.
+2023-08-17,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,90623,90.6,0,552,Power dip caused VFD faults across line 1. Recovered.
+2023-08-18,Morning (06:00-14:00),Meera Patil (EMP023),100000,97985,98.0,0,750,CIP completed on Mixer B. Ready for morning start.
+2023-08-18,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,93810,93.8,0,1295,Short staffed by 2 operators. Redistributed workload.
+2023-08-18,Night (22:00-06:00),Anita Desai (EMP022),100000,98134,98.1,0,339,Power dip caused VFD faults across line 1. Recovered.
+2023-08-19,Morning (06:00-14:00),Anita Desai (EMP022),100000,94002,94.0,0,339,Power dip caused VFD faults across line 1. Recovered.
+2023-08-19,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,96893,96.9,0,280,Filler A jammed twice. Maintenance cleared it.
+2023-08-19,Night (22:00-06:00),Meera Patil (EMP023),100000,99784,99.8,0,1273,Short staffed by 2 operators. Redistributed workload.
+2023-08-20,Morning (06:00-14:00),Anita Desai (EMP022),100000,87980,88.0,0,1062,Smooth shift. No major issues.
+2023-08-20,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,89660,89.7,0,536,"Compressor tripped on high temp, reset after 10 mins."
+2023-08-20,Night (22:00-06:00),Meera Patil (EMP023),100000,93673,93.7,0,1366,Power dip caused VFD faults across line 1. Recovered.
+2023-08-21,Morning (06:00-14:00),Anita Desai (EMP022),100000,87553,87.6,0,967,Smooth shift. No major issues.
+2023-08-21,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,99744,99.7,0,349,Power dip caused VFD faults across line 1. Recovered.
+2023-08-21,Night (22:00-06:00),Anita Desai (EMP022),100000,86900,86.9,0,1191,Power dip caused VFD faults across line 1. Recovered.
+2023-08-22,Morning (06:00-14:00),Anita Desai (EMP022),100000,94116,94.1,0,1008,Waiting on QA clearance for batch 402.
+2023-08-22,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,87371,87.4,0,1428,CIP completed on Mixer B. Ready for morning start.
+2023-08-22,Night (22:00-06:00),Meera Patil (EMP023),100000,85539,85.5,0,585,Waiting on QA clearance for batch 402.
+2023-08-23,Morning (06:00-14:00),Anita Desai (EMP022),100000,91936,91.9,0,270,Power dip caused VFD faults across line 1. Recovered.
+2023-08-23,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,97130,97.1,0,1064,Smooth shift. No major issues.
+2023-08-23,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,88808,88.8,0,1300,CIP completed on Mixer B. Ready for morning start.
+2023-08-24,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,86076,86.1,0,861,CIP completed on Mixer B. Ready for morning start.
+2023-08-24,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,90238,90.2,0,555,Short staffed by 2 operators. Redistributed workload.
+2023-08-24,Night (22:00-06:00),Anita Desai (EMP022),100000,95512,95.5,0,1277,Short staffed by 2 operators. Redistributed workload.
+2023-08-25,Morning (06:00-14:00),Anita Desai (EMP022),100000,86807,86.8,0,662,Smooth shift. No major issues.
+2023-08-25,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,88528,88.5,0,314,Smooth shift. No major issues.
+2023-08-25,Night (22:00-06:00),Anita Desai (EMP022),100000,98479,98.5,0,865,Waiting on QA clearance for batch 402.
+2023-08-26,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,85085,85.1,0,999,Filler A jammed twice. Maintenance cleared it.
+2023-08-26,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,88430,88.4,0,964,CIP completed on Mixer B. Ready for morning start.
+2023-08-26,Night (22:00-06:00),Anita Desai (EMP022),100000,94429,94.4,0,1095,CIP completed on Mixer B. Ready for morning start.
+2023-08-27,Morning (06:00-14:00),Anita Desai (EMP022),100000,85853,85.9,0,1460,Filler A jammed twice. Maintenance cleared it.
+2023-08-27,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,95830,95.8,0,848,Power dip caused VFD faults across line 1. Recovered.
+2023-08-27,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,86433,86.4,0,289,Waiting on QA clearance for batch 402.
+2023-08-28,Morning (06:00-14:00),Anita Desai (EMP022),100000,95449,95.4,0,950,CIP completed on Mixer B. Ready for morning start.
+2023-08-28,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,92873,92.9,0,211,Filler A jammed twice. Maintenance cleared it.
+2023-08-28,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,86699,86.7,0,486,"Compressor tripped on high temp, reset after 10 mins."
+2023-08-29,Morning (06:00-14:00),Anita Desai (EMP022),100000,95024,95.0,0,446,Power dip caused VFD faults across line 1. Recovered.
+2023-08-29,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,98794,98.8,0,467,Waiting on QA clearance for batch 402.
+2023-08-29,Night (22:00-06:00),Meera Patil (EMP023),100000,87955,88.0,0,103,Filler A jammed twice. Maintenance cleared it.
+2023-08-30,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,92302,92.3,0,1475,CIP completed on Mixer B. Ready for morning start.
+2023-08-30,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,93547,93.5,0,764,CIP completed on Mixer B. Ready for morning start.
+2023-08-30,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,99894,99.9,0,519,CIP completed on Mixer B. Ready for morning start.
+2023-08-31,Morning (06:00-14:00),Meera Patil (EMP023),100000,94501,94.5,0,392,Smooth shift. No major issues.
+2023-08-31,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,94255,94.3,0,323,CIP completed on Mixer B. Ready for morning start.
+2023-08-31,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,91112,91.1,0,1402,Short staffed by 2 operators. Redistributed workload.
+2023-09-01,Morning (06:00-14:00),Anita Desai (EMP022),100000,86990,87.0,0,1054,Short staffed by 2 operators. Redistributed workload.
+2023-09-01,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,95265,95.3,0,1395,Short staffed by 2 operators. Redistributed workload.
+2023-09-01,Night (22:00-06:00),Anita Desai (EMP022),100000,94266,94.3,0,1419,CIP completed on Mixer B. Ready for morning start.
+2023-09-02,Morning (06:00-14:00),Anita Desai (EMP022),100000,95171,95.2,0,316,Waiting on QA clearance for batch 402.
+2023-09-02,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,85989,86.0,0,755,Smooth shift. No major issues.
+2023-09-02,Night (22:00-06:00),Meera Patil (EMP023),100000,88841,88.8,0,397,Filler A jammed twice. Maintenance cleared it.
+2023-09-03,Morning (06:00-14:00),Meera Patil (EMP023),100000,98974,99.0,0,929,Short staffed by 2 operators. Redistributed workload.
+2023-09-03,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,85180,85.2,0,345,Short staffed by 2 operators. Redistributed workload.
+2023-09-03,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,90192,90.2,0,1181,Filler A jammed twice. Maintenance cleared it.
+2023-09-04,Morning (06:00-14:00),Anita Desai (EMP022),100000,90037,90.0,0,563,CIP completed on Mixer B. Ready for morning start.
+2023-09-04,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,92291,92.3,0,1235,Smooth shift. No major issues.
+2023-09-04,Night (22:00-06:00),Meera Patil (EMP023),100000,93452,93.5,0,775,"Compressor tripped on high temp, reset after 10 mins."
+2023-09-05,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,92214,92.2,0,197,"Compressor tripped on high temp, reset after 10 mins."
+2023-09-05,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,93087,93.1,0,899,Short staffed by 2 operators. Redistributed workload.
+2023-09-05,Night (22:00-06:00),Meera Patil (EMP023),100000,99435,99.4,0,1371,CIP completed on Mixer B. Ready for morning start.
+2023-09-06,Morning (06:00-14:00),Meera Patil (EMP023),100000,88639,88.6,0,1265,"Compressor tripped on high temp, reset after 10 mins."
+2023-09-06,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,88554,88.6,0,515,CIP completed on Mixer B. Ready for morning start.
+2023-09-06,Night (22:00-06:00),Meera Patil (EMP023),100000,93288,93.3,0,742,Waiting on QA clearance for batch 402.
+2023-09-07,Morning (06:00-14:00),Meera Patil (EMP023),100000,91924,91.9,1,1370,Power dip caused VFD faults across line 1. Recovered.
+2023-09-07,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,92246,92.2,0,437,"Compressor tripped on high temp, reset after 10 mins."
+2023-09-07,Night (22:00-06:00),Anita Desai (EMP022),100000,98707,98.7,0,1493,"Compressor tripped on high temp, reset after 10 mins."
+2023-09-08,Morning (06:00-14:00),Meera Patil (EMP023),100000,86938,86.9,0,607,CIP completed on Mixer B. Ready for morning start.
+2023-09-08,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,99287,99.3,0,1256,"Compressor tripped on high temp, reset after 10 mins."
+2023-09-08,Night (22:00-06:00),Meera Patil (EMP023),100000,87797,87.8,0,824,Short staffed by 2 operators. Redistributed workload.
+2023-09-09,Morning (06:00-14:00),Anita Desai (EMP022),100000,98430,98.4,0,758,Smooth shift. No major issues.
+2023-09-09,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,97532,97.5,0,934,Waiting on QA clearance for batch 402.
+2023-09-09,Night (22:00-06:00),Meera Patil (EMP023),100000,91256,91.3,0,313,Short staffed by 2 operators. Redistributed workload.
+2023-09-10,Morning (06:00-14:00),Meera Patil (EMP023),100000,91519,91.5,0,482,Filler A jammed twice. Maintenance cleared it.
+2023-09-10,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,94755,94.8,0,935,Short staffed by 2 operators. Redistributed workload.
+2023-09-10,Night (22:00-06:00),Meera Patil (EMP023),100000,93739,93.7,0,221,Filler A jammed twice. Maintenance cleared it.
+2023-09-11,Morning (06:00-14:00),Anita Desai (EMP022),100000,89786,89.8,0,1385,Short staffed by 2 operators. Redistributed workload.
+2023-09-11,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,94631,94.6,0,523,Filler A jammed twice. Maintenance cleared it.
+2023-09-11,Night (22:00-06:00),Anita Desai (EMP022),100000,99060,99.1,0,1447,Power dip caused VFD faults across line 1. Recovered.
+2023-09-12,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,98363,98.4,0,636,Filler A jammed twice. Maintenance cleared it.
+2023-09-12,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,88145,88.1,0,940,Short staffed by 2 operators. Redistributed workload.
+2023-09-12,Night (22:00-06:00),Meera Patil (EMP023),100000,95305,95.3,0,197,Filler A jammed twice. Maintenance cleared it.
+2023-09-13,Morning (06:00-14:00),Anita Desai (EMP022),100000,98876,98.9,0,1203,CIP completed on Mixer B. Ready for morning start.
+2023-09-13,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,88984,89.0,0,807,Filler A jammed twice. Maintenance cleared it.
+2023-09-13,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,86463,86.5,0,466,Short staffed by 2 operators. Redistributed workload.
+2023-09-14,Morning (06:00-14:00),Anita Desai (EMP022),100000,89572,89.6,0,1103,"Compressor tripped on high temp, reset after 10 mins."
+2023-09-14,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,86266,86.3,0,1417,Smooth shift. No major issues.
+2023-09-14,Night (22:00-06:00),Anita Desai (EMP022),100000,90690,90.7,0,1422,"Compressor tripped on high temp, reset after 10 mins."
+2023-09-15,Morning (06:00-14:00),Meera Patil (EMP023),100000,90291,90.3,0,1403,CIP completed on Mixer B. Ready for morning start.
+2023-09-15,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,88884,88.9,0,415,Smooth shift. No major issues.
+2023-09-15,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,91787,91.8,0,121,Filler A jammed twice. Maintenance cleared it.
+2023-09-16,Morning (06:00-14:00),Anita Desai (EMP022),100000,94987,95.0,0,1435,Smooth shift. No major issues.
+2023-09-16,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,90581,90.6,0,1084,Power dip caused VFD faults across line 1. Recovered.
+2023-09-16,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,92595,92.6,1,852,"Compressor tripped on high temp, reset after 10 mins."
+2023-09-17,Morning (06:00-14:00),Anita Desai (EMP022),100000,96467,96.5,0,811,Waiting on QA clearance for batch 402.
+2023-09-17,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,98082,98.1,0,142,Smooth shift. No major issues.
+2023-09-17,Night (22:00-06:00),Meera Patil (EMP023),100000,99530,99.5,0,194,Smooth shift. No major issues.
+2023-09-18,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,88911,88.9,0,1470,Short staffed by 2 operators. Redistributed workload.
+2023-09-18,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,90345,90.3,0,339,Waiting on QA clearance for batch 402.
+2023-09-18,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,87338,87.3,0,702,"Compressor tripped on high temp, reset after 10 mins."
+2023-09-19,Morning (06:00-14:00),Anita Desai (EMP022),100000,85051,85.1,0,1118,Smooth shift. No major issues.
+2023-09-19,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,88047,88.0,0,1304,Filler A jammed twice. Maintenance cleared it.
+2023-09-19,Night (22:00-06:00),Meera Patil (EMP023),100000,85898,85.9,1,940,Power dip caused VFD faults across line 1. Recovered.
+2023-09-20,Morning (06:00-14:00),Meera Patil (EMP023),100000,95595,95.6,0,1249,Smooth shift. No major issues.
+2023-09-20,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,88246,88.2,0,142,Power dip caused VFD faults across line 1. Recovered.
+2023-09-20,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,94812,94.8,0,1500,Filler A jammed twice. Maintenance cleared it.
+2023-09-21,Morning (06:00-14:00),Anita Desai (EMP022),100000,92412,92.4,0,539,Waiting on QA clearance for batch 402.
+2023-09-21,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,93922,93.9,0,408,Waiting on QA clearance for batch 402.
+2023-09-21,Night (22:00-06:00),Anita Desai (EMP022),100000,91453,91.5,0,588,Waiting on QA clearance for batch 402.
+2023-09-22,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,85567,85.6,0,1500,"Compressor tripped on high temp, reset after 10 mins."
+2023-09-22,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,85831,85.8,0,535,Short staffed by 2 operators. Redistributed workload.
+2023-09-22,Night (22:00-06:00),Meera Patil (EMP023),100000,89411,89.4,0,574,Waiting on QA clearance for batch 402.
+2023-09-23,Morning (06:00-14:00),Meera Patil (EMP023),100000,99985,100.0,0,1290,Waiting on QA clearance for batch 402.
+2023-09-23,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,88609,88.6,0,590,CIP completed on Mixer B. Ready for morning start.
+2023-09-23,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,95048,95.0,1,473,Filler A jammed twice. Maintenance cleared it.
+2023-09-24,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,89414,89.4,0,773,CIP completed on Mixer B. Ready for morning start.
+2023-09-24,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,89207,89.2,0,1262,"Compressor tripped on high temp, reset after 10 mins."
+2023-09-24,Night (22:00-06:00),Meera Patil (EMP023),100000,96165,96.2,0,338,Waiting on QA clearance for batch 402.
+2023-09-25,Morning (06:00-14:00),Meera Patil (EMP023),100000,88116,88.1,0,494,Power dip caused VFD faults across line 1. Recovered.
+2023-09-25,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,93098,93.1,0,254,Power dip caused VFD faults across line 1. Recovered.
+2023-09-25,Night (22:00-06:00),Anita Desai (EMP022),100000,87470,87.5,0,221,Waiting on QA clearance for batch 402.
+2023-09-26,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,94081,94.1,0,271,Waiting on QA clearance for batch 402.
+2023-09-26,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,87183,87.2,0,1216,Power dip caused VFD faults across line 1. Recovered.
+2023-09-26,Night (22:00-06:00),Meera Patil (EMP023),100000,92476,92.5,0,533,Smooth shift. No major issues.
+2023-09-27,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,98082,98.1,0,1310,Short staffed by 2 operators. Redistributed workload.
+2023-09-27,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,94238,94.2,0,1066,Short staffed by 2 operators. Redistributed workload.
+2023-09-27,Night (22:00-06:00),Anita Desai (EMP022),100000,86488,86.5,0,1275,CIP completed on Mixer B. Ready for morning start.
+2023-09-28,Morning (06:00-14:00),Anita Desai (EMP022),100000,86725,86.7,0,1227,"Compressor tripped on high temp, reset after 10 mins."
+2023-09-28,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,98730,98.7,0,599,CIP completed on Mixer B. Ready for morning start.
+2023-09-28,Night (22:00-06:00),Meera Patil (EMP023),100000,93420,93.4,0,733,CIP completed on Mixer B. Ready for morning start.
+2023-09-29,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,85257,85.3,0,561,Power dip caused VFD faults across line 1. Recovered.
+2023-09-29,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,93672,93.7,0,459,CIP completed on Mixer B. Ready for morning start.
+2023-09-29,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,96470,96.5,0,1438,"Compressor tripped on high temp, reset after 10 mins."
+2023-09-30,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,89240,89.2,0,653,"Compressor tripped on high temp, reset after 10 mins."
+2023-09-30,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,91900,91.9,0,798,"Compressor tripped on high temp, reset after 10 mins."
+2023-09-30,Night (22:00-06:00),Anita Desai (EMP022),100000,88751,88.8,0,746,"Compressor tripped on high temp, reset after 10 mins."
+2023-10-01,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,87467,87.5,0,703,"Compressor tripped on high temp, reset after 10 mins."
+2023-10-01,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,95475,95.5,0,1222,Waiting on QA clearance for batch 402.
+2023-10-01,Night (22:00-06:00),Anita Desai (EMP022),100000,85794,85.8,0,1099,Short staffed by 2 operators. Redistributed workload.
+2023-10-02,Morning (06:00-14:00),Meera Patil (EMP023),100000,95717,95.7,0,675,Power dip caused VFD faults across line 1. Recovered.
+2023-10-02,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,93200,93.2,0,866,Short staffed by 2 operators. Redistributed workload.
+2023-10-02,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,94378,94.4,0,1225,Power dip caused VFD faults across line 1. Recovered.
+2023-10-03,Morning (06:00-14:00),Anita Desai (EMP022),100000,98950,99.0,0,361,Short staffed by 2 operators. Redistributed workload.
+2023-10-03,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,94446,94.4,0,1136,Filler A jammed twice. Maintenance cleared it.
+2023-10-03,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,94817,94.8,0,1040,"Compressor tripped on high temp, reset after 10 mins."
+2023-10-04,Morning (06:00-14:00),Anita Desai (EMP022),100000,99695,99.7,0,968,Short staffed by 2 operators. Redistributed workload.
+2023-10-04,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,85010,85.0,0,1315,Power dip caused VFD faults across line 1. Recovered.
+2023-10-04,Night (22:00-06:00),Meera Patil (EMP023),100000,89196,89.2,0,250,Smooth shift. No major issues.
+2023-10-05,Morning (06:00-14:00),Meera Patil (EMP023),100000,85168,85.2,0,478,Waiting on QA clearance for batch 402.
+2023-10-05,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,97702,97.7,0,477,Smooth shift. No major issues.
+2023-10-05,Night (22:00-06:00),Anita Desai (EMP022),100000,99142,99.1,0,861,Short staffed by 2 operators. Redistributed workload.
+2023-10-06,Morning (06:00-14:00),Anita Desai (EMP022),100000,93550,93.5,0,164,Smooth shift. No major issues.
+2023-10-06,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,92226,92.2,0,1039,Smooth shift. No major issues.
+2023-10-06,Night (22:00-06:00),Meera Patil (EMP023),100000,94361,94.4,0,1230,"Compressor tripped on high temp, reset after 10 mins."
+2023-10-07,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,92447,92.4,0,551,"Compressor tripped on high temp, reset after 10 mins."
+2023-10-07,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,98358,98.4,0,1080,Waiting on QA clearance for batch 402.
+2023-10-07,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,89189,89.2,0,208,Smooth shift. No major issues.
+2023-10-08,Morning (06:00-14:00),Anita Desai (EMP022),100000,93360,93.4,0,661,"Compressor tripped on high temp, reset after 10 mins."
+2023-10-08,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,97372,97.4,0,362,Smooth shift. No major issues.
+2023-10-08,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,89571,89.6,0,562,Power dip caused VFD faults across line 1. Recovered.
+2023-10-09,Morning (06:00-14:00),Meera Patil (EMP023),100000,97219,97.2,0,910,CIP completed on Mixer B. Ready for morning start.
+2023-10-09,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,94452,94.5,0,606,Power dip caused VFD faults across line 1. Recovered.
+2023-10-09,Night (22:00-06:00),Meera Patil (EMP023),100000,92368,92.4,0,293,Short staffed by 2 operators. Redistributed workload.
+2023-10-10,Morning (06:00-14:00),Anita Desai (EMP022),100000,91752,91.8,0,272,Filler A jammed twice. Maintenance cleared it.
+2023-10-10,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,85133,85.1,0,696,Waiting on QA clearance for batch 402.
+2023-10-10,Night (22:00-06:00),Anita Desai (EMP022),100000,95349,95.3,0,725,Filler A jammed twice. Maintenance cleared it.
+2023-10-11,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,90807,90.8,0,373,CIP completed on Mixer B. Ready for morning start.
+2023-10-11,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,98902,98.9,0,429,CIP completed on Mixer B. Ready for morning start.
+2023-10-11,Night (22:00-06:00),Meera Patil (EMP023),100000,92372,92.4,0,904,"Compressor tripped on high temp, reset after 10 mins."
+2023-10-12,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,89134,89.1,0,649,"Compressor tripped on high temp, reset after 10 mins."
+2023-10-12,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,95242,95.2,0,1158,"Compressor tripped on high temp, reset after 10 mins."
+2023-10-12,Night (22:00-06:00),Meera Patil (EMP023),100000,85682,85.7,0,448,Filler A jammed twice. Maintenance cleared it.
+2023-10-13,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,99299,99.3,0,1219,Power dip caused VFD faults across line 1. Recovered.
+2023-10-13,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,93063,93.1,0,958,"Compressor tripped on high temp, reset after 10 mins."
+2023-10-13,Night (22:00-06:00),Anita Desai (EMP022),100000,96181,96.2,1,573,Filler A jammed twice. Maintenance cleared it.
+2023-10-14,Morning (06:00-14:00),Meera Patil (EMP023),100000,97235,97.2,0,1270,Filler A jammed twice. Maintenance cleared it.
+2023-10-14,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,99567,99.6,0,1315,CIP completed on Mixer B. Ready for morning start.
+2023-10-14,Night (22:00-06:00),Meera Patil (EMP023),100000,94522,94.5,0,269,Smooth shift. No major issues.
+2023-10-15,Morning (06:00-14:00),Anita Desai (EMP022),100000,92016,92.0,0,697,Waiting on QA clearance for batch 402.
+2023-10-15,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,92964,93.0,0,1266,Waiting on QA clearance for batch 402.
+2023-10-15,Night (22:00-06:00),Anita Desai (EMP022),100000,88425,88.4,0,401,"Compressor tripped on high temp, reset after 10 mins."
+2023-10-16,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,98576,98.6,0,1475,"Compressor tripped on high temp, reset after 10 mins."
+2023-10-16,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,92405,92.4,0,223,CIP completed on Mixer B. Ready for morning start.
+2023-10-16,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,92238,92.2,0,1053,CIP completed on Mixer B. Ready for morning start.
+2023-10-17,Morning (06:00-14:00),Anita Desai (EMP022),100000,96190,96.2,0,291,Short staffed by 2 operators. Redistributed workload.
+2023-10-17,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,95082,95.1,0,1305,CIP completed on Mixer B. Ready for morning start.
+2023-10-17,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,93836,93.8,0,298,Power dip caused VFD faults across line 1. Recovered.
+2023-10-18,Morning (06:00-14:00),Meera Patil (EMP023),100000,91089,91.1,0,215,Power dip caused VFD faults across line 1. Recovered.
+2023-10-18,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,96575,96.6,0,381,Short staffed by 2 operators. Redistributed workload.
+2023-10-18,Night (22:00-06:00),Anita Desai (EMP022),100000,95403,95.4,0,679,Smooth shift. No major issues.
+2023-10-19,Morning (06:00-14:00),Meera Patil (EMP023),100000,96408,96.4,0,499,Waiting on QA clearance for batch 402.
+2023-10-19,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,85153,85.2,0,996,Short staffed by 2 operators. Redistributed workload.
+2023-10-19,Night (22:00-06:00),Anita Desai (EMP022),100000,90599,90.6,0,1495,Short staffed by 2 operators. Redistributed workload.
+2023-10-20,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,86202,86.2,0,357,Short staffed by 2 operators. Redistributed workload.
+2023-10-20,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,92607,92.6,0,238,Power dip caused VFD faults across line 1. Recovered.
+2023-10-20,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,97947,97.9,0,987,Short staffed by 2 operators. Redistributed workload.
+2023-10-21,Morning (06:00-14:00),Meera Patil (EMP023),100000,87809,87.8,0,1166,"Compressor tripped on high temp, reset after 10 mins."
+2023-10-21,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,89448,89.4,0,308,Smooth shift. No major issues.
+2023-10-21,Night (22:00-06:00),Meera Patil (EMP023),100000,86080,86.1,0,1498,CIP completed on Mixer B. Ready for morning start.
+2023-10-22,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,90934,90.9,0,1289,"Compressor tripped on high temp, reset after 10 mins."
+2023-10-22,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,86711,86.7,0,1307,Filler A jammed twice. Maintenance cleared it.
+2023-10-22,Night (22:00-06:00),Meera Patil (EMP023),100000,96793,96.8,1,865,Short staffed by 2 operators. Redistributed workload.
+2023-10-23,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,86532,86.5,0,994,"Compressor tripped on high temp, reset after 10 mins."
+2023-10-23,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,98818,98.8,0,381,"Compressor tripped on high temp, reset after 10 mins."
+2023-10-23,Night (22:00-06:00),Anita Desai (EMP022),100000,86222,86.2,0,1090,Waiting on QA clearance for batch 402.
+2023-10-24,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,88134,88.1,0,1498,Smooth shift. No major issues.
+2023-10-24,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,99497,99.5,0,302,Filler A jammed twice. Maintenance cleared it.
+2023-10-24,Night (22:00-06:00),Anita Desai (EMP022),100000,99483,99.5,0,1265,Power dip caused VFD faults across line 1. Recovered.
+2023-10-25,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,94002,94.0,0,747,Waiting on QA clearance for batch 402.
+2023-10-25,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,97706,97.7,0,186,Filler A jammed twice. Maintenance cleared it.
+2023-10-25,Night (22:00-06:00),Meera Patil (EMP023),100000,87674,87.7,0,1108,Smooth shift. No major issues.
+2023-10-26,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,97897,97.9,0,905,Filler A jammed twice. Maintenance cleared it.
+2023-10-26,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,89213,89.2,0,697,Short staffed by 2 operators. Redistributed workload.
+2023-10-26,Night (22:00-06:00),Anita Desai (EMP022),100000,88133,88.1,0,1192,Waiting on QA clearance for batch 402.
+2023-10-27,Morning (06:00-14:00),Meera Patil (EMP023),100000,90436,90.4,0,1373,"Compressor tripped on high temp, reset after 10 mins."
+2023-10-27,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,92624,92.6,0,1219,Short staffed by 2 operators. Redistributed workload.
+2023-10-27,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,97785,97.8,1,133,Power dip caused VFD faults across line 1. Recovered.
+2023-10-28,Morning (06:00-14:00),Anita Desai (EMP022),100000,98726,98.7,0,450,Smooth shift. No major issues.
+2023-10-28,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,89674,89.7,0,429,Filler A jammed twice. Maintenance cleared it.
+2023-10-28,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,97437,97.4,0,670,Filler A jammed twice. Maintenance cleared it.
+2023-10-29,Morning (06:00-14:00),Meera Patil (EMP023),100000,88236,88.2,0,146,Waiting on QA clearance for batch 402.
+2023-10-29,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,88089,88.1,0,1136,Power dip caused VFD faults across line 1. Recovered.
+2023-10-29,Night (22:00-06:00),Anita Desai (EMP022),100000,93347,93.3,0,101,Filler A jammed twice. Maintenance cleared it.
+2023-10-30,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,94666,94.7,0,1220,Power dip caused VFD faults across line 1. Recovered.
+2023-10-30,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,85954,86.0,0,526,Waiting on QA clearance for batch 402.
+2023-10-30,Night (22:00-06:00),Anita Desai (EMP022),100000,92149,92.1,0,931,"Compressor tripped on high temp, reset after 10 mins."
+2023-10-31,Morning (06:00-14:00),Anita Desai (EMP022),100000,96858,96.9,0,194,CIP completed on Mixer B. Ready for morning start.
+2023-10-31,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,87623,87.6,0,1007,Smooth shift. No major issues.
+2023-10-31,Night (22:00-06:00),Anita Desai (EMP022),100000,97945,97.9,0,915,"Compressor tripped on high temp, reset after 10 mins."
+2023-11-01,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,90670,90.7,0,320,Smooth shift. No major issues.
+2023-11-01,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,95985,96.0,0,1151,CIP completed on Mixer B. Ready for morning start.
+2023-11-01,Night (22:00-06:00),Meera Patil (EMP023),100000,98473,98.5,0,1169,Waiting on QA clearance for batch 402.
+2023-11-02,Morning (06:00-14:00),Meera Patil (EMP023),100000,88818,88.8,0,323,Smooth shift. No major issues.
+2023-11-02,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,86657,86.7,0,533,Power dip caused VFD faults across line 1. Recovered.
+2023-11-02,Night (22:00-06:00),Anita Desai (EMP022),100000,88628,88.6,0,532,Short staffed by 2 operators. Redistributed workload.
+2023-11-03,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,92402,92.4,0,1300,Smooth shift. No major issues.
+2023-11-03,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,93336,93.3,0,505,Short staffed by 2 operators. Redistributed workload.
+2023-11-03,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,95514,95.5,0,624,Smooth shift. No major issues.
+2023-11-04,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,95979,96.0,0,947,"Compressor tripped on high temp, reset after 10 mins."
+2023-11-04,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,92693,92.7,0,1015,Short staffed by 2 operators. Redistributed workload.
+2023-11-04,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,86831,86.8,0,1433,CIP completed on Mixer B. Ready for morning start.
+2023-11-05,Morning (06:00-14:00),Anita Desai (EMP022),100000,88389,88.4,0,926,Power dip caused VFD faults across line 1. Recovered.
+2023-11-05,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,96544,96.5,0,1073,Waiting on QA clearance for batch 402.
+2023-11-05,Night (22:00-06:00),Meera Patil (EMP023),100000,87425,87.4,0,1484,Power dip caused VFD faults across line 1. Recovered.
+2023-11-06,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,93127,93.1,0,849,Power dip caused VFD faults across line 1. Recovered.
+2023-11-06,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,87168,87.2,0,1127,CIP completed on Mixer B. Ready for morning start.
+2023-11-06,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,91496,91.5,0,903,Smooth shift. No major issues.
+2023-11-07,Morning (06:00-14:00),Anita Desai (EMP022),100000,93721,93.7,0,1203,Filler A jammed twice. Maintenance cleared it.
+2023-11-07,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,92588,92.6,1,262,Filler A jammed twice. Maintenance cleared it.
+2023-11-07,Night (22:00-06:00),Anita Desai (EMP022),100000,87176,87.2,0,672,Short staffed by 2 operators. Redistributed workload.
+2023-11-08,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,88939,88.9,0,152,Filler A jammed twice. Maintenance cleared it.
+2023-11-08,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,87113,87.1,0,458,"Compressor tripped on high temp, reset after 10 mins."
+2023-11-08,Night (22:00-06:00),Meera Patil (EMP023),100000,97664,97.7,0,1386,"Compressor tripped on high temp, reset after 10 mins."
+2023-11-09,Morning (06:00-14:00),Anita Desai (EMP022),100000,93357,93.4,0,679,"Compressor tripped on high temp, reset after 10 mins."
+2023-11-09,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,94022,94.0,0,1280,Waiting on QA clearance for batch 402.
+2023-11-09,Night (22:00-06:00),Anita Desai (EMP022),100000,91743,91.7,0,1297,"Compressor tripped on high temp, reset after 10 mins."
+2023-11-10,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,87076,87.1,0,817,"Compressor tripped on high temp, reset after 10 mins."
+2023-11-10,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,94620,94.6,0,211,Power dip caused VFD faults across line 1. Recovered.
+2023-11-10,Night (22:00-06:00),Anita Desai (EMP022),100000,86267,86.3,0,1355,Smooth shift. No major issues.
+2023-11-11,Morning (06:00-14:00),Meera Patil (EMP023),100000,94049,94.0,0,329,Smooth shift. No major issues.
+2023-11-11,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,87778,87.8,0,943,"Compressor tripped on high temp, reset after 10 mins."
+2023-11-11,Night (22:00-06:00),Meera Patil (EMP023),100000,96219,96.2,0,1313,Power dip caused VFD faults across line 1. Recovered.
+2023-11-12,Morning (06:00-14:00),Anita Desai (EMP022),100000,85799,85.8,0,1065,Filler A jammed twice. Maintenance cleared it.
+2023-11-12,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,94003,94.0,0,825,CIP completed on Mixer B. Ready for morning start.
+2023-11-12,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,89246,89.2,0,495,Waiting on QA clearance for batch 402.
+2023-11-13,Morning (06:00-14:00),Anita Desai (EMP022),100000,87096,87.1,0,737,Waiting on QA clearance for batch 402.
+2023-11-13,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,99056,99.1,0,120,Waiting on QA clearance for batch 402.
+2023-11-13,Night (22:00-06:00),Anita Desai (EMP022),100000,90522,90.5,0,670,"Compressor tripped on high temp, reset after 10 mins."
+2023-11-14,Morning (06:00-14:00),Meera Patil (EMP023),100000,96919,96.9,0,654,Waiting on QA clearance for batch 402.
+2023-11-14,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,96337,96.3,0,608,CIP completed on Mixer B. Ready for morning start.
+2023-11-14,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,97437,97.4,0,594,Waiting on QA clearance for batch 402.
+2023-11-15,Morning (06:00-14:00),Anita Desai (EMP022),100000,91695,91.7,0,668,Waiting on QA clearance for batch 402.
+2023-11-15,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,99659,99.7,1,667,CIP completed on Mixer B. Ready for morning start.
+2023-11-15,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,97356,97.4,0,1153,Short staffed by 2 operators. Redistributed workload.
+2023-11-16,Morning (06:00-14:00),Meera Patil (EMP023),100000,85777,85.8,0,1093,"Compressor tripped on high temp, reset after 10 mins."
+2023-11-16,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,94594,94.6,1,347,Waiting on QA clearance for batch 402.
+2023-11-16,Night (22:00-06:00),Anita Desai (EMP022),100000,92280,92.3,0,1363,Filler A jammed twice. Maintenance cleared it.
+2023-11-17,Morning (06:00-14:00),Anita Desai (EMP022),100000,86765,86.8,0,1319,Waiting on QA clearance for batch 402.
+2023-11-17,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,94261,94.3,0,1358,Power dip caused VFD faults across line 1. Recovered.
+2023-11-17,Night (22:00-06:00),Anita Desai (EMP022),100000,96342,96.3,0,646,Filler A jammed twice. Maintenance cleared it.
+2023-11-18,Morning (06:00-14:00),Anita Desai (EMP022),100000,95131,95.1,0,503,Filler A jammed twice. Maintenance cleared it.
+2023-11-18,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,93480,93.5,0,951,Waiting on QA clearance for batch 402.
+2023-11-18,Night (22:00-06:00),Meera Patil (EMP023),100000,95906,95.9,0,826,Smooth shift. No major issues.
+2023-11-19,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,95325,95.3,0,841,"Compressor tripped on high temp, reset after 10 mins."
+2023-11-19,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,97564,97.6,0,1051,CIP completed on Mixer B. Ready for morning start.
+2023-11-19,Night (22:00-06:00),Anita Desai (EMP022),100000,92794,92.8,0,158,Waiting on QA clearance for batch 402.
+2023-11-20,Morning (06:00-14:00),Anita Desai (EMP022),100000,97019,97.0,0,609,Waiting on QA clearance for batch 402.
+2023-11-20,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,97583,97.6,0,777,Waiting on QA clearance for batch 402.
+2023-11-20,Night (22:00-06:00),Anita Desai (EMP022),100000,91869,91.9,0,216,Short staffed by 2 operators. Redistributed workload.
+2023-11-21,Morning (06:00-14:00),Meera Patil (EMP023),100000,97287,97.3,0,1001,Power dip caused VFD faults across line 1. Recovered.
+2023-11-21,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,86214,86.2,1,1471,Filler A jammed twice. Maintenance cleared it.
+2023-11-21,Night (22:00-06:00),Anita Desai (EMP022),100000,88564,88.6,0,697,Short staffed by 2 operators. Redistributed workload.
+2023-11-22,Morning (06:00-14:00),Meera Patil (EMP023),100000,90095,90.1,0,1427,Filler A jammed twice. Maintenance cleared it.
+2023-11-22,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,88121,88.1,0,223,Filler A jammed twice. Maintenance cleared it.
+2023-11-22,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,96345,96.3,0,627,"Compressor tripped on high temp, reset after 10 mins."
+2023-11-23,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,91316,91.3,0,637,Short staffed by 2 operators. Redistributed workload.
+2023-11-23,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,91579,91.6,1,1113,"Compressor tripped on high temp, reset after 10 mins."
+2023-11-23,Night (22:00-06:00),Meera Patil (EMP023),100000,86295,86.3,0,805,Smooth shift. No major issues.
+2023-11-24,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,98999,99.0,0,1073,Power dip caused VFD faults across line 1. Recovered.
+2023-11-24,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,94683,94.7,0,524,Waiting on QA clearance for batch 402.
+2023-11-24,Night (22:00-06:00),Anita Desai (EMP022),100000,98335,98.3,0,119,"Compressor tripped on high temp, reset after 10 mins."
+2023-11-25,Morning (06:00-14:00),Anita Desai (EMP022),100000,98075,98.1,0,1160,Filler A jammed twice. Maintenance cleared it.
+2023-11-25,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,90149,90.1,0,700,CIP completed on Mixer B. Ready for morning start.
+2023-11-25,Night (22:00-06:00),Meera Patil (EMP023),100000,86620,86.6,0,427,Filler A jammed twice. Maintenance cleared it.
+2023-11-26,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,85739,85.7,0,160,Power dip caused VFD faults across line 1. Recovered.
+2023-11-26,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,89774,89.8,0,186,"Compressor tripped on high temp, reset after 10 mins."
+2023-11-26,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,95966,96.0,0,639,Power dip caused VFD faults across line 1. Recovered.
+2023-11-27,Morning (06:00-14:00),Anita Desai (EMP022),100000,96622,96.6,1,1391,Power dip caused VFD faults across line 1. Recovered.
+2023-11-27,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,92981,93.0,0,346,Power dip caused VFD faults across line 1. Recovered.
+2023-11-27,Night (22:00-06:00),Anita Desai (EMP022),100000,94971,95.0,0,921,CIP completed on Mixer B. Ready for morning start.
+2023-11-28,Morning (06:00-14:00),Anita Desai (EMP022),100000,94740,94.7,0,1004,Filler A jammed twice. Maintenance cleared it.
+2023-11-28,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,98437,98.4,0,603,Short staffed by 2 operators. Redistributed workload.
+2023-11-28,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,85060,85.1,0,271,"Compressor tripped on high temp, reset after 10 mins."
+2023-11-29,Morning (06:00-14:00),Meera Patil (EMP023),100000,87675,87.7,0,233,Short staffed by 2 operators. Redistributed workload.
+2023-11-29,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,85452,85.5,0,473,Filler A jammed twice. Maintenance cleared it.
+2023-11-29,Night (22:00-06:00),Anita Desai (EMP022),100000,99512,99.5,0,980,Filler A jammed twice. Maintenance cleared it.
+2023-11-30,Morning (06:00-14:00),Meera Patil (EMP023),100000,96645,96.6,0,621,Short staffed by 2 operators. Redistributed workload.
+2023-11-30,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,97322,97.3,0,174,"Compressor tripped on high temp, reset after 10 mins."
+2023-11-30,Night (22:00-06:00),Meera Patil (EMP023),100000,86570,86.6,0,687,Filler A jammed twice. Maintenance cleared it.
+2023-12-01,Morning (06:00-14:00),Meera Patil (EMP023),100000,95569,95.6,0,567,Smooth shift. No major issues.
+2023-12-01,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,85295,85.3,0,253,Short staffed by 2 operators. Redistributed workload.
+2023-12-01,Night (22:00-06:00),Meera Patil (EMP023),100000,91161,91.2,0,1062,Smooth shift. No major issues.
+2023-12-02,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,92218,92.2,0,119,Power dip caused VFD faults across line 1. Recovered.
+2023-12-02,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,93349,93.3,0,1068,Power dip caused VFD faults across line 1. Recovered.
+2023-12-02,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,96400,96.4,0,162,CIP completed on Mixer B. Ready for morning start.
+2023-12-03,Morning (06:00-14:00),Anita Desai (EMP022),100000,91013,91.0,0,1299,"Compressor tripped on high temp, reset after 10 mins."
+2023-12-03,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,98593,98.6,0,623,Short staffed by 2 operators. Redistributed workload.
+2023-12-03,Night (22:00-06:00),Anita Desai (EMP022),100000,97889,97.9,0,1482,Power dip caused VFD faults across line 1. Recovered.
+2023-12-04,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,98799,98.8,1,1019,CIP completed on Mixer B. Ready for morning start.
+2023-12-04,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,95723,95.7,0,325,Smooth shift. No major issues.
+2023-12-04,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,93338,93.3,0,1500,Waiting on QA clearance for batch 402.
+2023-12-05,Morning (06:00-14:00),Anita Desai (EMP022),100000,93721,93.7,0,1365,Filler A jammed twice. Maintenance cleared it.
+2023-12-05,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,92738,92.7,0,1453,"Compressor tripped on high temp, reset after 10 mins."
+2023-12-05,Night (22:00-06:00),Anita Desai (EMP022),100000,90195,90.2,0,466,CIP completed on Mixer B. Ready for morning start.
+2023-12-06,Morning (06:00-14:00),Anita Desai (EMP022),100000,93348,93.3,0,521,"Compressor tripped on high temp, reset after 10 mins."
+2023-12-06,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,87281,87.3,0,515,Smooth shift. No major issues.
+2023-12-06,Night (22:00-06:00),Anita Desai (EMP022),100000,94123,94.1,0,563,"Compressor tripped on high temp, reset after 10 mins."
+2023-12-07,Morning (06:00-14:00),Meera Patil (EMP023),100000,89293,89.3,0,442,Smooth shift. No major issues.
+2023-12-07,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,88889,88.9,0,1298,CIP completed on Mixer B. Ready for morning start.
+2023-12-07,Night (22:00-06:00),Meera Patil (EMP023),100000,92017,92.0,0,881,CIP completed on Mixer B. Ready for morning start.
+2023-12-08,Morning (06:00-14:00),Anita Desai (EMP022),100000,90294,90.3,0,680,Smooth shift. No major issues.
+2023-12-08,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,99795,99.8,0,829,CIP completed on Mixer B. Ready for morning start.
+2023-12-08,Night (22:00-06:00),Meera Patil (EMP023),100000,88914,88.9,0,1017,Filler A jammed twice. Maintenance cleared it.
+2023-12-09,Morning (06:00-14:00),Anita Desai (EMP022),100000,94568,94.6,0,1412,Short staffed by 2 operators. Redistributed workload.
+2023-12-09,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,99176,99.2,0,698,Power dip caused VFD faults across line 1. Recovered.
+2023-12-09,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,95091,95.1,0,1215,"Compressor tripped on high temp, reset after 10 mins."
+2023-12-10,Morning (06:00-14:00),Anita Desai (EMP022),100000,93628,93.6,0,944,CIP completed on Mixer B. Ready for morning start.
+2023-12-10,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,85990,86.0,0,1471,Power dip caused VFD faults across line 1. Recovered.
+2023-12-10,Night (22:00-06:00),Meera Patil (EMP023),100000,97620,97.6,1,1497,Short staffed by 2 operators. Redistributed workload.
+2023-12-11,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,93820,93.8,0,100,Filler A jammed twice. Maintenance cleared it.
+2023-12-11,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,85899,85.9,0,348,Power dip caused VFD faults across line 1. Recovered.
+2023-12-11,Night (22:00-06:00),Anita Desai (EMP022),100000,90947,90.9,0,1213,Smooth shift. No major issues.
+2023-12-12,Morning (06:00-14:00),Anita Desai (EMP022),100000,89812,89.8,0,407,Waiting on QA clearance for batch 402.
+2023-12-12,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,95120,95.1,0,398,Waiting on QA clearance for batch 402.
+2023-12-12,Night (22:00-06:00),Meera Patil (EMP023),100000,96287,96.3,0,1254,CIP completed on Mixer B. Ready for morning start.
+2023-12-13,Morning (06:00-14:00),Meera Patil (EMP023),100000,99215,99.2,0,1402,Short staffed by 2 operators. Redistributed workload.
+2023-12-13,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,88695,88.7,0,681,"Compressor tripped on high temp, reset after 10 mins."
+2023-12-13,Night (22:00-06:00),Meera Patil (EMP023),100000,97661,97.7,0,834,Smooth shift. No major issues.
+2023-12-14,Morning (06:00-14:00),Meera Patil (EMP023),100000,86057,86.1,0,853,Power dip caused VFD faults across line 1. Recovered.
+2023-12-14,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,93855,93.9,0,863,Waiting on QA clearance for batch 402.
+2023-12-14,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,93288,93.3,0,362,CIP completed on Mixer B. Ready for morning start.
+2023-12-15,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,87326,87.3,0,776,Filler A jammed twice. Maintenance cleared it.
+2023-12-15,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,90321,90.3,0,1390,Waiting on QA clearance for batch 402.
+2023-12-15,Night (22:00-06:00),Meera Patil (EMP023),100000,90994,91.0,0,768,Smooth shift. No major issues.
+2023-12-16,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,98546,98.5,0,423,Filler A jammed twice. Maintenance cleared it.
+2023-12-16,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,94587,94.6,0,1025,Smooth shift. No major issues.
+2023-12-16,Night (22:00-06:00),Anita Desai (EMP022),100000,90689,90.7,0,1039,Short staffed by 2 operators. Redistributed workload.
+2023-12-17,Morning (06:00-14:00),Anita Desai (EMP022),100000,86530,86.5,0,569,Smooth shift. No major issues.
+2023-12-17,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,93272,93.3,0,1110,"Compressor tripped on high temp, reset after 10 mins."
+2023-12-17,Night (22:00-06:00),Anita Desai (EMP022),100000,97861,97.9,0,1491,"Compressor tripped on high temp, reset after 10 mins."
+2023-12-18,Morning (06:00-14:00),Anita Desai (EMP022),100000,90587,90.6,0,700,"Compressor tripped on high temp, reset after 10 mins."
+2023-12-18,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,88456,88.5,0,114,Power dip caused VFD faults across line 1. Recovered.
+2023-12-18,Night (22:00-06:00),Meera Patil (EMP023),100000,92873,92.9,0,1339,Waiting on QA clearance for batch 402.
+2023-12-19,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,97067,97.1,0,1014,Waiting on QA clearance for batch 402.
+2023-12-19,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,87294,87.3,0,1343,Power dip caused VFD faults across line 1. Recovered.
+2023-12-19,Night (22:00-06:00),Meera Patil (EMP023),100000,98771,98.8,0,765,CIP completed on Mixer B. Ready for morning start.
+2023-12-20,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,96779,96.8,0,356,Smooth shift. No major issues.
+2023-12-20,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,90121,90.1,0,937,"Compressor tripped on high temp, reset after 10 mins."
+2023-12-20,Night (22:00-06:00),Meera Patil (EMP023),100000,90886,90.9,0,285,CIP completed on Mixer B. Ready for morning start.
+2023-12-21,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,96516,96.5,1,835,Filler A jammed twice. Maintenance cleared it.
+2023-12-21,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,88892,88.9,0,1497,Power dip caused VFD faults across line 1. Recovered.
+2023-12-21,Night (22:00-06:00),Anita Desai (EMP022),100000,86261,86.3,0,1421,Short staffed by 2 operators. Redistributed workload.
+2023-12-22,Morning (06:00-14:00),Meera Patil (EMP023),100000,87446,87.4,0,682,"Compressor tripped on high temp, reset after 10 mins."
+2023-12-22,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,96512,96.5,0,823,Smooth shift. No major issues.
+2023-12-22,Night (22:00-06:00),Meera Patil (EMP023),100000,88838,88.8,0,577,Smooth shift. No major issues.
+2023-12-23,Morning (06:00-14:00),Meera Patil (EMP023),100000,97135,97.1,0,1138,Smooth shift. No major issues.
+2023-12-23,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,95902,95.9,0,362,CIP completed on Mixer B. Ready for morning start.
+2023-12-23,Night (22:00-06:00),Meera Patil (EMP023),100000,91322,91.3,0,539,Short staffed by 2 operators. Redistributed workload.
+2023-12-24,Morning (06:00-14:00),Meera Patil (EMP023),100000,99292,99.3,0,1257,Waiting on QA clearance for batch 402.
+2023-12-24,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,95667,95.7,0,922,CIP completed on Mixer B. Ready for morning start.
+2023-12-24,Night (22:00-06:00),Meera Patil (EMP023),100000,98965,99.0,0,648,Power dip caused VFD faults across line 1. Recovered.
+2023-12-25,Morning (06:00-14:00),Meera Patil (EMP023),100000,87251,87.3,0,619,Short staffed by 2 operators. Redistributed workload.
+2023-12-25,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,97130,97.1,0,874,Power dip caused VFD faults across line 1. Recovered.
+2023-12-25,Night (22:00-06:00),Anita Desai (EMP022),100000,95055,95.1,0,1234,Waiting on QA clearance for batch 402.
+2023-12-26,Morning (06:00-14:00),Anita Desai (EMP022),100000,95451,95.5,0,264,Power dip caused VFD faults across line 1. Recovered.
+2023-12-26,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,88577,88.6,0,474,"Compressor tripped on high temp, reset after 10 mins."
+2023-12-26,Night (22:00-06:00),Anita Desai (EMP022),100000,88019,88.0,0,1455,Power dip caused VFD faults across line 1. Recovered.
+2023-12-27,Morning (06:00-14:00),Meera Patil (EMP023),100000,96049,96.0,0,281,Short staffed by 2 operators. Redistributed workload.
+2023-12-27,Afternoon (14:00-22:00),Meera Patil (EMP023),100000,98967,99.0,0,1127,Waiting on QA clearance for batch 402.
+2023-12-27,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,89498,89.5,0,537,Short staffed by 2 operators. Redistributed workload.
+2023-12-28,Morning (06:00-14:00),Rajesh Kulkarni (EMP021),100000,93673,93.7,0,1252,"Compressor tripped on high temp, reset after 10 mins."
+2023-12-28,Afternoon (14:00-22:00),Rajesh Kulkarni (EMP021),100000,92600,92.6,0,995,Short staffed by 2 operators. Redistributed workload.
+2023-12-28,Night (22:00-06:00),Rajesh Kulkarni (EMP021),100000,91712,91.7,0,665,Power dip caused VFD faults across line 1. Recovered.
+2023-12-29,Morning (06:00-14:00),Anita Desai (EMP022),100000,94933,94.9,0,1128,Smooth shift. No major issues.
+2023-12-29,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,91619,91.6,0,741,"Compressor tripped on high temp, reset after 10 mins."
+2023-12-29,Night (22:00-06:00),Meera Patil (EMP023),100000,98042,98.0,0,502,CIP completed on Mixer B. Ready for morning start.
+2023-12-30,Morning (06:00-14:00),Meera Patil (EMP023),100000,92311,92.3,0,329,Smooth shift. No major issues.
+2023-12-30,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,93469,93.5,0,398,"Compressor tripped on high temp, reset after 10 mins."
+2023-12-30,Night (22:00-06:00),Meera Patil (EMP023),100000,94014,94.0,0,754,CIP completed on Mixer B. Ready for morning start.
+2023-12-31,Morning (06:00-14:00),Anita Desai (EMP022),100000,91398,91.4,0,356,CIP completed on Mixer B. Ready for morning start.
+2023-12-31,Afternoon (14:00-22:00),Anita Desai (EMP022),100000,97926,97.9,0,358,CIP completed on Mixer B. Ready for morning start.
+2023-12-31,Night (22:00-06:00),Meera Patil (EMP023),100000,88395,88.4,0,420,Smooth shift. No major issues.
