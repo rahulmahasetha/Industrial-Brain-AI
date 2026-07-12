@@ -39,3 +39,4 @@ content = re.sub(r'    def _build_direct_answer_prompt\(self\) -> PromptTemplate
 with open('services/rag_service.py', 'w') as f:
     f.write(content)
 
+
