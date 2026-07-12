@@ -212,7 +212,7 @@ class EnterpriseAssistantService:
 
         routed_query = self._routed_query(query, intent)
         procedure_type = self._procedure_type_for_intent(intent)
-        pages = page_index_service.search_pages(
+        pages, _ = page_index_service.search_pages(
             db,
             query=routed_query,
             equipment=asset_tag,
