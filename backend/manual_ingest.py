@@ -66,3 +66,4 @@ for chunk in semantic_chunks:
 vectorstore = get_chroma_vectorstore()
 vectorstore.add_documents(langchain_docs)
 print("Done inserting Manual_CP102.pdf")
+
