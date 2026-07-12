@@ -98,3 +98,4 @@ def generate_quality_reports():
 
 if __name__ == "__main__":
     generate_quality_reports()
+
