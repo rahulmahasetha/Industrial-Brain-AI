@@ -104,3 +104,4 @@ def get_compliance_heatmap(db: Session = Depends(get_db)):
         import traceback
         return {"error": str(e), "traceback": traceback.format_exc()}
 
+
