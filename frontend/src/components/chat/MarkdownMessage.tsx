@@ -1,30 +1,77 @@
+import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Badge } from '@/components/ui/badge';
-import { Search, BookOpen, FileCheck, Wrench, FileSearch, BarChart, Sparkles, FileText, AlertTriangle, Lightbulb } from 'lucide-react';
+import { Search, BookOpen, FileCheck, Wrench, FileSearch, BarChart, Sparkles, FileText, AlertTriangle, Lightbulb, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+
+const citationText = (value: any, fallback = 'N/A') => {
+  if (value === null || value === undefined || value === '') return fallback;
+  return String(value);
+};
+
+const citationSection = (item: any) => citationText(item?.section || item?.section_title, '');
+
+const citationConfidenceClass = (confidence: number) => cn(
+  'border text-[11px] font-semibold',
+  confidence >= 90 ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' :
+  confidence >= 70 ? 'border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400' :
+  'border-slate-300 bg-slate-500/10 text-slate-600 dark:border-slate-700 dark:text-slate-300'
+);
 
 const renderBadgeIfMatch = (text: string, originalChildren: React.ReactNode) => {
   const lowerText = text.toLowerCase().trim();
-  let badgeProps = null;
+  let textClass = null;
   if (lowerText === "critical" || lowerText === "high" || lowerText === "high risk" || lowerText === "high severity") {
-    badgeProps = "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300 border-red-200 dark:border-red-800";
+    textClass = "text-red-600 dark:text-red-400";
   } else if (lowerText === "moderate" || lowerText === "medium" || lowerText === "warning") {
-    badgeProps = "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300 border-orange-200 dark:border-orange-800";
+    textClass = "text-orange-600 dark:text-orange-400";
   } else if (lowerText === "low" || lowerText === "low risk" || lowerText === "resolved" || lowerText === "healthy" || lowerText === "stable") {
-    badgeProps = "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 border-green-200 dark:border-green-800";
+    textClass = "text-green-600 dark:text-green-400";
   } else if (lowerText === "open" || lowerText === "in progress" || lowerText === "active") {
-    badgeProps = "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 border-blue-200 dark:border-blue-800";
+    textClass = "text-blue-600 dark:text-blue-400";
   }
 
-  if (badgeProps) {
-    return <span className={`inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium whitespace-nowrap ${badgeProps}`}>{originalChildren}</span>;
+  if (textClass) {
+    return <strong className={`font-bold ${textClass}`}>{originalChildren}</strong>;
   }
   return null;
 };
 
-export function MarkdownMessage({ content, intent, equipment }: { content: string, intent?: string, equipment?: string }) {
+const renderWithBr = (children: React.ReactNode): React.ReactNode => {
+  if (typeof children === 'string') {
+    return children.split(/<br\s*\/?>/i).map((part, i) => (
+      <React.Fragment key={i}>
+        {i > 0 && <br />}
+        {part}
+      </React.Fragment>
+    ));
+  }
+  if (Array.isArray(children)) {
+    return children.map((child, i) => <React.Fragment key={i}>{renderWithBr(child)}</React.Fragment>);
+  }
+  return children;
+};
+
+export function MarkdownMessage({ 
+  content, 
+  intent, 
+  equipment,
+  confidence,
+  citations,
+  onOpenCitation,
+  isOpeningCitation
+}: { 
+  content: string; 
+  intent?: string; 
+  equipment?: string;
+  confidence?: number;
+  citations?: any[];
+  onOpenCitation?: (item: any, index: number) => void;
+  isOpeningCitation?: number | null;
+}) {
   if (!content) return null;
 
   const quickActions: any[] = [];
@@ -61,15 +108,27 @@ export function MarkdownMessage({ content, intent, equipment }: { content: strin
   const processedContent = content.replace(/\[([^\]]+?(?:Page|pdf).*?)\](?!\()/gi, '[$1](#citation)');
 
   return (
-    <div className="rounded-2xl border border-primary/10 bg-card shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden flex flex-col">
-      <div className="p-6 pb-4">
-        <div className="flex items-center gap-2 mb-4 pb-3 border-b border-border/50">
-          <div className="bg-primary/10 p-1.5 rounded-lg">
-            <Sparkles className="h-4 w-4 text-primary" />
+    <div className="flex w-full flex-col">
+      <div className="px-8 py-6 sm:px-10 sm:py-8">
+        <div className="w-full">
+        <div className="flex items-center gap-2 mb-4 pb-3 border-b border-border/50 justify-between">
+          <div className="flex items-center gap-2">
+            <div className="bg-primary/10 p-1.5 rounded-lg">
+              <Sparkles className="h-4 w-4 text-primary" />
+            </div>
+            <h3 className="font-semibold text-foreground text-sm tracking-tight">AI Analysis</h3>
           </div>
-          <h3 className="font-semibold text-foreground text-sm tracking-tight">AI Analysis</h3>
+          {confidence !== undefined && (
+            <Badge variant="outline" className={cn(
+              confidence >= 90 ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' :
+              confidence >= 70 ? 'bg-amber-500/15 text-amber-400 border-amber-500/30' :
+              'bg-red-500/15 text-red-400 border-red-500/30'
+            )}>
+              {confidence >= 90 ? 'High' : confidence >= 70 ? 'Medium' : 'Low'} Confidence ({confidence}%)
+            </Badge>
+          )}
         </div>
-        <div className="text-sm">
+        <div className="w-full text-base">
           <ReactMarkdown 
             remarkPlugins={[remarkGfm]}
             components={{
@@ -118,11 +177,11 @@ export function MarkdownMessage({ content, intent, equipment }: { content: strin
 
                 return <h2 className="text-base font-bold mt-6 mb-3 pb-2 border-b border-border/50 text-foreground" {...props}>{children}</h2>;
               },
-              h3: ({node, ...props}) => <h3 className="text-sm font-bold mt-4 mb-2 text-foreground" {...props} />,
-              p: ({node, ...props}) => <p className="mb-3 leading-relaxed text-muted-foreground" {...props} />,
-              ul: ({node, ...props}) => <ul className="mb-4 list-disc pl-5 space-y-1.5 text-muted-foreground marker:text-primary/60" {...props} />,
-              ol: ({node, ...props}) => <ol className="mb-4 list-decimal pl-5 space-y-1.5 text-muted-foreground marker:text-primary/60" {...props} />,
-              li: ({node, ...props}) => <li className="leading-relaxed pl-1" {...props} />,
+              h3: ({node, ...props}) => <h3 className="mb-2 mt-4 text-base font-bold text-foreground" {...props} />,
+              p: ({node, children, ...props}) => <p className="mb-4 leading-relaxed text-foreground/90" {...props}>{renderWithBr(children)}</p>,
+              ul: ({node, ...props}) => <ul className="mb-5 list-outside list-disc space-y-2 pl-5 text-foreground/90 marker:text-primary/60" {...props} />,
+              ol: ({node, ...props}) => <ol className="mb-5 list-outside list-decimal space-y-2 pl-5 text-foreground/90 marker:text-primary/60" {...props} />,
+              li: ({node, ...props}) => <li className="pl-1.5 leading-relaxed" {...props} />,
               strong: ({node, children, ...props}) => {
                 const text = String(children);
                 const badge = renderBadgeIfMatch(text, children);
@@ -130,17 +189,17 @@ export function MarkdownMessage({ content, intent, equipment }: { content: strin
                 return <strong className="font-semibold text-foreground" {...props}>{children}</strong>;
               },
               table: ({node, ...props}) => (
-                <div className="overflow-x-auto my-5 rounded-xl border border-border/60 shadow-sm bg-card">
-                  <table className="w-full text-sm border-collapse" {...props} />
+                <div className="overflow-x-auto print:overflow-visible my-5 rounded-xl border border-border/60 shadow-sm bg-card">
+                  <table className="w-full text-base print:text-[11px] border-collapse" {...props} />
                 </div>
               ),
-              th: ({node, ...props}) => <th className="bg-muted/60 p-3.5 font-semibold text-left text-foreground border-b border-border/60" {...props} />,
+              th: ({node, ...props}) => <th className="bg-muted/60 p-3.5 print:p-2 font-semibold text-left text-foreground border-b border-border/60" {...props} />,
               td: ({node, children, ...props}) => {
                 const text = String(children);
                 const badge = renderBadgeIfMatch(text, children);
                 return (
-                  <td className="p-3.5 border-b border-border/40 text-muted-foreground align-middle" {...props}>
-                    {badge ? badge : children}
+                  <td className="p-3.5 print:p-2 border-b border-border/40 text-muted-foreground align-middle print:break-words" {...props}>
+                    {badge ? badge : renderWithBr(children)}
                   </td>
                 );
               },
@@ -166,13 +225,87 @@ export function MarkdownMessage({ content, intent, equipment }: { content: strin
           </ReactMarkdown>
         </div>
       </div>
+      </div>
       
-      {uniqueActions.length > 0 && (
-        <div className="border-t border-border/40 bg-muted/20 px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-4 transition-colors hover:bg-muted/30">
-          <div className="text-xs font-semibold tracking-wider text-primary flex items-center gap-2 shrink-0">
-            <span className="text-primary/80">⚡</span> Quick Actions
+      {citations && citations.length > 0 && (
+        <div className="border-t border-border/40 bg-muted/10 px-8 py-6 sm:px-10">
+          <div className="w-full">
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <FileCheck className="h-4 w-4" />
+              Source Documents
+            </div>
+            <Badge variant="outline" className="rounded-md bg-background/70 text-[11px] text-muted-foreground">
+              {citations.length} cited
+            </Badge>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="grid gap-2">
+            {citations.map((item, index) => (
+              <div
+                key={`${item.document_name || item.title || 'source'}-${index}`}
+                className="rounded-lg border border-border/70 bg-background/80 p-3 text-sm shadow-sm transition-colors hover:border-primary/30 hover:bg-background"
+              >
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                  <div className="flex min-w-0 gap-3">
+                    <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-primary/10 text-xs font-semibold text-primary">
+                      {index + 1}
+                    </div>
+                    <div className="min-w-0">
+                      <div className="flex min-w-0 flex-wrap items-center gap-2">
+                        <FileText className="h-4 w-4 shrink-0 text-muted-foreground" />
+                        <span className="break-words font-semibold text-foreground">
+                          {citationText(item.document_name || item.title || item.document_id, 'Document')}
+                        </span>
+                      </div>
+                      <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                        <Badge variant="outline" className="rounded-md bg-primary/5 text-[11px] text-primary">
+                          Page {citationText(item.page_number)}
+                        </Badge>
+                        {citationSection(item) && (
+                          <Badge variant="outline" className="max-w-full rounded-md bg-muted/60 text-[11px] text-muted-foreground">
+                            <span className="truncate">Section: {citationSection(item)}</span>
+                          </Badge>
+                        )}
+                        {item.confidence !== undefined && item.confidence !== null && (
+                          <Badge variant="outline" className={citationConfidenceClass(Number(item.confidence) || 0)}>
+                            {item.confidence}% match
+                          </Badge>
+                        )}
+                      </div>
+                      {item.excerpt && (
+                        <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-muted-foreground">
+                          {item.excerpt}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  {onOpenCitation && item.page_index_id && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-8 shrink-0 gap-1.5 rounded-md text-xs"
+                      disabled={isOpeningCitation === index}
+                      onClick={() => onOpenCitation(item, index)}
+                    >
+                      <ExternalLink className="h-3.5 w-3.5" />
+                      Open Page
+                    </Button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          </div>
+        </div>
+      )}
+
+      {uniqueActions.length > 0 && (
+        <div className="flex flex-col gap-4 border-t border-border/40 bg-muted/20 px-8 py-5 transition-colors hover:bg-muted/30 sm:flex-row sm:items-center sm:px-10">
+          <div className="mx-auto flex w-full max-w-5xl flex-col gap-4 sm:flex-row sm:items-center">
+            <div className="flex shrink-0 items-center gap-2 text-xs font-semibold tracking-wider text-primary">
+              <span className="text-primary/80">⚡</span> Quick Actions
+            </div>
+            <div className="flex flex-wrap gap-2">
             {uniqueActions.map(({ label, icon: Icon, to }) => (
               <Link key={label} to={to}>
                 <Button variant="outline" size="sm" className="gap-2 bg-background hover:bg-muted hover:border-primary/40 rounded-lg text-xs h-8 border-border/60 shadow-sm transition-all">
@@ -181,6 +314,7 @@ export function MarkdownMessage({ content, intent, equipment }: { content: strin
                 </Button>
               </Link>
             ))}
+            </div>
           </div>
         </div>
       )}
