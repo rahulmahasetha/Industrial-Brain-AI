@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: industrial-brain-api
+    env: docker
+    dockerContext: backend
+    dockerfilePath: backend/Dockerfile
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: DATABASE_URL
+        value: sqlite:///./industrial_brain.db
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: industrial-brain-redis
+          property: connectionString
+      - key: STORAGE_PROVIDER
+        value: local
+
+  - type: worker
+    name: industrial-brain-celery
+    env: docker
+    dockerContext: backend
+    dockerfilePath: backend/Dockerfile
+    dockerCommand: celery -A celery_app worker --loglevel=info
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:///./industrial_brain.db
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: industrial-brain-redis
+          property: connectionString
+      - key: STORAGE_PROVIDER
+        value: local
+
+  - type: redis
+    name: industrial-brain-redis
+    ipAllowList: [] # only allow internal connections
+    plan: free
