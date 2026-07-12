@@ -1,4 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme {
   --color-border: hsl(var(--border));
@@ -35,36 +37,35 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%; /* Pure white */
-    --foreground: 0 0% 9%; /* Very dark gray for text */
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 9%;
+    --card-foreground: 222 47% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 9%;
+    --popover-foreground: 222 47% 11%;
 
-    /* Sleek electric blue accent */
-    --primary: 221 83% 53%; /* #1d4ed8 */
-    --primary-foreground: 0 0% 98%;
+    --primary: 221 83% 53%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%; /* Light gray borders */
-    --input: 214.3 31.8% 91.4%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
     --ring: 221 83% 53%;
 
-    --radius: 0.75rem; /* 12px rounded corners */
+    --radius: 0.625rem;
   }
 }
 
@@ -73,20 +74,136 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground antialiased selection:bg-primary/30;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 }
 
-/* Custom Utilities for Premium Look */
-@layer utilities {
-  .glass {
-    @apply bg-background/70 backdrop-blur-xl border border-border/50 shadow-sm;
-  }
-  .card-premium {
-    @apply bg-card/80 backdrop-blur-md border border-border shadow-sm rounded-2xl transition-all duration-300 hover:shadow-md hover:border-primary/20;
-  }
-  .btn-premium {
-    @apply transition-all duration-200 active:scale-[0.98] font-medium;
-  }
+/* ── Custom Scrollbar ────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* ── Stat Card Left-border Accents ───────────────────── */
+.stat-card-blue  { border-left: 3px solid #2563EB; }
+.stat-card-teal  { border-left: 3px solid #0D9488; }
+.stat-card-green { border-left: 3px solid #10B981; }
+.stat-card-amber { border-left: 3px solid #F59E0B; }
+.stat-card-red   { border-left: 3px solid #EF4444; }
+.stat-card-purple { border-left: 3px solid #8B5CF6; }
+
+/* ── Badge Semantic Colors ───────────────────────────── */
+.badge-success { @apply bg-emerald-50 text-emerald-700 border border-emerald-200; }
+.badge-warning { @apply bg-amber-50 text-amber-700 border border-amber-200; }
+.badge-error   { @apply bg-red-50 text-red-700 border border-red-200; }
+.badge-info    { @apply bg-blue-50 text-blue-700 border border-blue-200; }
+.badge-purple  { @apply bg-purple-50 text-purple-700 border border-purple-200; }
+
+/* ── Page header ─────────────────────────────────────── */
+.page-header {
+  @apply flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6;
+}
+.page-title {
+  @apply text-2xl font-bold tracking-tight text-foreground;
+}
+.page-subtitle {
+  @apply text-sm text-muted-foreground mt-0.5;
+}
+
+/* ── Section Header ──────────────────────────────────── */
+.section-header {
+  @apply text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-3;
+}
+
+/* ── Skeleton Loading ────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+
+/* ── Typing Dots Animation ───────────────────────────── */
+@keyframes typing-dot {
+  0%, 80%, 100% { transform: scale(0.8); opacity: 0.4; }
+  40%           { transform: scale(1);   opacity: 1; }
+}
+.typing-dot { animation: typing-dot 1.2s ease-in-out infinite; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+/* ── Table ───────────────────────────────────────────── */
+.table-clean th {
+  @apply text-xs font-semibold text-muted-foreground uppercase tracking-wide bg-slate-50 border-b border-border;
+}
+.table-clean tr:hover td { @apply bg-slate-50/50; }
+.table-clean td { @apply border-b border-border/50 py-3 text-sm; }
+
+/* ── Card Hover ──────────────────────────────────────── */
+.card-hover {
+  @apply transition-all duration-200 hover:shadow-md hover:-translate-y-[1px];
+}
+
+/* ── Dashboard ───────────────────────────────────────── */
+.dashboard-shell { animation: dashboard-enter .35s ease-out both; }
+@keyframes dashboard-enter { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+.dashboard-hero {
+  background: linear-gradient(120deg, #0f1d3a 0%, #172b57 52%, #164e63 100%);
+  box-shadow: 0 18px 42px -26px rgba(15, 23, 42, .82);
+}
+.dashboard-orb { position: absolute; border-radius: 999px; filter: blur(1px); pointer-events: none; }
+.dashboard-orb-one { width: 340px; height: 340px; right: -120px; top: -230px; background: rgba(56, 189, 248, .18); }
+.dashboard-orb-two { width: 220px; height: 220px; right: 24%; bottom: -170px; background: rgba(99, 102, 241, .2); }
+.hero-mini-stat { min-width: 0; border: 1px solid rgba(255,255,255,.11); background: rgba(255,255,255,.075); border-radius: .75rem; padding: .7rem .8rem; backdrop-filter: blur(8px); }
+.hero-mini-stat span { display: block; color: #bfdbfe; font-size: .65rem; line-height: 1; text-transform: uppercase; letter-spacing: .07em; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hero-mini-stat strong { display: block; margin-top: .35rem; color: #fff; font-size: 1.2rem; line-height: 1; font-weight: 700; }
+.hero-mini-stat small { color: #94a3b8; font-size: .68rem; margin-left: .1rem; }
+.hero-action-primary, .hero-action-secondary { display: inline-flex; align-items: center; gap: .4rem; border-radius: .55rem; padding: .48rem .7rem; font-size: .72rem; font-weight: 650; transition: all .18s ease; }
+.hero-action-primary { background: #fff; color: #172554; box-shadow: 0 5px 12px rgba(0,0,0,.12); }
+.hero-action-primary:hover { background: #e0f2fe; transform: translateY(-1px); }
+.hero-action-secondary { color: #dbeafe; border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.06); }
+.hero-action-secondary:hover { background: rgba(255,255,255,.14); }
+.dashboard-stat { overflow: hidden; position: relative; }
+.dashboard-stat::after { content: ""; position: absolute; width: 60px; height: 60px; right: -28px; top: -28px; border-radius: 50%; background: currentColor; opacity: .025; }
+.dashboard-panel { box-shadow: 0 10px 24px -22px rgba(15, 23, 42, .35); }
+
+/* ── Retrieval Path ──────────────────────────────────── */
+.retrieval-step {
+  @apply flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full;
+}
+.retrieval-arrow {
+  @apply text-slate-300 text-xs font-light;
+}
+
+/* ── Chat Bubbles ────────────────────────────────────── */
+.bubble-user {
+  @apply bg-primary text-white rounded-2xl rounded-tr-sm px-4 py-3 text-sm leading-relaxed;
+}
+.bubble-ai {
+  @apply bg-white border border-slate-200 shadow-sm rounded-2xl rounded-tl-sm px-4 py-3 text-sm leading-relaxed;
+}
+
+/* ── Sidebar Active ──────────────────────────────────── */
+.nav-active {
+  @apply bg-blue-50 text-blue-700 font-semibold;
+  border-left: 3px solid #2563EB;
+}
+.nav-inactive {
+  @apply text-slate-600 hover:bg-slate-50 hover:text-slate-900;
+}
+
+/* ── Print ───────────────────────────────────────────── */
+@media print {
+  .print\:hidden { display: none !important; }
 }
