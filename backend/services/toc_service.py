@@ -306,3 +306,4 @@ def get_sections_pages(db: Session, equipment: str, canonical_sections: List[str
                 result_pages.append(fake_page)
                 
     return result_pages
+
