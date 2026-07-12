@@ -1,5 +1,5 @@
 // Using fetch API for a lightweight client
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = 'http://127.0.0.1:8000/api';
 
 export const apiClient = {
   get: async (endpoint: string) => {
@@ -35,6 +35,41 @@ export const apiClient = {
       return await response.json();
     } catch (error) {
       console.error(`API POST Error (${endpoint}):`, error);
+      throw error;
+    }
+  },
+
+  put: async (endpoint: string, data: any, options: RequestInit = {}) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        ...options,
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(options.headers || {})
+        },
+        body: JSON.stringify(data)
+      });
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      return await response.json();
+    } catch (error) {
+      console.error(`API PUT Error (${endpoint}):`, error);
+      throw error;
+    }
+  },
+
+  delete: async (endpoint: string) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      return await response.json();
+    } catch (error) {
+      console.error(`API DELETE Error (${endpoint}):`, error);
       throw error;
     }
   }
