@@ -5,6 +5,9 @@ import glob
 import re
 from datetime import datetime
 import sys
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Ensure backend root is in sys.path
 backend_dir = os.path.dirname(os.path.abspath(__file__))
@@ -22,6 +25,7 @@ import models.domain as m
 # For Vector Store
 from services.ingestion import get_chroma_vectorstore
 from services.page_index_service import PageIndexService, split_page_into_smart_chunks
+from services.chunking_service import chunking_service
 from langchain_core.documents import Document as LangchainDocument
 import PyPDF2
 import time
@@ -287,6 +291,8 @@ def ingest_data():
         # 6. Ingest Documents (SQLite + ChromaDB RAG)
         print("Ingesting documents (SQLite & ChromaDB)...")
         pdf_files = glob.glob(os.path.join(BASE_DIR, "**", "*.pdf"), recursive=True)
+        csv_files = glob.glob(os.path.join(BASE_DIR, "**", "*.csv"), recursive=True)
+        all_files = pdf_files + csv_files
         
         doc_count = 0
         page_count = 0
@@ -296,7 +302,7 @@ def ingest_data():
         
         seen_documents = set() # To skip duplicates by filename
         
-        for file_path in pdf_files:
+        for file_path in all_files:
             filename = os.path.basename(file_path)
             
             if filename in seen_documents:
@@ -317,65 +323,133 @@ def ingest_data():
             elif "RCA" in filename: doc_type = "RCA"
             elif "COMP" in filename: doc_type = "Compliance"
             
-            db_doc = m.Document(
-                title=filename,
-                type=doc_type,
-                size=size_str,
-                status="processed", 
-                equipment_tags=equip_tags
-            )
-            db.add(db_doc)
-            db.commit() # commit immediately to release DB lock
-            db.refresh(db_doc) # refresh to get the ID for relationships
-            
             try:
-                reader = PyPDF2.PdfReader(file_path)
+                db_doc = m.Document(
+                    title=filename,
+                    type=doc_type,
+                    size=size_str,
+                    status="processed", 
+                    equipment_tags=equip_tags
+                )
+                db.add(db_doc)
+                db.flush() # Flush to get ID, but don't commit yet to allow atomic rollback
                 langchain_docs = []
+                pages_data = []
+                total_extracted_pages = 0
                 
-                for p_num, page in enumerate(reader.pages, start=1):
-                    extracted = page.extract_text()
-                    if extracted and extracted.strip():
-                        # 1. Add to SQLite PageIndex via service
+                if file_path.lower().endswith('.pdf'):
+                    reader = PyPDF2.PdfReader(file_path)
+                    total_pages = len(reader.pages)
+                    count = min(total_pages, 100)
+                    for p_num in range(1, count + 1):
+                        page = reader.pages[p_num - 1]
+                        extracted = page.extract_text()
+                        if extracted and extracted.strip():
+                            # Add to SQLite PageIndex via service
+                            page_index = page_index_service.build_page_record(
+                                db=db, 
+                                doc=db_doc, 
+                                page_number=p_num, 
+                                text=extracted
+                            )
+                            page_count += 1
+                            pages_data.append({"page_number": p_num, "text": extracted, "page_index_id": page_index.id})
+                    total_extracted_pages = len(reader.pages)
+                elif file_path.lower().endswith('.csv'):
+                    import pandas as pd
+                    import numpy as np
+                    df = pd.read_csv(file_path)
+                    df = df.replace({np.nan: None})
+                    total_pages = len(df)
+                    count = min(total_pages, 100)
+                    for i in range(count):
+                        row = df.iloc[i]
+                        row_dict = row.to_dict()
+                        text = "\n".join([f"**{k}**: {v}" for k, v in row_dict.items() if v is not None])
+                        
+                        log_id = str(row_dict.get('Log_ID', '')) or ''
+                        incident_id = str(row_dict.get('Related_Incident_ID', '')) or str(row_dict.get('Incident_ID', '')) or ''
+                        inspection_id = str(row_dict.get('Inspection_ID', '')) or ''
+                        sop_id = str(row_dict.get('SOP_Reference', '')) or ''
+                        
                         page_index = page_index_service.build_page_record(
                             db=db, 
                             doc=db_doc, 
-                            page_number=p_num, 
-                            text=extracted
+                            page_number=i + 1, 
+                            text=text,
+                            log_id=log_id,
+                            incident_id=incident_id,
+                            inspection_id=inspection_id,
+                            sop_id=sop_id,
+                            source_type="CSV_ROW"
                         )
                         page_count += 1
+                        pages_data.append({"page_number": i + 1, "text": text, "page_index_id": page_index.id})
+                    total_extracted_pages = len(df)
                         
-                        # 2. Chunk text and add to ChromaDB batch
-                        chunks = split_page_into_smart_chunks(extracted, page_index.id)
-                        for chunk in chunks:
-                            langchain_docs.append(LangchainDocument(
-                                page_content=chunk["text"],
-                                metadata={
-                                    "source": filename, 
-                                    "type": doc_type,
-                                    "document_id": db_doc.id,
-                                    "page_index_id": page_index.id,
-                                    "page_number": p_num,
-                                    "equipment": equip_tags,
-                                    "chunk_id": chunk["id"],
-                                    "procedure_type": page_index.procedure_type or "GENERAL",
-                                    "section_title": page_index.section_title or ""
-                                }
-                            ))
-                            chunk_count += 1
+                # Extract metadata
+                full_text_sample = "\n\n".join(p["text"] for p in pages_data[:10])
+                extracted_metadata = chunking_service.extract_metadata(full_text_sample, filename)
+                
+                extracted_metadata["document_id"] = db_doc.id
+                extracted_metadata["source_file"] = filename
+                
+                if extracted_metadata.get("document_type") and extracted_metadata["document_type"] != "Others":
+                    db_doc.type = extracted_metadata["document_type"]
+                
+                # Semantic chunking
+                semantic_chunks, toc_data = chunking_service.create_semantic_chunks(pages_data, extracted_metadata)
+                
+                # Merge into metadata_json
+                existing_meta = {}
+                if db_doc.metadata_json:
+                    try:
+                        existing_meta = json.loads(db_doc.metadata_json)
+                    except:
+                        pass
+                existing_meta.update(extracted_metadata)
+                if "toc" in toc_data:
+                    existing_meta["toc"] = toc_data["toc"]
+                db_doc.metadata_json = json.dumps(existing_meta)
+                
+                for chunk in semantic_chunks:
+                    langchain_docs.append(LangchainDocument(
+                        page_content=chunk["text"],
+                        metadata={
+                            "source": filename, 
+                            "type": chunk.get("document_type", db_doc.type),
+                            "document_id": db_doc.id,
+                            "equipment": equip_tags,
+                            "equipment_id": chunk.get("equipment_id", ""),
+                            "equipment_name": chunk.get("equipment_name", ""),
+                            "department": chunk.get("department", ""),
+                            "revision": chunk.get("revision", ""),
+                            "page_start": chunk.get("page_start", 1),
+                            "page_end": chunk.get("page_end", 1),
+                            "section_name": chunk.get("section_name", ""),
+                            "section_number": chunk.get("section_number", ""),
+                            "chunk_id": chunk["id"],
+                            "content_hash": chunk.get("content_hash", ""),
+                            "prev_chunk_id": chunk.get("prev_chunk_id", ""),
+                            "next_chunk_id": chunk.get("next_chunk_id", ""),
+                            "source_file": chunk.get("source_file", filename)
+                        }
+                    ))
+                    chunk_count += 1
                 
                 if vectorstore and langchain_docs:
                     db.commit() # Release SQLite locks BEFORE slow API calls!
                     add_docs_with_retry(vectorstore, langchain_docs, batch_size=20)
                     
-                db_doc.page_count = len(reader.pages)
+                db_doc.page_count = total_extracted_pages
                 doc_count += 1
                 db.commit() # Commit after each document to persist immediately
             except Exception as e:
                 print(f"Error reading {filename}: {e}")
                 failed_docs.append(filename)
                 db.rollback()
-                db_doc.status = "failed"
-                    
+                # Optionally, we could add a failed document record here if needed,
+                # but it's safer to just let it rollback completely to avoid corrupted state.
         db.commit()
         
         # End Summary
