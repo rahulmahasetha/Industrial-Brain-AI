@@ -4,8 +4,10 @@ import {
   AlertTriangle,
   Bot,
   BrainCircuit,
+  Check,
   CheckCircle2,
   ClipboardCheck,
+  Copy,
   ExternalLink,
   FileSearch,
   FileText,
@@ -13,13 +15,14 @@ import {
   History,
   Lightbulb,
   Network,
-  Paperclip,
   Route,
+  RefreshCcw,
   Send,
   ShieldCheck,
   Sparkles,
-  
+  Download,
   Wrench,
+  Trash2,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -32,6 +35,8 @@ import { apiClient } from '@/lib/api';
 import { cn } from '@/lib/utils';
 import { EnterpriseDashboard } from '@/components/chat/EnterpriseDashboard';
 import { MarkdownMessage } from '@/components/chat/MarkdownMessage';
+import { PrintableReport } from '@/components/chat/PrintableReport';
+import { useUser } from '@/contexts/UserContext';
 
 const API_ORIGIN = 'http://localhost:8000';
 
@@ -443,8 +448,8 @@ function EnterpriseResponse({ msg }: { msg: any }) {
   const mode = msg.mode || data?.mode;
   if (mode === 'concise') {
     return (
-      <div className="space-y-2">
-        <div className="flex items-center justify-between gap-2 px-1">
+      <div className="w-full space-y-2 px-8 py-6 sm:px-10 sm:py-8">
+        <div className="flex items-center justify-between gap-2">
           <div className="text-sm font-semibold text-primary/80">Quick Answer</div>
           {msg.routing?.reasoning && (
             <Badge variant="outline" className="text-xs uppercase tracking-wide text-muted-foreground">
@@ -473,7 +478,7 @@ function EnterpriseResponse({ msg }: { msg: any }) {
   const isProcedureIntent = ['startup_procedure', 'shutdown_procedure', 'sop'].includes(route.intent);
 
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full space-y-4 px-8 py-6 sm:px-10 sm:py-8">
       {isProcedureIntent ? (
         // ── SOP-focused layout (clean, no RCA/maintenance/predictive cards) ──
         <>
@@ -798,9 +803,13 @@ function EnterpriseResponse({ msg }: { msg: any }) {
 }
 
 export default function AICopilot() {
+  const { profile } = useUser();
   const [messages, setMessages] = useState<any[]>([]);
+  const [printMessageIndex, setPrintMessageIndex] = useState<number | null>(null);
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [copiedId, setCopiedId] = useState<number | null>(null);
+  const [regeneratingIndex, setRegeneratingIndex] = useState<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -822,6 +831,90 @@ export default function AICopilot() {
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
   }, [messages, isLoading]);
+
+  const handleCopy = (text: string, id: number) => {
+    let copyText = text;
+    try {
+      const parsed = JSON.parse(text);
+      if (parsed && typeof parsed === 'object') {
+        if (parsed.answer) copyText = parsed.answer;
+        else copyText = JSON.stringify(parsed, null, 2);
+      }
+    } catch(e) {}
+    
+    navigator.clipboard.writeText(copyText);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 1000);
+  };
+
+  const handleDelete = async (index: number) => {
+    let deletedIds: (number | undefined)[] = [];
+    
+    setMessages(prev => {
+      const newMessages = [...prev];
+      if (newMessages[index].role === 'user' && index + 1 < newMessages.length && newMessages[index + 1].role === 'assistant') {
+        deletedIds = [newMessages[index].id, newMessages[index + 1].id];
+        newMessages.splice(index, 2);
+      } else {
+        deletedIds = [newMessages[index].id];
+        newMessages.splice(index, 1);
+      }
+      return newMessages;
+    });
+
+    for (const id of deletedIds) {
+      if (id) {
+        try {
+          await apiClient.delete(`/chat/history/${id}`);
+        } catch (error) {
+          console.error('Failed to delete message from backend:', error);
+        }
+      }
+    }
+  };
+
+  const handleRegenerate = async (index: number) => {
+    const msgToRegenerate = messages[index];
+    if (msgToRegenerate.role !== 'assistant' || isLoading || regeneratingIndex !== null) return;
+    
+    let userQuery = '';
+    for (let i = index - 1; i >= 0; i--) {
+      if (messages[i].role === 'user') {
+        userQuery = messages[i].content;
+        break;
+      }
+    }
+    
+    if (!userQuery) return;
+    
+    setRegeneratingIndex(index);
+    
+    if (msgToRegenerate.id) {
+      try {
+        await apiClient.delete(`/chat/history/${msgToRegenerate.id}`);
+      } catch (error) {
+        console.error('Failed to delete old regenerated message from backend:', error);
+      }
+    }
+    
+    try {
+      const response = await apiClient.post('/chat', { message: userQuery, history: [] });
+      setMessages(prev => {
+        const newMsgs = [...prev];
+        newMsgs[index] = response;
+        return newMsgs;
+      });
+    } catch (error) {
+      console.error('Regenerate error', error);
+      setMessages(prev => {
+        const newMsgs = [...prev];
+        newMsgs[index] = { role: 'assistant', content: 'Sorry, I encountered an error.', time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) };
+        return newMsgs;
+      });
+    } finally {
+      setRegeneratingIndex(null);
+    }
+  };
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || isLoading) return;
@@ -861,121 +954,164 @@ export default function AICopilot() {
   ], []);
 
   return (
-    <div className="flex h-[calc(100vh-5rem)] flex-col">
-      {/* Scrollable Chat Canvas */}
-      <ScrollArea className="flex-1">
-        <div className="mx-auto w-full max-w-5xl space-y-8 p-4 sm:p-8">
+    <div className="flex h-[calc(100vh-5rem)] flex-col bg-background">
+      <div className="flex shrink-0 items-center justify-between border-b border-border/50 bg-background/80 px-6 py-2.5 backdrop-blur-sm print:hidden">
+        <div className="flex items-center gap-2">
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/10">
+            <BrainCircuit className="h-4 w-4 text-primary" />
+          </div>
+          <span className="text-sm font-semibold">AI Copilot</span>
+          <Badge variant="outline" className="ml-1 rounded-full border-emerald-500/40 bg-emerald-500/10 text-[10px] text-emerald-500">Live</Badge>
+        </div>
+        <div className="flex items-center gap-1">
+          <Button variant="ghost" size="sm" onClick={() => { setPrintMessageIndex(null); setTimeout(() => window.print(), 100); }} className="h-8 gap-1.5 text-xs text-muted-foreground hover:text-foreground">
+            <Download className="h-3.5 w-3.5" /> Export PDF
+          </Button>
+        </div>
+      </div>
 
-          {/* ChatGPT-style Header (Only visible at top) */}
+      <ScrollArea className="flex-1 print:hidden">
+        <div className="mx-auto w-full max-w-5xl space-y-6 px-4 py-8">
+
+          {/* Welcome Header */}
           {messages.length <= 1 && (
-            <div className="mb-12 mt-10 text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                <BrainCircuit className="h-8 w-8" />
+            <div className="mb-8 mt-6 text-center">
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/25 to-primary/5 ring-1 ring-primary/20 text-primary shadow-md">
+                <BrainCircuit className="h-7 w-7" />
               </div>
-              <h1 className="text-3xl font-semibold tracking-tight">AI Copilot</h1>
-              <p className="mt-2 text-muted-foreground">Enterprise GraphRAG Assistant</p>
+              <h1 className="text-2xl font-bold tracking-tight">Industrial Brain AI Copilot</h1>
+              <p className="mt-1.5 text-sm text-muted-foreground">Enterprise GraphRAG · Equipment, SOPs, incidents, and predictive risk</p>
             </div>
           )}
 
-          {/* Chat Messages */}
           {messages.map((msg, idx) => {
             const isUser = msg.role === 'user';
-            
-            // Skip the initial greeting if it's the only message and we want a clean center, 
-            // but we'll render it to be safe.
             if (!isUser && idx === 0 && messages.length === 1) return null;
 
             return (
               <div key={idx} className={cn('flex w-full', isUser ? 'justify-end' : 'justify-start')}>
-                <div className={cn('flex max-w-[95%] gap-4', isUser ? 'flex-row-reverse' : 'flex-row')}>
-
-                  {/* Avatar for AI only */}
-                  {!isUser && (
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-background shadow-sm">
-                      <Bot className="h-4 w-4 text-primary" />
+                {isUser ? (
+                  <div className="group flex max-w-[68%] flex-col items-end gap-1">
+                    <div className="rounded-2xl rounded-tr-sm bg-primary px-4 py-3 text-sm leading-relaxed text-primary-foreground shadow-sm">
+                      {msg.content}
                     </div>
-                  )}
-
-                  <div className="min-w-0">
-                    {isUser ? (
-                      <div className="rounded-3xl bg-secondary px-5 py-3.5 text-base text-foreground shadow-sm">
-                        {msg.content}
-                      </div>
-                    ) : (
-                      <div className="prose prose-sm dark:prose-invert max-w-none pb-2">
-                        <EnterpriseResponse msg={msg} />
-                      </div>
-                    )}
-                    <div className={cn('mt-1.5 px-2 text-[11px] text-muted-foreground', isUser ? 'text-right' : 'text-left')}>
-                      {msg.time}
+                    <div className="flex items-center gap-2 opacity-0 transition-opacity group-hover:opacity-100 px-1">
+                      <span className="text-[10px] text-muted-foreground mr-1">{msg.time}</span>
+                      <button onClick={() => handleCopy(msg.content, idx)} className="text-muted-foreground hover:text-foreground transition-colors" title="Copy message">
+                        {copiedId === idx ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
+                      </button>
+                      <button onClick={() => handleDelete(idx)} className="text-muted-foreground hover:text-red-500 transition-colors" title="Delete message">
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </button>
                     </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="flex w-full gap-3">
+                    <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-primary/20 bg-primary/10 shadow-sm">
+                      <Bot className="h-4 w-4 text-primary" />
+                    </div>
+                    <div className="min-w-0 flex-1 overflow-hidden rounded-2xl rounded-tl-sm border border-border/60 bg-card shadow-sm">
+                      {regeneratingIndex === idx ? (
+                        <div className="flex items-center gap-1.5 px-8 py-6 sm:px-10">
+                          <div className="h-2 w-2 rounded-full bg-primary/70 animate-bounce" />
+                          <div className="h-2 w-2 rounded-full bg-primary/70 animate-bounce [animation-delay:-.25s]" />
+                          <div className="h-2 w-2 rounded-full bg-primary/70 animate-bounce [animation-delay:-.5s]" />
+                          <span className="ml-2 text-xs text-muted-foreground">Regenerating response…</span>
+                        </div>
+                      ) : (
+                        <EnterpriseResponse msg={msg} />
+                      )}
+                      
+                      {regeneratingIndex !== idx && (
+                        <div className="flex items-center justify-between border-t border-border/40 bg-muted/20 px-8 sm:px-10 py-3 text-[10px] text-muted-foreground">
+                          <span>{msg.time}</span>
+                          <div className="flex items-center gap-3.5">
+                            <button onClick={() => handleCopy(msg.content, idx)} className="flex items-center gap-1.5 hover:text-foreground transition-colors">
+                              {copiedId === idx ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
+                              <span>{copiedId === idx ? 'Copied' : 'Copy'}</span>
+                            </button>
+                            {idx > 0 && (
+                              <button onClick={() => handleRegenerate(idx)} disabled={isLoading || regeneratingIndex !== null} className="flex items-center gap-1.5 hover:text-foreground transition-colors disabled:opacity-50">
+                                <RefreshCcw className="h-3.5 w-3.5" />
+                                <span>Regenerate</span>
+                              </button>
+                            )}
+                            <button onClick={() => { setPrintMessageIndex(idx); setTimeout(() => window.print(), 100); }} className="flex items-center gap-1.5 hover:text-foreground transition-colors">
+                              <Download className="h-3.5 w-3.5" />
+                              <span>PDF</span>
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <div className="w-8 shrink-0 hidden sm:block" />
+                  </div>
+                )}
               </div>
             );
           })}
 
           {isLoading && (
-            <div className="flex w-full justify-start">
-              <div className="flex max-w-[95%] gap-4">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border bg-background shadow-sm">
-                  <Bot className="h-4 w-4 text-primary animate-pulse" />
-                </div>
-                <div className="flex items-center gap-2 rounded-2xl bg-muted/30 px-5 py-3 text-sm text-muted-foreground">
-                  <div className="h-1.5 w-1.5 rounded-full bg-primary/60 animate-bounce" />
-                  <div className="h-1.5 w-1.5 rounded-full bg-primary/60 animate-bounce [animation-delay:-.3s]" />
-                  <div className="h-1.5 w-1.5 rounded-full bg-primary/60 animate-bounce [animation-delay:-.5s]" />
-                  <span className="ml-2">Analyzing plant data...</span>
-                </div>
+            <div className="flex w-full gap-3">
+              <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-primary/20 bg-primary/10 shadow-sm">
+                <Bot className="h-4 w-4 text-primary animate-pulse" />
+              </div>
+              <div className="flex items-center gap-1.5 rounded-2xl rounded-tl-sm border border-border/60 bg-card px-5 py-3.5 shadow-sm">
+                <div className="h-2 w-2 rounded-full bg-primary/70 animate-bounce" />
+                <div className="h-2 w-2 rounded-full bg-primary/70 animate-bounce [animation-delay:-.25s]" />
+                <div className="h-2 w-2 rounded-full bg-primary/70 animate-bounce [animation-delay:-.5s]" />
+                <span className="ml-2 text-xs text-muted-foreground">Analyzing plant data…</span>
               </div>
             </div>
           )}
-          <div ref={scrollRef} className="h-4" />
+          <div ref={scrollRef} className="h-2" />
         </div>
       </ScrollArea>
 
-      {/* Floating Input Area */}
-      <div className="mx-auto w-full max-w-5xl px-4 pb-4">
-        {/* Suggestions */}
-        {messages.length <= 1 && (
-          <div className="mb-4 flex flex-wrap justify-center gap-2">
-            {suggestions.map((q) => (
-              <Badge
-                key={q}
-                variant="outline"
-                className="cursor-pointer rounded-full border-border/50 bg-background/50 px-3 py-1.5 text-sm font-normal text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-                onClick={() => sendMessage(q)}
-              >
-                {q}
-              </Badge>
-            ))}
-          </div>
-        )}
+      {/* Input Area */}
+      <div className="shrink-0 border-t border-border/50 bg-background/90 px-4 pb-5 pt-3 print:hidden backdrop-blur-sm">
+        <div className="mx-auto w-full max-w-5xl">
+          {/* Quick Suggestions */}
+          {messages.length <= 1 && (
+            <div className="mb-3 flex flex-wrap gap-2">
+              {suggestions.map((q) => (
+                <button
+                  key={q}
+                  onClick={() => sendMessage(q)}
+                  className="rounded-full border border-border/60 bg-muted/40 px-3 py-1 text-xs text-muted-foreground transition-all hover:border-border hover:bg-muted hover:text-foreground"
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
+          )}
 
-        <div className="relative flex items-center rounded-3xl border border-border/60 bg-background/80 shadow-sm backdrop-blur-md transition-shadow focus-within:shadow-md focus-within:border-border">
-          <Button variant="ghost" size="icon" className="ml-2 h-10 w-10 shrink-0 rounded-full text-muted-foreground hover:bg-muted/50 hover:text-foreground">
-            <Paperclip className="h-5 w-5" />
-          </Button>
-          <Input
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && sendMessage(inputMessage)}
-            placeholder="Ask AI Copilot..."
-            className="flex-1 border-0 bg-transparent px-2 py-6 text-base shadow-none focus-visible:ring-0 placeholder:text-muted-foreground/70"
-          />
-          <Button
-            onClick={() => sendMessage(inputMessage)}
-            disabled={isLoading || !inputMessage.trim()}
-            className="mr-2 h-10 w-10 shrink-0 rounded-full bg-primary transition-transform active:scale-95"
-            size="icon"
-          >
-            <Send className="h-4 w-4" />
-          </Button>
-        </div>
-        <div className="mt-2 text-center text-[10px] text-muted-foreground">
-          AI Copilot can make mistakes. Verify critical engineering decisions.
+          {/* Input Box */}
+          <div className="flex items-center gap-2 rounded-2xl border border-border/60 bg-background px-4 py-2.5 shadow-sm transition-shadow focus-within:border-primary/40 focus-within:shadow-md">
+            <Input
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage(inputMessage)}
+              placeholder="Ask about equipment, incidents, SOPs, or predictive risk…"
+              className="flex-1 border-0 bg-transparent py-1 text-sm shadow-none focus-visible:ring-0 placeholder:text-muted-foreground/60"
+            />
+            <Button
+              onClick={() => sendMessage(inputMessage)}
+              disabled={isLoading || !inputMessage.trim()}
+              size="icon"
+              className="h-8 w-8 shrink-0 rounded-xl bg-primary transition-all active:scale-95 disabled:opacity-40"
+            >
+              <Send className="h-3.5 w-3.5" />
+            </Button>
+          </div>
+          <p className="mt-1.5 text-center text-[10px] text-muted-foreground/60">
+            AI Copilot can make mistakes. Verify critical engineering decisions.
+          </p>
         </div>
       </div>
+      
+      {/* Printable Report (only visible during window.print) */}
+      <PrintableReport messages={messages} user={profile} printMessageIndex={printMessageIndex} />
     </div>
   );
 }
