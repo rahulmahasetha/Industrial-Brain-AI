@@ -19,6 +19,13 @@ from services.page_index_service import (
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv(os.path.join(BASE_DIR, ".env"))
 
+def extract_enterprise_ids(text: str) -> List[str]:
+    """Extract standard enterprise identifiers like INC-001, ML-123, SOP-456."""
+    pattern = r"\b(INC|ML|SOP|RCA|QA|AUDIT)-?\s*(\d{3,5})\b"
+    matches = re.findall(pattern, text.upper())
+    return sorted({f"{prefix}-{digits}" for prefix, digits in matches})
+
+
 
 class RAGEngine:
     def __init__(self):
@@ -49,7 +56,7 @@ class RAGEngine:
                 from langchain_groq import ChatGroq
                 self.primary_llm = ChatGroq(
                     api_key=os.environ.get("GROQ_API_KEY"),
-                    model="llama-3.3-70b-versatile"
+                    model="llama-3.1-8b-instant"
                 )
                 print("Groq LLM initialized as primary.")
             except Exception as e:
@@ -119,18 +126,58 @@ class RAGEngine:
                 "- Merge evidence chronologically based on document dates.\n"
                 "- Prioritize evidence from: Incident Reports, RCA Reports, Failure Logs.\n"
             )
+        elif intent in ["manual_lookup", "startup_procedure", "shutdown_procedure", "sop"]:
+            intent_rules = (
+                "\nMANUAL CONTENT FIDELITY RULES:\n"
+                "- PRESERVE EXACTLY: Section numbers, Section titles, Numbered steps, Bullet points, Tables, OEM terminology, and WARNING / CAUTION / DANGER / NOTE blocks.\n"
+                "- PRESERVE EXACTLY: All technical parameters, units, pressures, temperatures, and concentrations.\n"
+                "- Do not rewrite, paraphrase, or summarize procedures unless explicitly requested by the user.\n"
+                "- If multiple sections are requested, return them in the original manual order.\n"
+                "- NEVER substitute information from Maintenance Logs, Incident Reports, Inspection Reports, QA Records, RCA Reports, Knowledge Graph, or LLM internal knowledge when answering from the manual.\n"
+                "- If the context states that a section exists but pages are not indexed, explicitly state: 'The requested section exists in the manual, but its content pages are not indexed.'\n"
+                "- Every answer MUST include the original section headings, lists/tables, source document name, and page number(s).\n"
+                "- Before generating the response, validate that the retrieved context actually contains the requested section. If not, do not hallucinate; return only the indexed content or clearly state the content is unavailable.\n"
+            )
+        ambiguous_rules = (
+            "\nAMBIGUOUS QUERY RULES:\n"
+            "- Do not immediately ask the user for clarification if the query is a common industrial term such as 'procedure', 'manual', 'SOP', 'maintenance', 'inspection', 'startup', 'shutdown', 'troubleshooting', 'RCA', or 'incident'.\n"
+            "- First search the indexed documents and infer the most likely intent using the provided context.\n"
+            "- If multiple matching procedures/documents exist in the context, return a concise list (Document Name, Equipment ID, Procedure Type, Page/Section) and ask the user to choose one.\n"
+            "- If exactly one relevant procedure is found, return it directly without asking for clarification.\n"
+            "- Only ask a clarification question when NO relevant documents are found or multiple equally relevant results cannot be distinguished.\n"
+        )
         
         list_rules = ""
-        if any(w in (retrieval_plan or {}).get("intent", "").lower() for w in ["incident", "maintenance", "inspection"]):
+        intent_lower = (retrieval_plan or {}).get("intent", "").lower()
+        if any(w in intent_lower for w in ["incident", "maintenance", "inspection"]):
             list_rules = (
                 "\nLIST QUERY RULES:\n"
                 "- If the user asks to 'show', 'list', or 'find all' matching records, return ALL matching items.\n"
             )
+            
+        reasoning_rules = ""
+        if intent_lower in ["reasoning_analysis", "root_cause_analysis", "compliance", "predictive_maintenance"]:
+            reasoning_rules = (
+                "\nREASONING & ANALYSIS RULES:\n"
+                "- NEVER generate explanations from general knowledge; always explain answers with evidence from retrieved documents.\n"
+                "- Correlate information across all retrieved document types (Manuals, SOPs, RCA, Incident Reports, etc.).\n"
+                "- Explain root cause, impact, contributing factors, and corrective/preventive actions when available.\n"
+                "- If evidence is insufficient, clearly state that the information is unavailable instead of guessing.\n"
+                "- Preserve all technical values, tables, units, warnings, and specifications exactly as written in the source documents.\n"
+                "- You MUST display an 'Evidence Summary' section at the end detailing Document ID, Page Number, Section, and confidence score for your claims.\n"
+            )
+        else:
+            reasoning_rules = (
+                "\nCITATION RULES:\n"
+                "- For this retrieval request, display ONLY compact source citations inline (e.g., [Document ID, Page X, Section Y, Confidence Z]) instead of a full Evidence Summary.\n"
+                "- Never hallucinate technical facts or operating limits.\n"
+                "- If evidence is insufficient, clearly state that the information is unavailable instead of guessing.\n"
+                "- Preserve all technical values, tables, units, warnings, and specifications exactly as written.\n"
+            )
         
         prompt_text = (
             "You are Industrial Brain AI, an expert assistant for FreshFlow Beverages plant operations.\n\n"
-            "Answer the operator's question using ONLY the context provided below.\n"
-            "OPERATOR QUESTION: {question}\n"
+            "Answer the operator's question using ONLY the context provided below. If one or more specific sections were requested, restrict your answer strictly to the information within those sections.\n"
             "ASSET CONTEXT: {asset_tag}\n"
             "OPERATOR ROLE: {user_role}\n\n"
             "RULES:\n"
@@ -145,7 +192,9 @@ class RAGEngine:
             "- Only provide recommendations if action is necessary (e.g., for time-sensitive, critical, or specific case-sensitive issues).\n"
             "- If the query is just informational, do not force a recommendations section.\n\n"
             + intent_rules
-            + list_rules +
+            + list_rules
+            + reasoning_rules
+            + ambiguous_rules +
             "\nRespond in this exact JSON format. Put your formatted markdown inside the 'answer' field:\n"
             "{{\n"
             + json_schema +
@@ -156,8 +205,51 @@ class RAGEngine:
         )
         return PromptTemplate.from_template(prompt_text)
 
-    def _build_direct_answer_prompt(self) -> PromptTemplate:
+    def _build_direct_answer_prompt(self, retrieval_plan: Dict[str, Any] = None) -> PromptTemplate:
         """Lightweight prompt for concise/direct answers."""
+        intent = retrieval_plan.get("intent", "") if retrieval_plan else ""
+        intent_rules = ""
+        if intent in ["manual_lookup", "startup_procedure", "shutdown_procedure", "sop"]:
+            intent_rules = (
+                "\nMANUAL CONTENT FIDELITY RULES:\n"
+                "- PRESERVE EXACTLY: Section numbers, Section titles, Numbered steps, Bullet points, Tables, OEM terminology, and WARNING / CAUTION / DANGER / NOTE blocks.\n"
+                "- PRESERVE EXACTLY: All technical parameters, units, pressures, temperatures, and concentrations.\n"
+                "- Do not rewrite, paraphrase, or summarize procedures unless explicitly requested by the user.\n"
+                "- If multiple sections are requested, return them in the original manual order.\n"
+                "- NEVER substitute information from Maintenance Logs, Incident Reports, Inspection Reports, QA Records, RCA Reports, Knowledge Graph, or LLM internal knowledge when answering from the manual.\n"
+                "- If the context states that a section exists but pages are not indexed, explicitly state: 'The requested section exists in the manual, but its content pages are not indexed.'\n"
+                "- Every answer MUST include the original section headings, lists/tables, source document name, and page number(s).\n"
+                "- Before generating the response, validate that the retrieved context actually contains the requested section. If not, do not hallucinate; return only the indexed content or clearly state the content is unavailable.\n"
+            )
+        ambiguous_rules = (
+            "\nAMBIGUOUS QUERY RULES:\n"
+            "- Do not immediately ask the user for clarification if the query is a common industrial term such as 'procedure', 'manual', 'SOP', 'maintenance', 'inspection', 'startup', 'shutdown', 'troubleshooting', 'RCA', or 'incident'.\n"
+            "- First search the indexed documents and infer the most likely intent using the provided context.\n"
+            "- If multiple matching procedures/documents exist in the context, return a concise list (Document Name, Equipment ID, Procedure Type, Page/Section) and ask the user to choose one.\n"
+            "- If exactly one relevant procedure is found, return it directly without asking for clarification.\n"
+            "- Only ask a clarification question when NO relevant documents are found or multiple equally relevant results cannot be distinguished.\n"
+        )
+            
+        reasoning_rules = ""
+        if intent in ["reasoning_analysis", "root_cause_analysis", "compliance", "predictive_maintenance"]:
+            reasoning_rules = (
+                "\nREASONING & ANALYSIS RULES:\n"
+                "- NEVER generate explanations from general knowledge; always explain answers with evidence from retrieved documents.\n"
+                "- Correlate information across all retrieved document types (Manuals, SOPs, RCA, Incident Reports, etc.).\n"
+                "- Explain root cause, impact, contributing factors, and corrective/preventive actions when available.\n"
+                "- If evidence is insufficient, clearly state that the information is unavailable instead of guessing.\n"
+                "- Preserve all technical values, tables, units, warnings, and specifications exactly as written in the source documents.\n"
+                "- You MUST display an 'Evidence Summary' section at the end detailing Document ID, Page Number, Section, and confidence score for your claims.\n"
+            )
+        else:
+            reasoning_rules = (
+                "\nCITATION RULES:\n"
+                "- For this retrieval request, display ONLY compact source citations inline (e.g., [Document ID, Page X, Section Y, Confidence Z]) instead of a full Evidence Summary.\n"
+                "- Never hallucinate technical facts or operating limits.\n"
+                "- If evidence is insufficient, clearly state that the information is unavailable instead of guessing.\n"
+                "- Preserve all technical values, tables, units, warnings, and specifications exactly as written.\n"
+            )
+            
         prompt_text = (
             "You are Industrial Brain AI, an expert assistant for FreshFlow Beverages plant operations.\n\n"
             "Answer the operator's question using ONLY the context provided below.\n"
@@ -172,7 +264,10 @@ class RAGEngine:
             "- Do not use a rigid template otherwise. Adapt the structure to the specific question.\n"
             "- Only provide recommendations if action is necessary (e.g., for time-sensitive, critical, or specific case-sensitive issues).\n"
             "- If the query is just informational, do not force a recommendations section.\n\n"
-            "Search Log:\n{search_log}\n\n"
+            + intent_rules
+            + reasoning_rules
+            + ambiguous_rules +
+            "\nSearch Log:\n{search_log}\n\n"
             "Context: {context_chunks}\n"
             "Question: {question}"
         )
@@ -257,11 +352,59 @@ class RAGEngine:
         """
         print(f"RAG Engine processing query: {query_text} (Target Asset: {asset_tag})")
 
+        import time
+        t_start = time.time()
+
+        t0 = time.time()
         intent = detect_intent(query_text)
+        intent_time = time.time() - t0
+
+        metrics = {
+            "query": query_text,
+            "intent": intent,
+            "intent_time": intent_time,
+            "kg_time": 0.0,
+            "toc_time": 0.0,
+            "sql_time": 0.0,
+            "vector_time": 0.0,
+            "rerank_time": 0.0,
+            "metadata_time": 0.0,
+            "llm_time": 0.0,
+            "total_time": 0.0,
+            "metadata_matches": 0,
+            "sql_matches": 0,
+            "vector_matches": 0,
+            "toc_matches": 0,
+            "kg_matches": 0,
+            "final_docs": 0,
+            "confidence_score": 0.0,
+            "timestamp": time.time()
+        }
+
+        def record_metrics(res):
+            metrics["total_time"] = time.time() - t_start
+            metrics["final_docs"] = len(res.get("sources") or [])
+            metrics["confidence_score"] = float(res.get("confidence") or 0.0)
+            if "llm_start_time" in metrics:
+                metrics["llm_time"] = time.time() - metrics["llm_start_time"]
+            cache_service.record_query_metrics(metrics)
+            return res
+
         asset_tag = asset_tag or (extract_equipment_ids(query_text)[0] if extract_equipment_ids(query_text) else None)
-        graph_terms = [term.strip() for term in re.split(r"[,;|]+", graph_context or "") if term.strip()]
+        graph_terms = [term.strip() for term in re.split(r"[,;|]+", graph_context or "")]
+        def fetch_kg():
+            from database import SessionLocal
+            local_db = SessionLocal()
+            t_kg_start = time.time()
+            try:
+                res = page_index_service.get_graph_connected_entities(local_db, asset_tag)
+                metrics["kg_time"] = time.time() - t_kg_start
+                metrics["kg_matches"] = len(res)
+                return res
+            finally:
+                local_db.close()
         if db:
-            graph_terms.extend(page_index_service.get_graph_connected_entities(db, asset_tag))
+            graph_terms.extend(fetch_kg())
 
         pages = []
         semantic_docs = []
@@ -283,44 +426,105 @@ class RAGEngine:
         search_log = []
         pages = []
         
-        def run_sql_search():
+        preferred_doc_types = retrieval_plan.get("allowed_doc_types") if retrieval_plan else None
+        
+        def fetch_toc():
+            t_toc_start = time.time()
+            from database import SessionLocal
+            local_db = SessionLocal()
+            try:
+                from services.toc_service import detect_requested_sections, get_sections_pages
+                requested_sections = detect_requested_sections(query_text)
+                if requested_sections and asset_tag:
+                    toc_pages = get_sections_pages(local_db, asset_tag, requested_sections)
+                    if toc_pages:
+                        local_db.expunge_all()
+                        metrics["toc_time"] = time.time() - t_toc_start
+                        metrics["toc_matches"] = len(toc_pages)
+                        return toc_pages, requested_sections
+                metrics["toc_time"] = time.time() - t_toc_start
+                return [], []
+            finally:
+                local_db.close()
+
+        def fetch_sql():
+            t_sql_start = time.time()
+            from database import SessionLocal
+            local_db = SessionLocal()
             local_log = []
             local_debug = []
             local_pages = []
-            if db:
-                page_index_service.sync_legacy_document_pages(db)
-                page_index_service.sync_structured_record_pages(db)
+            try:
+                page_index_service.sync_legacy_document_pages(local_db)
+                page_index_service.sync_structured_record_pages(local_db)
                 
-                allowed_types = retrieval_plan.get("allowed_doc_types") if retrieval_plan else None
-                fallback_types = retrieval_plan.get("fallback_doc_types") if retrieval_plan else None
-                exhaustive_types = ["Compliance Document", "Regulatory Record", "Inspection Report", "Audit Report", "Certificate", "Manual", "SOP"]
+                # EXACT METADATA BYPASS
+                exact_ids = extract_enterprise_ids(query_text)
+                if exact_ids:
+                    from models.domain import PageIndex
+                    for ex_id in exact_ids:
+                        q = local_db.query(PageIndex).filter(
+                            (PageIndex.log_id == ex_id) |
+                            (PageIndex.incident_id == ex_id) |
+                            (PageIndex.inspection_id == ex_id) |
+                            (PageIndex.sop_id == ex_id) |
+                            (PageIndex.document_name.ilike(f"%{ex_id}%")) |
+                            (PageIndex.section_title.ilike(f"%{ex_id}%"))
+                        )
+                        local_pages.extend(q.all())
+                    if local_pages:
+                        local_log.append(f"- Tier 1 Exact Metadata Lookup: Retrieved {len(local_pages)} pages for IDs {exact_ids}")
+                        local_debug.append({"step": "Tier 1 Exact Metadata Lookup", "found": len(local_pages)})
+                        metrics["metadata_matches"] = len(local_pages)
+                        metrics["sql_matches"] = len(local_pages)
+                        metrics["metadata_time"] = time.time() - t_sql_start
+                        metrics["sql_time"] = time.time() - t_sql_start
+                        local_db.expunge_all()
+                        return list({p.id: p for p in local_pages if p.id}.values()), local_log, local_debug
                 
-                local_pages = page_index_service.search_pages(db, query=query_text, equipment=asset_tag, graph_terms=graph_terms, allowed_doc_types=allowed_types, limit=20)
-                local_log.append(f"- Primary Search ({allowed_types or 'All'}): {len(local_pages)} exact pages found")
-                local_debug.append({"step": "Primary SQL Search", "types": allowed_types, "found": len(local_pages)})
+                if retrieval_plan and retrieval_plan.get("retrieval_strategy") == "STRUCTURED_SQL" and retrieval_plan.get("structured_filters"):
+                    from models.domain import PageIndex
+                    filters = retrieval_plan.get("structured_filters", {})
+                    q = local_db.query(PageIndex)
+                    for key, val in filters.items():
+                        if val:
+                            q = q.filter(PageIndex.extracted_text.ilike(f"%{val}%"))
+                    if asset_tag:
+                        q = q.filter(PageIndex.equipment_ids.ilike(f"%{asset_tag}%"))
+                    local_pages = q.limit(20).all()
+                    if local_pages:
+                        local_log.append(f"- Tier 3 Structured SQL Lookup: Retrieved {len(local_pages)} pages")
+                        local_debug.append({"step": "Tier 3 Structured SQL Lookup", "found": len(local_pages)})
+                        metrics["sql_matches"] = len(local_pages)
+                        metrics["sql_time"] = time.time() - t_sql_start
+                        local_db.expunge_all()
+                        return local_pages, local_log, local_debug
+
+                local_pages, _ = page_index_service.search_pages(local_db, query=query_text, equipment=asset_tag, graph_terms=graph_terms, allowed_doc_types=preferred_doc_types, limit=20)
+                if local_pages:
+                    local_log.append(f"- Primary SQL Search ({preferred_doc_types or 'All'}): {len(local_pages)} exact pages found")
+                    local_debug.append({"step": "Primary SQL Search", "types": preferred_doc_types, "found": len(local_pages)})
+                else:
+                    # Never fall back to unconstrained search if disallowed_doc_types exists
+                    if retrieval_plan and retrieval_plan.get("disallowed_doc_types"):
+                        allowed = retrieval_plan.get("allowed_doc_types", []) + retrieval_plan.get("fallback_doc_types", [])
+                        local_pages, _ = page_index_service.search_pages(local_db, query=query_text, equipment=asset_tag, graph_terms=graph_terms, allowed_doc_types=allowed, limit=20)
+                        local_log.append(f"- Fallback SQL Search (Strict Types): {len(local_pages)} pages found")
+                        local_debug.append({"step": "Fallback SQL Search", "types": allowed, "found": len(local_pages)})
+                    else:
+                        local_pages, _ = page_index_service.search_pages(local_db, query=query_text, equipment=asset_tag, graph_terms=graph_terms, allowed_doc_types=None, limit=20)
+                        local_log.append(f"- Unconstrained SQL Search (All Documents): {len(local_pages)} pages found")
+                        local_debug.append({"step": "Unconstrained SQL Search", "types": "All", "found": len(local_pages)})
                 
-                if not local_pages and fallback_types:
-                    local_pages = page_index_service.search_pages(db, query=query_text, equipment=asset_tag, graph_terms=graph_terms, allowed_doc_types=fallback_types, limit=20)
-                    local_log.append(f"- Fallback Search ({fallback_types}): {len(local_pages)} related pages found")
-                    local_debug.append({"step": "Fallback SQL Search", "types": fallback_types, "found": len(local_pages)})
-                    
-                if not local_pages:
-                    local_pages = page_index_service.search_pages(db, query=query_text, equipment=asset_tag, graph_terms=graph_terms, allowed_doc_types=exhaustive_types, limit=20)
-                    local_log.append(f"- Exhaustive Search ({exhaustive_types}): {len(local_pages)} pages found")
-                    local_debug.append({"step": "Exhaustive SQL Search", "types": exhaustive_types, "found": len(local_pages)})
-    
-                if not local_pages:
-                    local_pages = page_index_service.search_pages(db, query=query_text, equipment=asset_tag, graph_terms=graph_terms, allowed_doc_types=None, limit=20)
-                    local_log.append(f"- Unconstrained Search (All Documents): {len(local_pages)} pages found")
-                    local_debug.append({"step": "Unconstrained SQL Search", "types": "All", "found": len(local_pages)})
-                    
-                if not local_pages:
-                    local_pages = page_index_service.search_pages(db, query=query_text, equipment=asset_tag, graph_terms=graph_terms, allowed_doc_types=None, limit=20, loose_match=True)
-                    local_log.append(f"- Loose Match SQL Search (All Documents): {len(local_pages)} pages found")
-                    local_debug.append({"step": "Loose Match SQL Search", "types": "All", "found": len(local_pages)})
-            return local_pages, local_log, local_debug
+                metrics["sql_matches"] = len(local_pages)
+                metrics["sql_time"] = time.time() - t_sql_start
+                local_db.expunge_all()
+                return local_pages, local_log, local_debug
+            finally:
+                local_db.close()
 
         def run_chroma_search(search_q, allowed_types):
+            t_chroma_start = time.time()
             local_fb_docs = []
             local_log = []
             local_debug = []
@@ -331,6 +535,8 @@ class RAGEngine:
                 local_log.append(f"- Chroma Cache Hit for: {search_q}")
                 local_debug.append({"step": "Semantic Vector Search (Cached)", "types": allowed_types, "found": len(cached_res)})
                 local_fb_docs = [Document(page_content=d["page_content"], metadata=d["metadata"]) for d in cached_res]
+                metrics["vector_matches"] = len(local_fb_docs)
+                metrics["vector_time"] = time.time() - t_chroma_start
                 return local_fb_docs, local_log, local_debug
                 
             if self.has_api_key:
@@ -357,6 +563,8 @@ class RAGEngine:
                 serializable_docs = [{"page_content": d.page_content, "metadata": d.metadata} for d in local_fb_docs]
                 cache_service.set(cache_key, serializable_docs, ttl=3600)
                 
+            metrics["vector_matches"] = len(local_fb_docs)
+            metrics["vector_time"] = time.time() - t_chroma_start
             return local_fb_docs, local_log, local_debug
 
         search_query = " ".join([part for part in [asset_tag, query_text, " ".join(graph_terms)] if part])
@@ -370,18 +578,34 @@ class RAGEngine:
         }
         
         fallback_docs = []
-        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
-            sql_future = executor.submit(run_sql_search)
+        is_toc_retrieval = False
+        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+            kg_future = executor.submit(fetch_kg)
+            toc_future = executor.submit(fetch_toc)
+            sql_future = executor.submit(fetch_sql)
             chroma_future = executor.submit(run_chroma_search, search_query, allowed_types_for_chroma)
             
-            pages, sql_logs, sql_debug = sql_future.result()
-            search_log.extend(sql_logs)
-            debug_info["search_steps"].extend(sql_debug)
+            graph_terms_res = kg_future.result()
+            if graph_terms_res:
+                graph_terms.extend(graph_terms_res)
+
+            toc_pages, requested_sections = toc_future.result()
             
+            sql_pages, sql_logs, sql_debug = sql_future.result()
             fallback_docs, chroma_logs, chroma_debug = chroma_future.result()
             
+            if toc_pages:
+                pages = toc_pages
+                is_toc_retrieval = True
+                search_log.append(f"- TOC-Aware Search: Retrieved {len(toc_pages)} exact pages for sections '{', '.join(requested_sections)}'")
+                debug_info["search_steps"].append({"step": "TOC Retrieval", "found": len(toc_pages)})
+            else:
+                pages = sql_pages
+                search_log.extend(sql_logs)
+                debug_info["search_steps"].extend(sql_debug)
+            
         semantic_page_ids = []
-        if self.has_api_key and fallback_docs:
+        if self.has_api_key and fallback_docs and not is_toc_retrieval:
             if pages:
                 # We have SQL pages, let's rerank based on Chroma overlap
                 allowed_page_ids = {p.id for p in pages}
@@ -392,7 +616,9 @@ class RAGEngine:
                 ]
                 semantic_page_ids = [int(doc.metadata.get("page_index_id")) for doc in semantic_docs if doc.metadata and doc.metadata.get("page_index_id")]
                 if semantic_page_ids:
+                    t_rerank_start = time.time()
                     pages = self._rerank_pages(query_text, pages, semantic_page_ids, retrieval_plan, db)
+                    metrics["rerank_time"] = time.time() - t_rerank_start
             else:
                 search_log.extend(chroma_logs)
                 debug_info["search_steps"].extend(chroma_debug)
@@ -409,6 +635,22 @@ class RAGEngine:
         intent_name = (retrieval_plan or {}).get("intent", intent)
         MAX_CHUNKS = 15
         added_count = 0
+        
+        # STRICT SOURCE VALIDATION
+        disallowed = retrieval_plan.get("disallowed_doc_types", []) if retrieval_plan else []
+        allowed_docs_only = []
+        for page in pages:
+            # Re-fetch doc type from DB to be completely safe, or use cache.
+            # In memory we can loosely guess by document name or status if needed, 
+            # but since we already queried via search_pages we trust it mostly.
+            # We will just do a string check on document_name to be doubly sure for disallowed.
+            doc_name_lower = (page.document_name or "").lower()
+            if any(d_type.lower() in doc_name_lower for d_type in disallowed):
+                search_log.append(f"- Strict Validation: Discarded {page.document_name} due to disallowed type.")
+                continue
+            allowed_docs_only.append(page)
+        
+        pages = allowed_docs_only
         
         for page in pages:
             if added_count >= MAX_CHUNKS:
@@ -450,12 +692,13 @@ class RAGEngine:
         debug_info["retrieved_documents"] = list(dict.fromkeys(debug_info["retrieved_documents"]))
 
         if synthesize and self.primary_llm:
+            metrics["llm_start_time"] = time.time()
             search_log_str = "\n".join(search_log)
             primary_llm = self.primary_llm
             fallback_llm = self.fallback_llm
             
             if direct_answer:
-                prompt = self._build_direct_answer_prompt()
+                prompt = self._build_direct_answer_prompt(retrieval_plan=retrieval_plan)
                 try:
                     chain = prompt | primary_llm | StrOutputParser()
                     answer = chain.invoke({
@@ -481,7 +724,7 @@ class RAGEngine:
                         print(f"[RAG] LLM error (concise): {e}")
                         answer = "I am experiencing high traffic right now and couldn't generate a response. Please try again in a moment."
                         
-                return {
+                return record_metrics({
                     "answer": answer,
                     "sources": sources,
                     "confidence": 92 if semantic_docs else 84,
@@ -491,7 +734,7 @@ class RAGEngine:
                     "supporting_evidence": supporting_evidence,
                     "mode": "concise",
                     "debug_info": debug_info,
-                }
+                })
             else:
                 prompt = self._build_prompt(retrieval_plan)
                 try:
@@ -532,7 +775,7 @@ class RAGEngine:
                         json_str_fixed = json_str.replace('\n', '\\n')
                         parsed_json = json.loads(json_str_fixed)
                         
-                    return {
+                    return record_metrics({
                         "mode": "full_card",
                         "intent": intent,
                         "equipment": asset_tag,
@@ -544,7 +787,7 @@ class RAGEngine:
                         "safety_flag": parsed_json.get("safety_flag", False),
                         "follow_up_suggestions": parsed_json.get("follow_up_suggestions", []),
                         "debug_info": debug_info,
-                    }
+                    })
                 except json.JSONDecodeError:
                     print(f"[RAG] Failed to parse JSON from LLM: {raw_answer}")
                     cleaned = raw_answer
@@ -556,23 +799,23 @@ class RAGEngine:
                     # Strip trailing metadata
                     cleaned = re.sub(r'"?\s*,?\s*"confidence".*$', '', cleaned, flags=re.DOTALL)
                     cleaned = re.sub(r'"?\s*\}\s*$', '', cleaned)
-                    return {
+                    return record_metrics({
                         "mode": "concise",
                         "answer": cleaned,
                         "intent": intent,
                         "sources": sources,
                         "confidence": 50,
                         "debug_info": debug_info,
-                    }
+                    })
                 except Exception as e:
                     print(f"[RAG] LLM error (full_card): {e}")
-                    return {
+                    return record_metrics({
                         "mode": "concise",
                         "intent": intent,
                         "answer": "I am experiencing high traffic right now and couldn't process your request. Please try again in a moment.",
                         "confidence": 0,
                         "debug_info": debug_info,
-                    }
+                    })
 
         if pages:
             top_evidence = supporting_evidence[0]["evidence"]
@@ -587,7 +830,7 @@ class RAGEngine:
                     f"Section Title: {citations[0]['section_title']}\n"
                     f"Supporting Evidence: {supporting_evidence[0]['evidence']}"
                 )
-            return {
+            return record_metrics({
                 "answer": answer,
                 "sources": sources,
                 "confidence": 82 if asset_tag else 72,
@@ -597,11 +840,11 @@ class RAGEngine:
                 "supporting_evidence": supporting_evidence,
                 "mode": "concise" if direct_answer else "full_card",
                 "debug_info": debug_info,
-            }
+            })
 
         if not pages:
             # Fallback when LLM synthesis is disabled or unavailable
-            return {
+            return record_metrics({
                 "answer": "No information found.",
                 "sources": [],
                 "confidence": 0,
@@ -611,6 +854,6 @@ class RAGEngine:
                 "supporting_evidence": [],
                 "mode": "concise" if direct_answer else "full_card",
                 "debug_info": debug_info,
-            }
+            })
 
 rag_engine = RAGEngine()
