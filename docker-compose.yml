@@ -7,8 +7,18 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+
     environment:
       - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - backend
 
@@ -16,13 +26,71 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
+    # Port is no longer exposed to host directly, Nginx handles it
+    expose:
+      - "8000"
     environment:
-      - DATABASE_URL=sqlite:///./industrial_brain.db
+      - DATABASE_URL=postgresql://postgres:postgrespassword@postgres:5432/industrial_brain
+      - REDIS_URL=redis://redis:6379/0
       - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - STORAGE_PROVIDER=local
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
     volumes:
       - backend_data:/app/data
+      - ./backend/uploads:/app/uploads
+      - ./IndustrialBrain:/IndustrialBrain:ro
+      - ./backend/chroma_db:/app/chroma_db
+
+  celery_worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: celery -A celery_app worker --loglevel=info
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgrespassword@postgres:5432/industrial_brain
+      - REDIS_URL=redis://redis:6379/0
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - STORAGE_PROVIDER=local
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - backend_data:/app/data
+      - ./backend/uploads:/app/uploads
+      - ./backend/chroma_db:/app/chroma_db
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: industrial_brain_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: industrial_brain
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: industrial_brain_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
 
 volumes:
   backend_data:
+  postgres_data:
+  redis_data:
