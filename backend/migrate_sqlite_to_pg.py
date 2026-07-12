@@ -9,7 +9,7 @@ def migrate():
     sqlite_url = "sqlite:///industrial_brain.db"
     sqlite_engine = create_engine(sqlite_url)
     
-    pg_url = "postgresql://postgres:postgrespassword@localhost:5432/industrial_brain"
+    pg_url = "postgresql://neondb_owner:npg_8KFDcHNlx3GA@ep-mute-haze-aoip5ik1-pooler.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require"
     pg_engine = create_engine(pg_url)
     
     # 2. Reflect SQLite schema
