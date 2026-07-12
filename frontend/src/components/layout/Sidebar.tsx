@@ -1,87 +1,118 @@
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, FileText, Network, Bot, Activity, ShieldCheck, UserCog, Box, Settings, Brain, Layers3 } from 'lucide-react';
+import {
+  LayoutDashboard, FileText, Network, Bot, Activity,
+  Settings, Brain, Layers3, ChevronRight, UserCircle
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
+import SettingsModal from './SettingsModal';
+import { useUser } from '@/contexts/UserContext';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
-const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Document Hub', href: '/documents', icon: FileText },
-  { name: 'Page Index', href: '/page-index', icon: Layers3 },
-  { name: 'Knowledge Graph', href: '/graph', icon: Network },
-  { name: 'AI Copilot', href: '/copilot', icon: Bot },
-  { name: 'Asset Intelligence', href: '/assets', icon: Box },
-  { name: 'Root Cause Analysis', href: '/rca', icon: Activity },
-  { name: 'Compliance Center', href: '/compliance', icon: ShieldCheck },
-  { name: 'Expert Knowledge', href: '/expert', icon: UserCog },
+const overviewNav = [
+  { name: 'Dashboard',       href: '/dashboard',  icon: LayoutDashboard, color: 'text-blue-600' },
+  { name: 'Document Hub',    href: '/documents',  icon: FileText,         color: 'text-teal-600' },
+  { name: 'Page Index',      href: '/page-index', icon: Layers3,          color: 'text-indigo-600' },
+  { name: 'Knowledge Graph', href: '/graph',      icon: Network,          color: 'text-purple-600' },
+  { name: 'AI Copilot',      href: '/copilot',    icon: Bot,              color: 'text-blue-600' },
 ];
 
-export function Sidebar() {
+const intelligenceNav = [
+  { name: 'Root Cause Analysis', href: '/rca',         icon: Activity,   color: 'text-orange-600' },
+];
+
+function NavItem({ item }: { item: typeof overviewNav[0] }) {
   return (
-    <div className="flex h-full w-[260px] flex-col border-r border-border/40 bg-card/30 backdrop-blur-sm hidden md:flex">
-      <div className="flex h-16 shrink-0 items-center gap-3 px-6">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary ring-1 ring-primary/20">
-          <Brain className="h-5 w-5" />
+    <NavLink
+      to={item.href}
+      className={({ isActive }) =>
+        cn(
+          'group flex items-center gap-3 rounded-lg px-3 py-2.5 text-[13.5px] font-medium transition-all duration-150 relative',
+          isActive ? 'nav-active' : 'nav-inactive'
+        )
+      }
+    >
+      {({ isActive }) => (
+        <>
+          <span className={cn(
+            'flex h-6 w-6 items-center justify-center rounded-md transition-colors',
+            isActive ? 'bg-blue-100' : 'bg-slate-100 group-hover:bg-slate-200'
+          )}>
+            <item.icon className={cn('h-3.5 w-3.5', isActive ? 'text-blue-600' : item.color)} />
+          </span>
+          <span className="flex-1">{item.name}</span>
+          {isActive && <ChevronRight className="h-3.5 w-3.5 text-blue-500 ml-auto" />}
+        </>
+      )}
+    </NavLink>
+  );
+}
+
+export function Sidebar() {
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const { profile } = useUser();
+
+  return (
+    <>
+      <div className="hidden md:flex h-full w-[240px] flex-col border-r border-slate-200 bg-white">
+        {/* Logo */}
+        <div className="flex h-[60px] shrink-0 items-center gap-2.5 px-5 border-b border-slate-100">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-600 to-blue-700 shadow-sm">
+            <Brain className="h-4.5 w-4.5 text-white" style={{ height: '18px', width: '18px' }} />
+          </div>
+          <div>
+            <div className="text-[14px] font-bold text-slate-900 leading-none">Industrial Brain</div>
+            <div className="text-[10px] text-slate-400 font-medium mt-0.5">AI Platform</div>
+          </div>
         </div>
-        <span className="text-[15px] font-semibold tracking-tight text-foreground">FreshFlow Brain</span>
+
+        {/* Navigation */}
+        <div className="flex-1 overflow-y-auto px-3 py-4 space-y-5">
+          <div>
+            <div className="section-header px-1 mb-2">Platform</div>
+            <nav className="space-y-0.5">
+              {overviewNav.map((item) => <NavItem key={item.href} item={item} />)}
+            </nav>
+          </div>
+
+          <div>
+            <div className="section-header px-1 mb-2">Intelligence</div>
+            <nav className="space-y-0.5">
+              {intelligenceNav.map((item) => <NavItem key={item.href} item={item} />)}
+            </nav>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="p-3 border-t border-slate-100">
+          <button 
+            onClick={() => setIsSettingsOpen(true)}
+            className="flex w-full items-center justify-between gap-3 rounded-lg px-2 py-2 text-[13.5px] font-medium text-slate-700 hover:bg-slate-50 transition-all duration-150"
+          >
+            <div className="flex items-center gap-3 min-w-0">
+              <Avatar className="h-8 w-8 rounded-md bg-slate-100">
+                {profile?.photo_url ? (
+                  <AvatarImage src={profile.photo_url} alt={profile.name} className="object-cover" />
+                ) : (
+                  <AvatarFallback className="rounded-md bg-blue-50 text-blue-700 font-semibold">
+                    {profile?.name?.charAt(0) || <UserCircle className="h-4 w-4" />}
+                  </AvatarFallback>
+                )}
+              </Avatar>
+              <div className="flex flex-col text-left truncate">
+                <span className="font-semibold text-sm truncate">{profile?.name || 'User'}</span>
+                <span className="text-[10px] text-slate-500 truncate">{profile?.role || 'Guest'}</span>
+              </div>
+            </div>
+            <Settings className="h-4 w-4 text-slate-400 shrink-0" />
+          </button>
+        </div>
       </div>
       
-      <div className="flex-1 overflow-y-auto px-4 py-4 custom-scrollbar">
-        <div className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-3 px-2">Overview</div>
-        <nav className="space-y-1 mb-8">
-          {navigation.slice(0, 5).map((item) => (
-            <NavLink
-              key={item.name}
-              to={item.href}
-              className={({ isActive }) =>
-                cn(
-                  'group flex items-center rounded-xl px-3 py-2 text-[13px] font-medium transition-all duration-200',
-                  isActive
-                    ? 'bg-primary text-primary-foreground shadow-sm shadow-primary/20'
-                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-                )
-              }
-            >
-              {({ isActive }) => (
-                <>
-                  <item.icon className={cn("mr-3 h-4 w-4 flex-shrink-0 transition-colors", isActive ? "text-primary-foreground" : "text-muted-foreground group-hover:text-foreground")} />
-                  {item.name}
-                </>
-              )}
-            </NavLink>
-          ))}
-        </nav>
-
-        <div className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-3 px-2">Intelligence</div>
-        <nav className="space-y-1">
-          {navigation.slice(5).map((item) => (
-            <NavLink
-              key={item.name}
-              to={item.href}
-              className={({ isActive }) =>
-                cn(
-                  'group flex items-center rounded-xl px-3 py-2 text-[13px] font-medium transition-all duration-200',
-                  isActive
-                    ? 'bg-primary text-primary-foreground shadow-sm shadow-primary/20'
-                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-                )
-              }
-            >
-              {({ isActive }) => (
-                <>
-                  <item.icon className={cn("mr-3 h-4 w-4 flex-shrink-0 transition-colors", isActive ? "text-primary-foreground" : "text-muted-foreground group-hover:text-foreground")} />
-                  {item.name}
-                </>
-              )}
-            </NavLink>
-          ))}
-        </nav>
-      </div>
-
-      <div className="p-4 mt-auto">
-        <button className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-[13px] font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-all">
-          <Settings className="h-4 w-4 flex-shrink-0" />
-          Settings
-        </button>
-      </div>
-    </div>
+      <SettingsModal 
+        open={isSettingsOpen} 
+        onOpenChange={setIsSettingsOpen} 
+      />
+    </>
   );
 }
