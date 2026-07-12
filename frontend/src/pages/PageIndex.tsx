@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ExternalLink, FileSearch, FileText, Layers3, RefreshCw, Search } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { apiClient } from '@/lib/api';
 
-const API_ORIGIN = 'http://localhost:8000';
+const API_ORIGIN = 'http://127.0.0.1:8000';
 
 export default function PageIndex() {
   const [pages, setPages] = useState<any[]>([]);
@@ -16,15 +16,21 @@ export default function PageIndex() {
   const [selectedPage, setSelectedPage] = useState<any | null>(null);
   const [viewer, setViewer] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [stats, setStats] = useState<any>(null);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
+  const [totalCount, setTotalCount] = useState(0);
 
-  const loadPages = async (search = query) => {
+  const loadPages = async (search = query, p = page, size = pageSize) => {
     setIsLoading(true);
     try {
+      const skip = (p - 1) * size;
       const endpoint = search.trim()
-        ? `/page-index/search?q=${encodeURIComponent(search.trim())}`
-        : '/page-index';
+        ? `/page-index/search?q=${encodeURIComponent(search.trim())}&skip=${skip}&limit=${size}`
+        : `/page-index?skip=${skip}&limit=${size}`;
       const data = await apiClient.get(endpoint);
-      setPages(data);
+      setPages(data.data || (Array.isArray(data) ? data : []));
+      setTotalCount(data.total || (Array.isArray(data) ? data.length : 0));
     } catch (error) {
       console.error('Failed to load page index', error);
     } finally {
@@ -34,6 +40,7 @@ export default function PageIndex() {
 
   useEffect(() => {
     loadPages('');
+    apiClient.get('/dashboard/stats').then(setStats).catch(console.error);
   }, []);
 
   const openPage = async (page: any) => {
@@ -47,13 +54,6 @@ export default function PageIndex() {
     }
   };
 
-  const totals = useMemo(() => {
-    const indexed = pages.filter((page) => page.indexing_status === 'indexed').length;
-    const docs = new Set(pages.map((page) => page.document_id)).size;
-    const chunks = pages.reduce((sum, page) => sum + (page.chunk_ids?.length || 0), 0);
-    return { indexed, docs, chunks };
-  }, [pages]);
-
   return (
     <div className="space-y-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -61,7 +61,7 @@ export default function PageIndex() {
           <h1 className="text-3xl font-bold tracking-tight text-foreground">Page Index</h1>
           <p className="text-sm text-muted-foreground mt-1.5">Page-level retrieval, metadata, and GraphRAG citations</p>
         </div>
-        <Button variant="outline" onClick={() => loadPages()} disabled={isLoading}>
+        <Button variant="outline" onClick={() => loadPages(query, page, pageSize)} disabled={isLoading}>
           <RefreshCw className="mr-2 h-4 w-4" />
           Refresh
         </Button>
@@ -74,8 +74,8 @@ export default function PageIndex() {
             <Layers3 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totals.indexed}</div>
-            <p className="text-xs text-sm text-muted-foreground mt-1.5">{totals.docs} source documents</p>
+            <div className="text-2xl font-bold">{stats?.total_indexed_pages ?? '—'}</div>
+            <p className="text-xs text-sm text-muted-foreground mt-1.5">{stats?.total_documents ?? '—'} source documents</p>
           </CardContent>
         </Card>
         <Card>
@@ -84,7 +84,7 @@ export default function PageIndex() {
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totals.chunks}</div>
+            <div className="text-2xl font-bold">{stats?.total_chunks ?? '—'}</div>
             <p className="text-xs text-sm text-muted-foreground mt-1.5">Used only for page ranking</p>
           </CardContent>
         </Card>
@@ -94,7 +94,7 @@ export default function PageIndex() {
             <FileSearch className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{pages.length ? 'Ready' : 'Empty'}</div>
+            <div className="text-2xl font-bold">{stats?.total_indexed_pages ? 'Ready' : 'Empty'}</div>
             <p className="text-xs text-sm text-muted-foreground mt-1.5">Page-first retrieval enabled</p>
           </CardContent>
         </Card>
@@ -110,7 +110,8 @@ export default function PageIndex() {
             className="flex gap-2"
             onSubmit={(event) => {
               event.preventDefault();
-              loadPages();
+              setPage(1);
+              loadPages(query, 1, pageSize);
             }}
           >
             <div className="relative flex-1">
@@ -141,7 +142,7 @@ export default function PageIndex() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {pages.map((page) => (
+              {(pages || []).map((page) => (
                 <TableRow key={page.id}>
                   <TableCell className="max-w-[260px] font-medium">
                     <div className="truncate">{page.document_name}</div>
@@ -174,6 +175,57 @@ export default function PageIndex() {
               ))}
             </TableBody>
           </Table>
+
+          <div className="flex items-center justify-between pt-4">
+            <div className="text-sm text-muted-foreground">
+              Showing {totalCount === 0 ? 0 : (page - 1) * pageSize + 1} to {Math.min(page * pageSize, totalCount)} of {totalCount} results
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">Rows per page</span>
+                <select
+                  className="rounded-md border p-1 text-sm bg-background"
+                  value={pageSize}
+                  onChange={(e) => {
+                    const newSize = Number(e.target.value);
+                    setPageSize(newSize);
+                    setPage(1);
+                    loadPages(query, 1, newSize);
+                  }}
+                >
+                  <option value={25}>25</option>
+                  <option value={50}>50</option>
+                  <option value={100}>100</option>
+                </select>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={page === 1 || isLoading}
+                  onClick={() => {
+                    const newPage = page - 1;
+                    setPage(newPage);
+                    loadPages(query, newPage, pageSize);
+                  }}
+                >
+                  Previous
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={page * pageSize >= totalCount || isLoading}
+                  onClick={() => {
+                    const newPage = page + 1;
+                    setPage(newPage);
+                    loadPages(query, newPage, pageSize);
+                  }}
+                >
+                  Next
+                </Button>
+              </div>
+            </div>
+          </div>
         </CardContent>
       </Card>
 
