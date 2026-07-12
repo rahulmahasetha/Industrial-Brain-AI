@@ -21,14 +21,14 @@ export function EnterpriseDashboard({ data, onSuggestionSelect }: { data: any, o
   const confidence = data.confidence || data.root_cause_analysis?.confidence_score;
   const suggestions = data.follow_up_suggestions || [];
   // Use citations from root or evidence if any exist
-  const citations = data.citations || evidence; 
+  const citations = data.citations || evidence;
 
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full space-y-4 px-8 py-6 sm:px-10 sm:py-8">
       {/* Executive Summary with Confidence Badge inline if desired, or let Summary handle it. We can wrap it nicely */}
       <div className="flex flex-col gap-3">
         <div className="flex justify-end">
-           <ConfidenceBadge score={confidence} />
+          <ConfidenceBadge score={confidence} />
         </div>
         <ExecutiveSummary summary={summary} agent={data.agent || 'Enterprise AI Dashboard'} />
       </div>
@@ -44,7 +44,7 @@ export function EnterpriseDashboard({ data, onSuggestionSelect }: { data: any, o
       </div>
 
       <Evidence evidence={evidence} />
-      
+
       <SourceDocuments documents={citations} />
 
       <FollowUpSuggestions suggestions={suggestions} onSelect={onSuggestionSelect} />
