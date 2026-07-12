@@ -40,3 +40,4 @@ try:
     print(f"Total vectors (chunks): {collection.count()}")
 except Exception as e:
     print(f"ChromaDB Error: {e}")
+
