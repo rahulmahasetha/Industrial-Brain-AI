@@ -77,3 +77,4 @@ def get_asset_advisory(asset_tag: str, db: Session = Depends(get_db)):
     from agents.predictive_maintenance import predictive_maintenance_agent
     result = predictive_maintenance_agent.generate_advisory(asset_tag, db)
     return result
+
