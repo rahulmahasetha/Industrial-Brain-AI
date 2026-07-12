@@ -10,3 +10,8 @@ dist/
 build/
 .vscode/
 .idea/
+backend/uploads/
+backend/chroma_db/
+nginx/
+scratch/
+

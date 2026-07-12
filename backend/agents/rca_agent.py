@@ -33,6 +33,13 @@ class AgentState(TypedDict):
     confidence_score: int
     recommendations: list
     similar_incidents: list
+    # New forensic fields
+    ai_reasoning: str
+    evidence_chain: list
+    supporting_evidence: list
+    contradicting_evidence: list
+    missing_evidence: list
+    final_decision: str
 
 
 class RootCauseAnalysisAgent:
@@ -170,13 +177,18 @@ class RootCauseAnalysisAgent:
         
         causes = []
         
-        if self.has_api_key and anomaly:
+        has_groq = bool(os.environ.get("GROQ_API_KEY"))
+        if (self.has_api_key or has_groq) and anomaly:
             try:
-                from langchain_google_genai import ChatGoogleGenerativeAI
                 from langchain_core.prompts import PromptTemplate
                 from langchain_core.output_parsers import StrOutputParser
                 
-                llm = ChatGoogleGenerativeAI(model=os.environ.get("GOOGLE_MODEL", "gemini-2.5-flash"))
+                if has_groq:
+                    from langchain_groq import ChatGroq
+                    llm = ChatGroq(model="llama-3.1-8b-instant", api_key=os.environ.get("GROQ_API_KEY"))
+                else:
+                    from langchain_google_genai import ChatGoogleGenerativeAI
+                    llm = ChatGoogleGenerativeAI(model=os.environ.get("GOOGLE_MODEL", "gemini-2.5-flash"))
                 
                 # Build context with evidence classification
                 evidence_summary = "\n".join([
@@ -187,7 +199,7 @@ class RootCauseAnalysisAgent:
                 prompt = PromptTemplate.from_template(
                     """You are an industrial Root Cause Analysis expert for a beverage manufacturing plant (Bharat Industrial Works / FreshFlow Beverages).
 
-Given the following anomaly report and retrieved evidence from plant documents, perform a structured root cause analysis.
+Given the following anomaly report and retrieved evidence from plant documents, perform a structured forensic root cause analysis.
 
 ANOMALY: {anomaly}
 ASSET: {asset_tag}
@@ -203,32 +215,42 @@ CLASSIFIED EVIDENCE:
 {evidence_summary}
 
 Your task:
-1. Identify the most likely root cause (primary)
-2. Identify 2-3 contributing causes (secondary)
-3. For each cause, cite the specific document/source that supports it
-4. Assign a confidence score (0-100) based on how well the evidence supports the conclusion
+1. Identify the most likely root causes (primary and secondary).
+2. For EVERY root cause, provide:
+   - name: The specific cause description.
+   - confidence: A score from 0-100.
+   - ai_reasoning: Step-by-step explanation of why this cause was selected.
+   - evidence_chain: A traceable chain (e.g., Symptom -> Historical Match -> Sensor Trend -> Predicted Root Cause). Each step must include a description, document citation, page/section if available, and confidence.
+   - supporting_evidence: Specific snippets from documents supporting this cause.
+3. Identify contradicting evidence across the dataset.
+4. Identify missing evidence that would improve confidence.
+5. Provide a final decision summary.
 
 IMPORTANT: The root cause must directly explain the symptom described in the anomaly. "Preventive maintenance schedule" is NEVER a root cause — it is a maintenance type. A root cause must be a physical or process failure mechanism (e.g. "worn O-ring causing pressure loss", "clogged inlet filter reducing flow", "miscalibrated pressure sensor giving false alert").
-
-If the evidence does not clearly support a root cause, say confidence is LOW and explain what additional data is needed.
+You must NEVER invent evidence. Every statement must be backed by retrieved documents or history.
 
 Respond in this exact JSON format:
 {{
-  "primary_cause": {{
-    "description": "...",
-    "mechanism": "...",
-    "evidence_source": "document_id or incident_id",
-    "confidence": 85
-  }},
-  "contributing_causes": [
-    {{
-      "description": "...",
-      "evidence_source": "...",
-      "confidence": 70
-    }}
+  "causes": [
+     {{
+        "name": "...",
+        "confidence": 85,
+        "ai_reasoning": "...",
+        "evidence_chain": [
+           {{"step": "Symptom", "description": "...", "document": "...", "page": "...", "section": "...", "confidence": 100}}
+        ],
+        "supporting_evidence": [
+           {{"document": "...", "page": "...", "section": "...", "snippet": "...", "confidence": 95}}
+        ]
+     }}
   ],
-  "overall_confidence": 80,
-  "reasoning": "Step-by-step explanation of how you reached this conclusion"
+  "contradicting_evidence": [
+     {{"document": "...", "reason": "Why it disagrees"}}
+  ],
+  "missing_evidence": [
+     "Information that would increase confidence"
+  ],
+  "final_decision": "Summary explaining exactly why the AI selected this root cause..."
 }}
 
 Only output valid JSON. No preamble or markdown."""
@@ -244,29 +266,47 @@ Only output valid JSON. No preamble or markdown."""
                 })
                 
                 # Parse the new JSON format
-                match = re.search(r'\{.*\}', result, re.DOTALL)
-                if match:
-                    parsed_result = json.loads(match.group())
+                # Find the first { and last } to extract JSON robustly
+                start_idx = result.find('{')
+                end_idx = result.rfind('}')
+                if start_idx != -1 and end_idx != -1 and end_idx > start_idx:
+                    json_str = result[start_idx:end_idx+1]
+                    try:
+                        # strict=False allows unescaped newlines in strings
+                        parsed_result = json.loads(json_str, strict=False)
+                    except json.JSONDecodeError as e:
+                        print(f"JSONDecodeError: {e}. Trying ast.literal_eval...")
+                        try:
+                            import ast
+                            # Clean up some common LLM JSON issues before ast
+                            clean_str = json_str.replace('true', 'True').replace('false', 'False').replace('null', 'None')
+                            parsed_result = ast.literal_eval(clean_str)
+                        except Exception as e2:
+                            print(f"ast.literal_eval also failed: {e2}")
+                            print(f"Raw LLM output was:\n{result}")
+                            parsed_result = {}
                     
                     # Convert to expected format for downstream nodes
-                    primary = parsed_result.get("primary_cause", {})
-                    if primary:
+                    parsed_causes = parsed_result.get("causes", [])
+                    for cause in parsed_causes:
                         causes.append({
-                            "description": primary.get("description", ""),
-                            "probability": primary.get("confidence", 85),
-                            "mechanism": primary.get("mechanism", ""),
-                            "evidence_type": primary.get("evidence_source", "")
+                            "description": cause.get("name", "Unknown Cause"),
+                            "probability": cause.get("confidence", 50),
+                            "mechanism": cause.get("ai_reasoning", ""),
+                            "evidence_type": "Retrieved Documentation",
+                            "evidence_chain": cause.get("evidence_chain", []),
+                            "supporting_evidence": cause.get("supporting_evidence", [])
                         })
-                        
-                    for cc in parsed_result.get("contributing_causes", []):
-                        causes.append({
-                            "description": cc.get("description", ""),
-                            "probability": cc.get("confidence", 50),
-                            "evidence_type": cc.get("evidence_source", "")
-                        })
-                        
-                    # We can store reasoning and overall confidence in state if needed, 
-                    # but for now we'll just extract the causes for the downstream filters
+                    
+                    return {
+                        "causes": causes if causes else [{"description": "Unable to determine specific root cause", "probability": 50}],
+                        "ai_reasoning": parsed_causes[0].get("ai_reasoning", "") if parsed_causes else "",
+                        "evidence_chain": parsed_causes[0].get("evidence_chain", []) if parsed_causes else [],
+                        "supporting_evidence": parsed_causes[0].get("supporting_evidence", []) if parsed_causes else [],
+                        "contradicting_evidence": parsed_result.get("contradicting_evidence", []),
+                        "missing_evidence": parsed_result.get("missing_evidence", []),
+                        "final_decision": parsed_result.get("final_decision", "")
+                    }
             except Exception as e:
                 print(f"LLM analyze_causes error: {e}")
         
@@ -292,7 +332,15 @@ Only output valid JSON. No preamble or markdown."""
         # Remove any preventive maintenance entries (keep only valid physical/process root causes)
         causes = [c for c in causes if RootCauseFilter.is_valid_root_cause(c.get("description", ""), EvidenceType.FAILURE_EVENT)]
         
-        return {"causes": causes if causes else [{"description": "Unable to determine specific root cause", "probability": 50}]}
+        return {
+            "causes": causes if causes else [{"description": "Unable to determine specific root cause", "probability": 50}],
+            "ai_reasoning": "",
+            "evidence_chain": [],
+            "supporting_evidence": [],
+            "contradicting_evidence": [],
+            "missing_evidence": [],
+            "final_decision": ""
+        }
     
     def filter_root_causes(self, state: AgentState):
         """
@@ -389,13 +437,18 @@ Only output valid JSON. No preamble or markdown."""
                 "estimated_downtime": "Unknown"
             }}
         
-        if self.has_api_key and anomaly:
+        has_groq = bool(os.environ.get("GROQ_API_KEY"))
+        if (self.has_api_key or has_groq) and anomaly:
             try:
-                from langchain_google_genai import ChatGoogleGenerativeAI
                 from langchain_core.prompts import PromptTemplate
                 from langchain_core.output_parsers import StrOutputParser
                 
-                llm = ChatGoogleGenerativeAI(model=os.environ.get("GOOGLE_MODEL", "gemini-2.5-flash"))
+                if has_groq:
+                    from langchain_groq import ChatGroq
+                    llm = ChatGroq(model="llama-3.1-8b-instant", api_key=os.environ.get("GROQ_API_KEY"))
+                else:
+                    from langchain_google_genai import ChatGoogleGenerativeAI
+                    llm = ChatGoogleGenerativeAI(model=os.environ.get("GOOGLE_MODEL", "gemini-2.5-flash"))
                 prompt = PromptTemplate.from_template(
                     """You are a senior maintenance engineer at an industrial beverage plant.
 
@@ -438,9 +491,15 @@ Base recommendations on the evidence. If a similar incident occurred before, ref
                     "similar_incidents": json.dumps(similar_incidents[:2], indent=2)
                 })
                 
-                match = re.search(r'\{.*\}', result, re.DOTALL)
-                if match:
-                    recommendations = json.loads(match.group())
+                start_idx = result.find('{')
+                end_idx = result.rfind('}')
+                if start_idx != -1 and end_idx != -1 and end_idx > start_idx:
+                    json_str = result[start_idx:end_idx+1]
+                    try:
+                        recommendations = json.loads(json_str, strict=False)
+                    except json.JSONDecodeError:
+                        import ast
+                        recommendations = ast.literal_eval(json_str)
             except Exception as e:
                 print(f"LLM generate_recommendations error: {e}")
         
@@ -534,7 +593,15 @@ Base recommendations on the evidence. If a similar incident occurred before, ref
             "sources_cited": [
                 doc.metadata.get("title", "Unknown")
                 for doc in retrieved_documents
-            ] if retrieved_documents else []
+            ] if retrieved_documents else [],
+            # New forensic fields
+            "causes": filtered_causes,
+            "ai_reasoning": state.get("ai_reasoning", ""),
+            "evidence_chain": state.get("evidence_chain", []),
+            "supporting_evidence": state.get("supporting_evidence", []),
+            "contradicting_evidence": state.get("contradicting_evidence", []),
+            "missing_evidence": state.get("missing_evidence", []),
+            "final_decision": state.get("final_decision", "")
         }
         
         return response
@@ -566,10 +633,21 @@ Base recommendations on the evidence. If a similar incident occurred before, ref
             "filtered_causes": [],
             "confidence_score": 50,
             "recommendations": [],
-            "similar_incidents": []
+            "similar_incidents": [],
+            "ai_reasoning": "",
+            "evidence_chain": [],
+            "supporting_evidence": [],
+            "contradicting_evidence": [],
+            "missing_evidence": [],
+            "final_decision": ""
         }
         
         result = self.graph.invoke(initial_state)
+        
+        # Clean up non-serializable objects before returning
+        if "retrieved_documents" in result:
+            del result["retrieved_documents"]
+            
         return result
 
 
