@@ -40,3 +40,4 @@ app.include_router(search.router)
 @app.get("/api/health")
 def health_check():
     return {"status": "healthy", "service": "FreshFlow Beverages Knowledge Intelligence"}
+
