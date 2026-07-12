@@ -46,3 +46,4 @@ content = content.replace(old_rules_2, new_rules_2)
 
 with open('services/rag_service.py', 'w') as f:
     f.write(content)
+
