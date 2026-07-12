@@ -439,3 +439,4 @@ Base the risk assessment on the actual numbers provided. Only output valid JSON.
 
 # Singleton instance
 predictive_maintenance_assistant = PredictiveMaintenanceAssistant()
+
