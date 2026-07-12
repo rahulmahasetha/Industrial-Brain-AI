@@ -14,6 +14,8 @@ class Document(Base):
     equipment_tags = Column(String, default="")      # comma-separated tags like FM101,AC101
     page_count = Column(Integer, default=0)
     uploaded_by = Column(String, default="System")
+    file_key = Column(String, default="")
+    storage_provider = Column(String, default="local")
     metadata_json = Column(Text, default="{}")
     created_at = Column(DateTime, default=datetime.utcnow)
 
@@ -68,6 +70,7 @@ class ComplianceRecord(Base):
     due_date = Column(String, default="")
     last_audit = Column(String, default="")
     notes = Column(Text, default="")
+    evidence_data = Column(Text, default="{}")
     created_at = Column(DateTime, default=datetime.utcnow)
 
 
@@ -110,9 +113,9 @@ class KnowledgeNode(Base):
     __tablename__ = "knowledge_nodes"
 
     id = Column(Integer, primary_key=True, index=True)
-    node_id = Column(String, unique=True)
+    node_id = Column(String, unique=True, index=True)
     label = Column(String)
-    node_type = Column(String)   # asset, document, person, incident, procedure
+    node_type = Column(String, index=True)   # asset, document, person, incident, procedure
     extra_data = Column(Text, default="{}")
     created_at = Column(DateTime, default=datetime.utcnow)
 
@@ -121,9 +124,9 @@ class KnowledgeEdge(Base):
     __tablename__ = "knowledge_edges"
 
     id = Column(Integer, primary_key=True, index=True)
-    source_id = Column(String)
-    target_id = Column(String)
-    relationship = Column(String)   # documented_in, maintained_by, caused_by, references
+    source_id = Column(String, index=True)
+    target_id = Column(String, index=True)
+    relationship = Column(String, index=True)   # documented_in, maintained_by, caused_by, references
     weight = Column(Float, default=1.0)
     created_at = Column(DateTime, default=datetime.utcnow)
 
@@ -162,4 +165,31 @@ class PageIndex(Base):
     embedding_id = Column(String, default="")
     procedure_type = Column(String, default="GENERAL")  # STARTUP, SHUTDOWN, MAINTENANCE, EMERGENCY, GENERAL
     indexing_status = Column(String, default="pending")
+    log_id = Column(String, index=True, default="")
+    incident_id = Column(String, index=True, default="")
+    inspection_id = Column(String, index=True, default="")
+    sop_id = Column(String, index=True, default="")
+    source_type = Column(String, index=True, default="")  # e.g., 'MAINTENANCE_LOG', 'INCIDENT', 'MANUAL'
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class DocumentChunk(Base):
+    __tablename__ = "document_chunks"
+
+    id = Column(Integer, primary_key=True, index=True)
+    chunk_id = Column(String, index=True)
+    page_index_id = Column(Integer, index=True)
+    document_id = Column(Integer, index=True)
+    text = Column(Text)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+class UserProfile(Base):
+    __tablename__ = "user_profiles"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, default="Enterprise User")
+    email = Column(String, default="user@enterprise.com")
+    role = Column(String, default="Operations Manager")
+    employee_id = Column(String, default="EMP-1001")
+    photo_url = Column(String, default="")
     created_at = Column(DateTime, default=datetime.utcnow)
