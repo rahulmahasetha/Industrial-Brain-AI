@@ -208,3 +208,4 @@ class IndustrialPDF(FPDF):
     def save(self, filepath):
         self.alias_nb_pages()
         self.output(filepath)
+
