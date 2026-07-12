@@ -32,3 +32,4 @@ def get_incidents(db: Session = Depends(get_db)):
 def analyze_root_cause(request: RCARequest):
     result = rca_agent.analyze_anomaly(request.description, request.asset_tag)
     return result
+
