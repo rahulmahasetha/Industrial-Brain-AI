@@ -1,0 +1,51 @@
+
+   FastAPI   Starting production server 🚀
+ 
+             Searching for package file structure from directories with         
+             __init__.py files                                                  
+RAG Engine initialized with Gemini LLM=gemini-2.5-flash EMBED=gemini-embedding-001
+Groq LLM initialized as primary.
+             Importing from /Users/rahulmahaseth/Desktop/Industrial Brain       
+             AI/backend                                                         
+ 
+    module   🐍 main.py
+ 
+      code   Importing the FastAPI app object from the module with the following
+             code:                                                              
+ 
+             from main import app
+ 
+       app   Using import string: main:app
+ 
+      info   Configuration sources:
+              • Module: path CLI argument
+              • App name: auto-discovery
+ 
+    server   Server started at http://0.0.0.0:8000
+    server   Documentation at http://0.0.0.0:8000/docs
+ 
+             Logs:
+ 
+      INFO   Started server process [28422]
+      INFO   Waiting for application startup.
+      INFO   Application startup complete.
+      INFO   Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+      INFO   127.0.0.1:54423 - "POST /api/chat HTTP/1.1" 307
+RAG Engine processing query: give full report Incident Report: Environmental (Spill/Release) Caustic spill Equipment ID: P105 (Target Asset: P105)
+      INFO   127.0.0.1:54430 - "POST /api/chat HTTP/1.1" 307
+[Chat] Cache hit for query: chat:llm_response:explain the predictive maintenance for lb104 labeling machine.
+      INFO   127.0.0.1:54423 - "POST /api/chat/ HTTP/1.1" 200
+      INFO   127.0.0.1:54430 - "POST /api/chat/ HTTP/1.1" 200
+      INFO   127.0.0.1:54458 - "POST /api/chat HTTP/1.1" 307
+RAG Engine processing query: give Immediate Actions Taken for P105 for incident report (Target Asset: P105)
+      INFO   127.0.0.1:54458 - "POST /api/chat/ HTTP/1.1" 200
+      INFO   127.0.0.1:54473 - "POST /api/chat HTTP/1.1" 307
+RAG Engine processing query: give certificate Details Regulatory & Compliance Record ISO 45001 Safety Audit (Target Asset: None)
+      INFO   127.0.0.1:54473 - "POST /api/chat/ HTTP/1.1" 200
+      INFO   127.0.0.1:54499 - "GET /api/chat/history HTTP/1.1" 200
+      INFO   127.0.0.1:54500 - "GET /api/chat/history HTTP/1.1" 200
+      INFO   127.0.0.1:54512 - "POST /api/chat HTTP/1.1" 307
+RAG Engine processing query: give certificate Details Regulatory & Compliance Record ISO 22000 Surveillance Audit (Target Asset: None)
+      INFO   127.0.0.1:54512 - "POST /api/chat/ HTTP/1.1" 200
+      INFO   127.0.0.1:54529 - "GET /api/chat/history HTTP/1.1" 200
+      INFO   127.0.0.1:54530 - "GET /api/chat/history HTTP/1.1" 200
