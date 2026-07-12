@@ -57,3 +57,4 @@ def extract_expert_knowledge(request: ExpertExtractRequest):
     result = expert_agent.extract_knowledge(request.text, request.source_id, request.asset_tag)
     return result
 
+
