@@ -213,3 +213,4 @@ def generate_maintenance_logs():
 if __name__ == "__main__":
     os.makedirs(os.path.join(BASE_DIR, "maintenance_logs"), exist_ok=True)
     generate_maintenance_logs()
+
