@@ -115,7 +115,18 @@ def split_page_into_smart_chunks(text: str, page_index_id: int, max_size: int = 
 
 
 class PageIndexService:
-    def build_page_record(self, db: Session, doc: Document, page_number: int, text: str) -> PageIndex:
+    def build_page_record(
+        self,
+        db: Session,
+        doc: Document,
+        page_number: int,
+        text: str,
+        log_id: str = "",
+        incident_id: str = "",
+        inspection_id: str = "",
+        sop_id: str = "",
+        source_type: str = ""
+    ) -> PageIndex:
         headings = extract_headings(text)
         equipment_ids = extract_equipment_ids(text)
         keywords = extract_keywords(text)
@@ -133,11 +144,30 @@ class PageIndexService:
             images=extract_images(text),
             procedure_type=infer_procedure_type(text=text, document_name=doc.title, section_title=headings[0] if headings else ""),
             indexing_status="metadata_extracted",
+            log_id=log_id,
+            incident_id=incident_id,
+            inspection_id=inspection_id,
+            sop_id=sop_id,
+            source_type=source_type,
         )
         db.add(page)
         db.flush()
         page.embedding_id = f"page_{page.id}"
-        page.chunk_ids = ",".join([chunk["id"] for chunk in split_page_into_smart_chunks(text, page.id)])
+        
+        chunks = split_page_into_smart_chunks(text, page.id)
+        page.chunk_ids = ",".join([chunk["id"] for chunk in chunks])
+        
+        # Save chunks dynamically to PostgreSQL
+        from models.domain import DocumentChunk
+        for chunk in chunks:
+            db_chunk = DocumentChunk(
+                chunk_id=chunk["id"],
+                page_index_id=page.id,
+                document_id=doc.id,
+                text=chunk["text"]
+            )
+            db.add(db_chunk)
+            
         page.indexing_status = "indexed"
         return page
 
@@ -150,7 +180,8 @@ class PageIndexService:
         status: Optional[str] = None,
         allowed_doc_types: Optional[List[str]] = None,
         limit: int = 100,
-    ) -> List[PageIndex]:
+        skip: int = 0,
+    ) -> tuple[List[PageIndex], int]:
         q = db.query(PageIndex)
         if allowed_doc_types:
             q = q.join(Document, PageIndex.document_id == Document.id).filter(Document.type.in_(allowed_doc_types))
@@ -172,7 +203,9 @@ class PageIndexService:
                     PageIndex.extracted_text.ilike(like),
                 )
             )
-        return q.order_by(PageIndex.document_name, PageIndex.page_number).limit(limit).all()
+        total = q.count()
+        pages = q.order_by(PageIndex.document_name, PageIndex.page_number).offset(skip).limit(limit).all()
+        return pages, total
 
     def get_page(self, db: Session, page_id: int) -> Optional[PageIndex]:
         return db.query(PageIndex).filter(PageIndex.id == page_id).first()
@@ -185,10 +218,11 @@ class PageIndexService:
         document_id: Optional[int] = None,
         graph_terms: Optional[List[str]] = None,
         allowed_doc_types: Optional[List[str]] = None,
-        limit: int = 8,
+        limit: int = 25,
+        skip: int = 0,
         loose_match: bool = False,
-    ) -> List[PageIndex]:
-        pages = self.list_pages(db, query=None, document_id=document_id, equipment=equipment, allowed_doc_types=allowed_doc_types, limit=500)
+    ) -> tuple[List[PageIndex], int]:
+        pages, _ = self.list_pages(db, query=None, document_id=document_id, equipment=equipment, allowed_doc_types=allowed_doc_types, limit=100000, skip=0)
         
         # Pre-fetch document types for these pages
         doc_ids = list({p.document_id for p in pages if p.document_id})
@@ -223,7 +257,9 @@ class PageIndexService:
                 scored.append((score, page))
 
         scored.sort(key=lambda item: (-item[0], item[1].document_name, item[1].page_number))
-        return [page for _, page in scored[:limit]]
+        total = len(scored)
+        paginated_pages = [page for _, page in scored[skip : skip + limit]]
+        return paginated_pages, total
 
     def page_matches_procedure_type(self, page: PageIndex, procedure_type: str) -> bool:
         if not procedure_type:
@@ -363,9 +399,25 @@ class PageIndexService:
 
             incident_node_id = f"incident_{incident.id}"
             page_node_id = f"page_{page.id}"
-            db.merge(KnowledgeNode(node_id=incident_node_id, label=incident.title, node_type="incident"))
-            db.merge(KnowledgeNode(node_id=page_node_id, label=f"maintenance_logs.csv p.{page.page_number}", node_type="page"))
+            # incident node
+            existing_incident_node = db.query(KnowledgeNode).filter_by(node_id=incident_node_id).first()
+            if existing_incident_node:
+                existing_incident_node.label = incident.title
+            else:
+                db.add(KnowledgeNode(node_id=incident_node_id, label=incident.title, node_type="incident"))
+
+            # page node
+            existing_page_node = db.query(KnowledgeNode).filter_by(node_id=page_node_id).first()
+            if existing_page_node:
+                existing_page_node.label = f"maintenance_logs.csv p.{page.page_number}"
+            else:
+                db.add(KnowledgeNode(node_id=page_node_id, label=f"maintenance_logs.csv p.{page.page_number}", node_type="page"))
+
+            # equipment node
             if incident.asset_tag:
+                existing_eq_node = db.query(KnowledgeNode).filter_by(node_id=f"eq_{incident.asset_tag}").first()
+                if not existing_eq_node:
+                    db.add(KnowledgeNode(node_id=f"eq_{incident.asset_tag}", label=incident.asset_tag, node_type="asset"))
                 db.merge(KnowledgeEdge(source_id=f"eq_{incident.asset_tag}", target_id=incident_node_id, relationship="HAS_INCIDENT"))
                 db.merge(KnowledgeEdge(source_id=incident_node_id, target_id=page_node_id, relationship="DOCUMENTED_ON"))
 
@@ -374,6 +426,8 @@ class PageIndexService:
         return created
 
     def reindex_document(self, db: Session, document_id: int) -> Dict[str, Any]:
+        from models.domain import DocumentChunk
+        db.query(DocumentChunk).filter(DocumentChunk.document_id == document_id).delete()
         deleted = db.query(PageIndex).filter(PageIndex.document_id == document_id).delete()
         created = self.sync_legacy_document_pages(db, document_id=document_id)
         if not created:
@@ -402,6 +456,20 @@ class PageIndexService:
                     })
             except Exception as exc:
                 print(f"[page-index] LlamaParse unavailable for {doc.title}: {exc}")
+                
+        if not pages:
+            try:
+                import PyPDF2
+                reader = PyPDF2.PdfReader(file_path)
+                for p_num, page in enumerate(reader.pages, start=1):
+                    extracted = page.extract_text()
+                    if extracted and extracted.strip():
+                        pages.append({
+                            "page_number": p_num,
+                            "text": extracted,
+                        })
+            except Exception as e:
+                print(f"[page-index] PyPDF2 fallback failed for {doc.title}: {e}")
 
         if not pages:
             pages.append({
@@ -453,7 +521,7 @@ class PageIndexService:
 
     def dataset_root(self) -> str:
         repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-        return os.path.join(repo_root, "IndustrialBrain", "documents")
+        return os.path.join(repo_root, "IndustrialBrain")
 
     def resolve_document_path(self, document_name: str, uploads_only: bool = False) -> str:
         repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
