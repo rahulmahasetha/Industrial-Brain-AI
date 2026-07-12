@@ -7,6 +7,7 @@ REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379/0")
 
 class CacheService:
     def __init__(self):
+        self.in_memory_metrics = []
         try:
             self.client = redis.Redis.from_url(REDIS_URL, decode_responses=True)
             self.enabled = True
@@ -71,5 +72,25 @@ class CacheService:
             return {"hits": hits, "misses": misses}
         except:
             return {"hits": 0, "misses": 0}
+
+    def record_query_metrics(self, metrics: dict):
+        if self.enabled:
+            try:
+                self.client.lpush("observability:query_metrics", json.dumps(metrics))
+                self.client.ltrim("observability:query_metrics", 0, 99)
+                return
+            except:
+                pass
+        self.in_memory_metrics.insert(0, metrics)
+        self.in_memory_metrics = self.in_memory_metrics[:100]
+
+    def get_query_metrics(self):
+        if self.enabled:
+            try:
+                items = self.client.lrange("observability:query_metrics", 0, -1)
+                return [json.loads(item) for item in items]
+            except:
+                pass
+        return self.in_memory_metrics
 
 cache_service = CacheService()
