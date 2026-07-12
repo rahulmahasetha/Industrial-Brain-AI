@@ -13,6 +13,8 @@ from services.page_index_service import (
 from services.cache_service import cache_service
 from dotenv import load_dotenv
 import traceback
+from celery_app import celery_app
+from services.graph_service import graph_engine
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv(os.path.join(BASE_DIR, ".env"))
@@ -34,6 +36,7 @@ except ImportError:
     fitz = None
 
 try:
+    
     import pytesseract
     from PIL import Image
 except ImportError:
@@ -78,9 +81,10 @@ def get_chroma_vectorstore():
     persist_dir = os.path.join(os.path.dirname(__file__), "..", "chroma_db")
     return Chroma(persist_directory=persist_dir, embedding_function=embeddings, collection_name="industrial_docs")
 
-def process_document_pipeline(document_id: int, file_path: str):
+@celery_app.task(name="process_document")
+def process_document_pipeline(document_id: int, incremental: bool = True):
     """
-    Background task to process the uploaded document.
+    Background Celery task to process the uploaded document from Object Storage.
     """
     db = SessionLocal()
     doc = db.query(Document).filter(Document.id == document_id).first()
@@ -91,9 +95,24 @@ def process_document_pipeline(document_id: int, file_path: str):
 
     try:
         print(f"Starting processing for document {doc.title}")
+        from models.domain import DocumentChunk
+        db.query(DocumentChunk).filter(DocumentChunk.document_id == doc.id).delete()
         db.query(PageIndex).filter(PageIndex.document_id == doc.id).delete()
         db.query(DocumentPage).filter(DocumentPage.document_id == doc.id).delete()
         
+        # Download file from Storage
+        from services.storage_service import storage_service
+        import tempfile
+        import uuid
+        
+        temp_dir = tempfile.gettempdir()
+        file_path = os.path.join(temp_dir, f"{uuid.uuid4().hex}_{doc.title}")
+        
+        if not storage_service.download_file(doc.file_key, file_path):
+            print(f"[ingestion] Failed to download {doc.file_key} from storage.")
+            db.close()
+            return
+            
         # 1. Document Parsing (LlamaParse)
         pages = []
         if LlamaParse:
@@ -214,29 +233,7 @@ def process_document_pipeline(document_id: int, file_path: str):
                         )
                     )
 
-            page_node_id = f"page_{page_index.id}"
-            db.merge(KnowledgeNode(
-                node_id=page_node_id,
-                label=f"{doc.title} p.{page_index.page_number}",
-                node_type="page",
-                extra_data=f'{{"document_id": {doc.id}, "page_index_id": {page_index.id}}}',
-            ))
-            existing_page = db.query(KnowledgeEdge).filter_by(source_id=f"doc_{doc.id}", target_id=page_node_id, relationship="has_page").first()
-            if not existing_page:
-                db.add(KnowledgeEdge(
-                    source_id=f"doc_{doc.id}",
-                    target_id=page_node_id,
-                    relationship="has_page",
-                ))
-                
-            for eq_id in equip_ids:
-                existing_mentions = db.query(KnowledgeEdge).filter_by(source_id=page_node_id, target_id=f"eq_{eq_id}", relationship="mentions").first()
-                if not existing_mentions:
-                    db.add(KnowledgeEdge(
-                        source_id=page_node_id,
-                        target_id=f"eq_{eq_id}",
-                        relationship="mentions",
-                    ))
+            # (Knowledge node generation for pages moved to centralized sync)
             
         doc.equipment_tags = ",".join(list(all_equipment))
 
@@ -249,29 +246,16 @@ def process_document_pipeline(document_id: int, file_path: str):
             except Exception as e:
                 print(f"[ingestion] Vector indexing unavailable for {doc.title}: {e}")
         
-        # 4. Knowledge Graph (Neo4j / in-memory NetworkX simulation in DB)
-        # Add document node
-        doc_node_id = f"doc_{doc.id}"
-        db_doc_node = KnowledgeNode(node_id=doc_node_id, label=doc.title, node_type="document")
-        db.merge(db_doc_node)
-        
-        # Link document to equipment
-        for eq_id in all_equipment:
-            # Ensure equipment node exists
-            db_eq_node = KnowledgeNode(node_id=f"eq_{eq_id}", label=eq_id, node_type="asset")
-            db.merge(db_eq_node)
-            
-            existing_ref = db.query(KnowledgeEdge).filter_by(source_id=doc_node_id, target_id=f"eq_{eq_id}", relationship="references").first()
-            if not existing_ref:
-                db_edge = KnowledgeEdge(
-                    source_id=doc_node_id,
-                    target_id=f"eq_{eq_id}",
-                    relationship="references"
-                )
-                db.add(db_edge)
+        # Mark the source complete before projecting it, so graph metadata is never
+        # left showing an already-ingested document as "processing".
+        doc.status = "processed"
+        db.flush()
+
+        # 4. Knowledge Graph Sync (incremental projection of this ingested document)
+        print(f"[ingestion] Starting Knowledge Graph incremental sync...")
+        graph_engine.sync_knowledge_graph(db, document_id=doc.id)
 
         # 6. Finalize Status
-        doc.status = "processed"
         db.commit()
         
         # Invalidate related caches
@@ -279,12 +263,18 @@ def process_document_pipeline(document_id: int, file_path: str):
         cache_service.delete_prefix("kg:")
         cache_service.delete_prefix("chat:llm_response:")
         
-        print(f"Successfully processed document {doc.title}")
+        print(f"[ingestion] Successfully processed document {doc.title} ({doc.page_count} pages).")
+        
+        # Cleanup temp file
+        if os.path.exists(file_path):
+            os.remove(file_path)
 
     except Exception as e:
-        print(f"Error processing document {doc.id}: {e}")
+        db.rollback()
+        print(f"Error processing document {document_id}: {e}")
         traceback.print_exc()
-        doc.status = "failed"
-        db.commit()
+        if doc:
+            doc.status = "failed"
+            db.commit()
     finally:
         db.close()
