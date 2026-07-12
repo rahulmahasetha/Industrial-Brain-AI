@@ -23,6 +23,7 @@ class ChatMessage(BaseModel):
 class ChatRequest(BaseModel):
     message: str
     history: List[ChatMessage] = []
+    retry: Optional[bool] = False
 
 class RoutingInfo(BaseModel):
     intent: Optional[str] = None
@@ -413,6 +414,21 @@ Asset: {asset.get('asset_name')} | Health: {asset.get('current_health')} | Statu
 def get_chat_history(db: Session = Depends(get_db)):
     return db.query(DBMessage).order_by(DBMessage.id).all()
 
+@router.delete("/history")
+def clear_chat_history(db: Session = Depends(get_db)):
+    db.query(DBMessage).delete()
+    db.commit()
+    return {"status": "success"}
+
+@router.delete("/history/{message_id}")
+def delete_chat_message(message_id: int, db: Session = Depends(get_db)):
+    msg = db.query(DBMessage).filter(DBMessage.id == message_id).first()
+    if msg:
+        db.delete(msg)
+        db.commit()
+        return {"status": "success"}
+    raise HTTPException(status_code=404, detail="Message not found")
+
 @router.post("/feedback")
 def submit_feedback(feedback: dict, db: Session = Depends(get_db)):
     from models.domain import Feedback
@@ -433,42 +449,43 @@ def list_feedback(db: Session = Depends(get_db)):
 
 from services.cache_service import cache_service
 
-@router.post("/")
+@router.post("")
 def chat_copilot(request: ChatRequest, db: Session = Depends(get_db)):
     start_time = time.time()
     now_str = datetime.datetime.now().strftime("%I:%M %p")
     
-    # 0. Check Cache
+    # 0. Check Cache (unless retry is requested)
     cache_key = f"chat:llm_response:{request.message.strip().lower()}"
-    cached_entry = cache_service.get(cache_key)
-    if cached_entry:
-        print(f"[Chat] Cache hit for query: {cache_key}")
-        # Update time and save DB message
-        cached_response = cached_entry.copy()
-        cached_response["time"] = now_str
-        cached_response["cached"] = True
-        
-        user_msg = DBMessage(role="user", content=request.message, time=now_str)
-        db.add(user_msg)
-        db.flush()
-        
-        bot_msg = DBMessage(
-            role="assistant",
-            content=cached_response.get("content", ""),
-            time=now_str,
-            sources=",".join(cached_response.get("sources", [])[:12]),
-            confidence=cached_response.get("confidence", 0),
-        )
-        db.add(bot_msg)
-        db.commit()
-        db.refresh(bot_msg)
-        cached_response["message_id"] = bot_msg.id
-        
-        total_time = time.time() - start_time
-        if cached_response.get("debug_info"):
-            cached_response["debug_info"]["total_response_time_ms"] = round(total_time * 1000, 2)
+    if not request.retry:
+        cached_entry = cache_service.get(cache_key)
+        if cached_entry:
+            print(f"[Chat] Cache hit for query: {cache_key}")
+            # Update time and save DB message
+            cached_response = cached_entry.copy()
+            cached_response["time"] = now_str
+            cached_response["cached"] = True
             
-        return cached_response
+            user_msg = DBMessage(role="user", content=request.message, time=now_str)
+            db.add(user_msg)
+            db.flush()
+            
+            bot_msg = DBMessage(
+                role="assistant",
+                content=cached_response.get("content", ""),
+                time=now_str,
+                sources=",".join(cached_response.get("sources", [])[:12]),
+                confidence=cached_response.get("confidence", 0),
+            )
+            db.add(bot_msg)
+            db.commit()
+            db.refresh(bot_msg)
+            cached_response["message_id"] = bot_msg.id
+            
+            total_time = time.time() - start_time
+            if cached_response.get("debug_info"):
+                cached_response["debug_info"]["total_response_time_ms"] = round(total_time * 1000, 2)
+                
+            return cached_response
             
     # Save user message to DB
     user_msg = DBMessage(role="user", content=request.message, time=now_str)
@@ -736,3 +753,47 @@ def chat_copilot(request: ChatRequest, db: Session = Depends(get_db)):
     cache_service.set(cache_key, response_obj, ttl=600)
     
     return response_obj
+
+from fastapi.responses import StreamingResponse
+
+@router.post("/stream")
+def chat_stream(request: ChatRequest, db: Session = Depends(get_db)):
+    start_time = time.time()
+    now_str = datetime.datetime.now().strftime("%I:%M %p")
+    
+    # Save user message
+    user_msg = DBMessage(role="user", content=request.message, time=now_str)
+    db.add(user_msg)
+    db.flush()
+
+    query_route = rag_engine.route_query(request.message)
+    mode = query_route.get("mode", "full_card")
+
+    from agents.orchestrator import orchestrator_agent
+    retrieval_plan = orchestrator_agent.classify_intent(request.message)
+    routed_intent_name = retrieval_plan.get("intent")
+
+    db_context, db_sources, asset_tag, graph_context = query_database_context(request.message, db)
+
+    conversation_history = request.history or [
+        {"role": msg.role, "content": msg.content}
+        for msg in db.query(DBMessage)
+            .order_by(DBMessage.id.desc())
+            .limit(12)
+            .all()[::-1]
+    ]
+
+    generator = rag_engine.query(
+        request.message,
+        context_docs=[db_context] if db_context else None,
+        asset_tag=asset_tag,
+        graph_context=graph_context,
+        db=db,
+        synthesize=True,
+        retrieval_plan=retrieval_plan,
+        history=conversation_history,
+        direct_answer=(mode == "concise"),
+        stream=True
+    )
+
+    return StreamingResponse(generator, media_type="text/event-stream")
