@@ -37,7 +37,8 @@ export default function RootCauseAnalysis() {
     try {
       setLoadingStage("Executing forensic RCA pipeline...");
       
-      const res = await fetch('http://127.0.0.1:8000/api/rca/analyze', {
+      const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://industrial-brain-ai-zad4.onrender.com/api';
+      const res = await fetch(`${API_BASE_URL}/rca/analyze`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ description, asset_tag: assetTag })
@@ -62,7 +63,8 @@ export default function RootCauseAnalysis() {
     setChatResponse("");
     try {
       const prompt = `Context: Root Cause Analysis for ${assetTag}. The user is asking about the following root cause: "${causeDescription}". User question: ${chatInput}`;
-      const res = await fetch('http://127.0.0.1:8000/api/chat', {
+      const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://industrial-brain-ai-zad4.onrender.com/api';
+      const res = await fetch(`${API_BASE_URL}/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: prompt, history: [] })
