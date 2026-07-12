@@ -10,18 +10,24 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 # Global Document Priority Weights (as specified by user)
 DOCUMENT_PRIORITY_WEIGHTS = {
     "Incident Report": 1.00,
+    "RCA Report": 0.95,
     "RCA": 0.95,
+    "Inspection Report": 0.90,
     "Inspection": 0.90,
     "Sensor Data": 0.90,
+    "QA Record": 0.90,
+    "QA": 0.90,
     "Expert Notes": 0.85,
-    "Maintenance Logs": 0.80,
-    "Equipment Manual": 0.70,
-    "SOP": 0.65,
-    "Compliance": 0.60,
-    # Fallback aliases
-    "Manual": 0.70,
+    "Maintenance Log": 0.80,
     "Maintenance": 0.80,
-    "Incident": 1.00,
+    "Equipment Manual": 0.70,
+    "Manual": 0.70,
+    "SOP": 0.65,
+    "Compliance Certificate": 0.60,
+    "Compliance": 0.60,
+    "Audit Report": 0.60,
+    "Checklist": 0.50,
+    "Asset Specification": 0.50,
 }
 
 class RetrievalPlanner:
@@ -30,65 +36,72 @@ class RetrievalPlanner:
     PLAN_CONFIG = {
         "Manual": {
             "agent": "Manual Agent",
-            "retrieve": ["Equipment Manual", "Manual"],
+            "retrieve": ["Equipment Manual", "Manual", "Asset Specification"],
             "fallback_retrieve": ["SOP", "Expert Notes"],
-            "do_not_retrieve": ["Incident Report", "Inspection", "Compliance", "RCA", "Sensor Data", "Maintenance Logs", "Maintenance"],
+            "do_not_retrieve": ["Maintenance Log", "Incident Report", "Inspection Report", "Compliance Certificate", "Audit Report", "QA Record", "RCA Report", "Sensor Data"],
             "response_template": ["Executive Summary", "Source Document", "Prerequisites", "Checklist", "Step-by-Step Procedure", "Safety Warnings", "Related Documents", "Related Questions"]
         },
         "SOP": {
             "agent": "SOP Agent",
-            "retrieve": ["SOP", "Equipment Manual", "Manual"],
+            "retrieve": ["SOP", "Checklist", "Equipment Manual", "Manual"],
             "fallback_retrieve": [],
-            "do_not_retrieve": ["Incident Report", "Inspection", "Compliance", "RCA", "Sensor Data", "Maintenance Logs", "Maintenance", "Expert Notes"],
+            "do_not_retrieve": ["Incident Report", "Inspection Report", "Compliance Certificate", "Audit Report", "RCA Report", "Sensor Data", "Maintenance Log", "QA Record", "Expert Notes"],
             "response_template": ["Executive Summary", "Source Document", "Prerequisites", "Checklist", "Step-by-Step Procedure", "Safety Warnings", "Related Documents", "Related Questions"]
         },
-        "Incident": {
+        "Incident Report": {
             "agent": "Incident Agent",
             "retrieve": ["Incident Report", "Incident"],
-            "fallback_retrieve": ["Maintenance Logs", "Maintenance", "Inspection", "RCA", "Sensor Data"],
-            "do_not_retrieve": ["Equipment Manual", "Manual", "Compliance", "SOP"],
+            "fallback_retrieve": ["Maintenance Log", "Inspection Report", "RCA Report", "Sensor Data", "QA Record"],
+            "do_not_retrieve": ["Equipment Manual", "Manual", "Compliance Certificate", "Audit Report", "SOP", "Checklist", "Asset Specification"],
             "response_template": ["Executive Summary", "Incident Overview", "Incident Details (Table)", "Root Cause", "Corrective Actions", "Preventive Actions", "Current Status", "Related Incidents", "Source Documents", "Related Questions"]
         },
-        "Maintenance": {
+        "Maintenance Log": {
             "agent": "Maintenance Agent",
-            "retrieve": ["Maintenance Logs", "Maintenance", "Completed Work Orders", "Technician Notes"],
-            "fallback_retrieve": ["Incident Report", "Incident", "Inspection", "Expert Notes"],
-            "do_not_retrieve": ["Equipment Manual", "Manual", "SOP", "Compliance"],
+            "retrieve": ["Maintenance Log", "Maintenance", "Completed Work Orders", "Technician Notes"],
+            "fallback_retrieve": ["Incident Report", "Inspection Report", "Expert Notes"],
+            "do_not_retrieve": ["Equipment Manual", "Manual", "SOP", "Compliance Certificate", "Audit Report", "QA Record", "RCA Report", "Checklist", "Asset Specification"],
             "response_template": ["Executive Summary", "Maintenance Timeline", "Recent Activities", "Pending Work", "Recommendations", "Source Documents", "Related Questions"]
         },
-        "Inspection": {
+        "Inspection Report": {
             "agent": "Inspection Agent",
-            "retrieve": ["Inspection Reports", "Inspection"],
-            "fallback_retrieve": ["Maintenance Logs", "Maintenance", "Incident Report", "Incident", "Compliance"],
-            "do_not_retrieve": ["SOP", "Equipment Manual", "Manual"],
+            "retrieve": ["Inspection Report", "Inspection", "Checklist"],
+            "fallback_retrieve": ["Maintenance Log", "Incident Report", "Compliance Certificate", "Audit Report", "QA Record"],
+            "do_not_retrieve": ["SOP", "Equipment Manual", "Manual", "RCA Report", "Asset Specification"],
             "response_template": ["Executive Summary", "Inspection Findings", "Observations", "Risk Level", "Recommendations", "Source Documents", "Related Questions"]
         },
-        "RCA": {
+        "RCA Report": {
             "agent": "RCA Agent",
-            "retrieve": ["RCA Reports", "RCA", "Incident Report", "Incident", "Inspection Reports", "Inspection", "Maintenance Logs", "Maintenance"],
-            "fallback_retrieve": ["Expert Notes", "Sensor Data"],
-            "do_not_retrieve": ["Compliance", "SOP", "Equipment Manual", "Manual"],
+            "retrieve": ["RCA Report", "RCA"],
+            "fallback_retrieve": ["Incident Report", "Inspection Report", "Maintenance Log", "Expert Notes", "Sensor Data", "QA Record"],
+            "do_not_retrieve": ["Compliance Certificate", "Audit Report", "SOP", "Equipment Manual", "Manual", "Checklist", "Asset Specification"],
             "response_template": ["Executive Summary", "Most Probable Root Cause", "Evidence", "Historical Timeline", "Corrective Actions", "Preventive Actions", "Recommendations", "Source Documents", "Related Questions"]
+        },
+        "QA Record": {
+            "agent": "QA Agent",
+            "retrieve": ["QA Record", "QA", "Inspection Report"],
+            "fallback_retrieve": ["Incident Report", "Maintenance Log", "Audit Report", "Compliance Certificate"],
+            "do_not_retrieve": ["Equipment Manual", "Manual", "SOP", "Checklist", "Asset Specification", "RCA Report", "Sensor Data"],
+            "response_template": ["Executive Summary", "Quality Metrics", "Findings", "Deviations", "Recommendations", "Source Documents", "Related Questions"]
         },
         "Predictive": {
             "agent": "Predictive Agent",
-            "retrieve": ["Prediction", "Sensor Data", "Maintenance Logs", "Maintenance", "Expert Notes"],
+            "retrieve": ["Prediction", "Sensor Data", "Maintenance Log", "Expert Notes"],
             "fallback_retrieve": [],
-            "do_not_retrieve": ["SOP", "Equipment Manual", "Manual", "Compliance", "Incident Report", "Incident", "Inspection", "RCA"],
+            "do_not_retrieve": ["SOP", "Equipment Manual", "Manual", "Compliance Certificate", "Audit Report", "Incident Report", "Inspection Report", "QA Record", "RCA Report", "Checklist"],
             "response_template": ["Executive Summary", "Asset Health", "Risk Level", "Failure Probability", "Remaining Useful Life (RUL)", "Supporting Evidence", "Recommendations", "Source Documents", "Related Questions"]
         },
-        "Compliance": {
+        "Compliance Certificate": {
             "agent": "Compliance Agent",
-            "retrieve": ["Compliance Documents", "Compliance", "Audit Reports"],
-            "fallback_retrieve": ["Inspection Reports", "Inspection", "Maintenance Logs", "Maintenance"],
-            "do_not_retrieve": ["Sensor Data", "RCA", "Expert Notes"],
+            "retrieve": ["Compliance Certificate", "Compliance", "Audit Report"],
+            "fallback_retrieve": ["Inspection Report", "Maintenance Log", "QA Record"],
+            "do_not_retrieve": ["Sensor Data", "RCA Report", "Expert Notes", "Incident Report", "Manual", "Equipment Manual"],
             "response_template": ["Executive Summary", "Compliance Status", "Findings", "Gaps", "Required Actions", "Related Standards", "Source Documents", "Related Questions"]
         },
         "Expert Knowledge": {
             "agent": "Expert Knowledge Agent",
             "retrieve": ["Expert Notes"],
-            "fallback_retrieve": ["Maintenance Logs", "Maintenance", "Incident Report", "Incident"],
-            "do_not_retrieve": ["Compliance"],
+            "fallback_retrieve": ["Maintenance Log", "Incident Report"],
+            "do_not_retrieve": ["Compliance Certificate", "Audit Report", "QA Record", "Inspection Report", "RCA Report"],
             "response_template": ["Executive Summary", "Most Probable Root Cause", "Evidence", "Historical Similar Failures", "Corrective Actions", "Preventive Actions", "Source Documents"]
         },
         "Asset Overview": {
@@ -136,26 +149,29 @@ class OrchestratorAgent:
         lower = query.lower()
         intent = "Asset Overview"
         
-        # Rule-based regex/keyword routing
-        if any(w in lower for w in ["incident", "breakdown", "failure report"]):
-            intent = "Incident"
-        elif any(w in lower for w in ["sop", "startup", "shutdown", "procedure"]):
+        # Rule-based regex/keyword routing (strict priorities)
+        if any(w in lower for w in ["qa record", "qa report", "quality record", "quality"]):
+            intent = "QA Record"
+        elif any(w in lower for w in ["rca report", "why", "root cause", "cause", "stopped", "rca"]):
+            intent = "RCA Report"
+        elif any(w in lower for w in ["incident report", "incident", "breakdown", "failure report"]):
+            intent = "Incident Report"
+        elif any(w in lower for w in ["inspection report", "inspection", "inspect", "audit report"]):
+            intent = "Inspection Report"
+        elif any(w in lower for w in ["maintenance log", "maintenance", "service", "history"]):
+            intent = "Maintenance Log"
+        elif any(w in lower for w in ["sop", "startup", "shutdown", "procedure", "checklist"]):
             intent = "SOP"
-        elif any(w in lower for w in ["manual", "guide", "troubleshooting", "troubleshoot"]):
+        elif any(w in lower for w in ["compliance certificate", "compliance", "iso", "fssai"]):
+            intent = "Compliance Certificate"
+        elif any(w in lower for w in ["manual", "guide", "troubleshooting", "troubleshoot", "asset specification"]):
             intent = "Manual"
-        elif any(w in lower for w in ["why", "root cause", "cause", "stopped"]):
-            intent = "RCA"
         elif any(w in lower for w in ["predictive", "predict", "risk", "rul", "health"]):
             intent = "Predictive"
-        elif any(w in lower for w in ["maintenance", "service", "history"]):
-            intent = "Maintenance"
-        elif any(w in lower for w in ["inspection", "inspect", "audit"]):
-            intent = "Inspection"
-        elif any(w in lower for w in ["compliance", "iso", "fssai"]):
-            intent = "Compliance"
         elif any(w in lower for w in ["full details", "overview"]):
             intent = "Asset Overview"
             
         return RetrievalPlanner.get_plan(intent)
 
 orchestrator_agent = OrchestratorAgent()
+
