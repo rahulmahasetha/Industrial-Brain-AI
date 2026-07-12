@@ -21,7 +21,7 @@ class ComplianceAgent:
                 
                 llm = ChatGoogleGenerativeAI(model=os.environ.get("GOOGLE_MODEL", "gemini-2.5-flash"))
                 prompt = PromptTemplate.from_template(
-                    """You are a food safety and industrial compliance auditor. Your job is to check a plant document against regulatory standards.
+                    """You are a multi-agent AI Compliance Copilot. Your job is to check an enterprise plant document against regulatory standards and return a deep forensic analysis.
 
 DOCUMENT CONTENT:
 {document_text}
@@ -35,28 +35,64 @@ Check this document against the following standards:
 - FSSAI Schedule 4 Requirements
 - Factory Act 1948 (Safety provisions)
 
-For each applicable clause, determine if the document is compliant, partially compliant, or non-compliant.
-
 Respond in this exact JSON format:
 {{
-  "compliance_score": 85,
+  "confidence_metrics": {{
+    "evidence_coverage": 88,
+    "retrieval_score": 92,
+    "llm_confidence": 95,
+    "overall_compliance_confidence": 91
+  }},
   "overall_status": "COMPLIANT|PARTIAL|NON_COMPLIANT",
+  "knowledge_graph_links": {{
+    "related_assets": ["FM101", "CV101"],
+    "related_sops": ["SOP-034", "SOP-067"],
+    "related_incidents": ["INC-102"]
+  }},
   "checks": [
     {{
       "standard": "ISO 22000:2018",
       "clause": "Clause 8.5.1",
       "clause_title": "Control of production and service provision",
       "status": "COMPLIANT|PARTIAL|NON_COMPLIANT",
-      "finding": "What the document says or is missing",
-      "risk_level": "HIGH|MEDIUM|LOW",
-      "recommendation": "What needs to be added or changed"
+      "finding": "Detailed description of the finding",
+      "prioritization": "CRITICAL|HIGH|MEDIUM|LOW",
+      "recommendation": "Corrective action recommendation",
+      "decision_reasoning": [
+        "Retrieval Agent fetched SOP-034.",
+        "Compliance Agent detected missing signature field.",
+        "Risk Agent ranked as HIGH due to food safety impact."
+      ],
+      "evidence_chain": [
+        {{
+          "document_id": "SOP-034",
+          "page": 12,
+          "section": "4.2 Sanitation",
+          "snippet": "All sanitation must be signed off.",
+          "confidence": 99,
+          "source_type": "SOP",
+          "source_reliability": "High"
+        }}
+      ],
+      "impact_simulation": {{
+        "downtime_estimate": "4 hours",
+        "production_loss": "$12,000",
+        "audit_failure_probability": "High (85%)",
+        "financial_impact": "High ($50,000+ fines)",
+        "safety_risk": "Moderate"
+      }}
     }}
   ],
-  "critical_gaps": ["List only HIGH risk findings here"],
-  "strengths": ["What the document does well"]
+  "timeline": [
+    {{
+      "date": "2026-06-15",
+      "event": "Initial gap detected by AI Auto Audit",
+      "stage": "Retrieval & Analysis"
+    }}
+  ]
 }}
 
-Only check clauses that are actually relevant to this document type. Only output valid JSON."""
+Only output valid JSON."""
                 )
                 
                 chain = prompt | llm | StrOutputParser()
@@ -73,8 +109,18 @@ Only check clauses that are actually relevant to this document type. Only output
                 
         # Fallback
         return {
-            "compliance_score": 85,
+            "confidence_metrics": {
+                "evidence_coverage": 85,
+                "retrieval_score": 90,
+                "llm_confidence": 92,
+                "overall_compliance_confidence": 89
+            },
             "overall_status": "PARTIAL",
+            "knowledge_graph_links": {
+                "related_assets": ["FM101"],
+                "related_sops": ["SOP-012"],
+                "related_incidents": ["INC-042"]
+            },
             "checks": [
                 {
                     "standard": "ISO 22000:2018",
@@ -82,17 +128,65 @@ Only check clauses that are actually relevant to this document type. Only output
                     "clause_title": "Hazard control",
                     "status": "PARTIAL",
                     "finding": "Daily sanitation checklist missing sign-off for Line 2 filling zone.",
-                    "risk_level": "HIGH",
-                    "recommendation": "Add mandatory sign-off field for Line 2 filling zone."
+                    "prioritization": "HIGH",
+                    "recommendation": "Add mandatory sign-off field for Line 2 filling zone.",
+                    "decision_reasoning": [
+                        "Retrieval Agent fetched SOP-012.",
+                        "Compliance Agent detected missing signature field.",
+                        "Risk Agent ranked as HIGH due to food safety impact."
+                    ],
+                    "evidence_chain": [
+                        {
+                            "document_id": "SOP-012",
+                            "page": 4,
+                            "section": "3.1 Daily Sanitation",
+                            "snippet": "All sanitation checklists must be completed and signed by the supervisor.",
+                            "confidence": 95,
+                            "source_type": "SOP",
+                            "source_reliability": "High"
+                        }
+                    ],
+                    "impact_simulation": {
+                        "downtime_estimate": "2 hours",
+                        "production_loss": "$5,000",
+                        "audit_failure_probability": "High (80%)",
+                        "financial_impact": "Medium ($10,000 fines)",
+                        "safety_risk": "Moderate"
+                    }
                 }
             ],
-            "critical_gaps": [
-                "Daily sanitation checklist missing sign-off for Line 2 filling zone."
-            ],
-            "strengths": [
-                "General sanitation procedures are well documented."
+            "timeline": [
+                {
+                    "date": "2026-06-15",
+                    "event": "Initial gap detected by AI Auto Audit",
+                    "stage": "Retrieval & Analysis"
+                }
             ]
         }
+
+    def explain_clause(self, standard: str, clause: str) -> str:
+        """Explains a regulatory clause in plain English."""
+        if self.has_api_key:
+            try:
+                from langchain_google_genai import ChatGoogleGenerativeAI
+                llm = ChatGoogleGenerativeAI(model=os.environ.get("GOOGLE_MODEL", "gemini-2.5-flash"))
+                prompt = f"Explain the regulatory requirement '{standard} - {clause}' in simple, plain English for a factory worker. Give a concrete example of compliance and non-compliance."
+                return llm.invoke(prompt).content
+            except Exception as e:
+                print(f"LLM explain_clause error: {e}")
+        return f"This is a mocked plain English explanation of {standard} {clause}. A concrete example would be ensuring records are signed properly. Failing to do so would result in non-compliance."
+
+    def chat_gap(self, gap_details: str, user_query: str) -> str:
+        """Answers contextual questions about a specific compliance gap."""
+        if self.has_api_key:
+            try:
+                from langchain_google_genai import ChatGoogleGenerativeAI
+                llm = ChatGoogleGenerativeAI(model=os.environ.get("GOOGLE_MODEL", "gemini-2.5-flash"))
+                prompt = f"You are an AI Compliance Expert. Based on this compliance gap:\n{gap_details}\n\nAnswer the user's question: {user_query}"
+                return llm.invoke(prompt).content
+            except Exception as e:
+                print(f"LLM chat_gap error: {e}")
+        return f"This is a mocked response to your question '{user_query}' regarding the compliance gap."
 
 compliance_agent = ComplianceAgent()
 
