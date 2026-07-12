@@ -16,6 +16,7 @@ from enum import Enum
 class Intent(Enum):
     """Supported user intents for retrieval planning"""
     ROOT_CAUSE_ANALYSIS = "root_cause_analysis"
+    REASONING_ANALYSIS = "reasoning_analysis"
     PREDICTIVE_MAINTENANCE = "predictive_maintenance"
     MANUAL_LOOKUP = "manual_lookup"
     INCIDENT_LOOKUP = "incident_lookup"
@@ -52,9 +53,16 @@ class IntentDetector:
     
     # RCA keywords
     RCA_KEYWORDS = {
-        "root cause", "why", "failure", "breakdown", "stopped",
+        "root cause", "breakdown", "stopped",
         "crashed", "malfunction", "failure reason", "cause of",
         "incident", "what went wrong", "error", "fault"
+    }
+
+    # Reasoning / Analysis keywords
+    REASONING_KEYWORDS = {
+        "why", "how", "what if", "what happens if", "impact",
+        "failure analysis", "analyze", "explain", "correlate",
+        "compare", "difference"
     }
     
     # Predictive Maintenance keywords
@@ -95,6 +103,9 @@ class IntentDetector:
         query_lower = query.lower()
         
         # Check for each intent type
+        if any(kw in query_lower for kw in IntentDetector.REASONING_KEYWORDS):
+            return Intent.REASONING_ANALYSIS
+            
         if any(kw in query_lower for kw in IntentDetector.RCA_KEYWORDS):
             return Intent.ROOT_CAUSE_ANALYSIS
         
@@ -126,6 +137,12 @@ class IntentBasedRetrievalPlanner:
             "supporting": ["Maintenance Log", "Expert Notes", "Inspection Report"],
             "reference": ["Equipment Manual", "SOP"],
             "exclude": ["Preventive Maintenance", "Annual Overhaul", "Scheduled Calibration"],
+        },
+        Intent.REASONING_ANALYSIS: {
+            "primary": ["Incident Report", "RCA Report", "Equipment Manual", "SOP"],
+            "supporting": ["Maintenance Log", "Expert Notes", "Inspection Report", "QA Report", "Compliance Record"],
+            "reference": [],
+            "exclude": [],
         },
         Intent.PREDICTIVE_MAINTENANCE: {
             "primary": ["Sensor Data", "Health Score", "ML Predictions"],
@@ -179,11 +196,14 @@ class IntentBasedRetrievalPlanner:
                 fallback_llm = None
                 
                 if has_groq_key:
-                    from langchain_groq import ChatGroq
-                    primary_llm = ChatGroq(
-                        api_key=os.environ.get("GROQ_API_KEY"),
-                        model="llama-3.3-70b-versatile"
-                    )
+                    try:
+                        from langchain_groq import ChatGroq
+                        primary_llm = ChatGroq(
+                            api_key=os.environ.get("GROQ_API_KEY"),
+                            model="llama-3.3-70b-versatile"
+                        )
+                    except Exception as e:
+                        print(f"Failed to init Groq planner: {e}")
                     
                 if has_api_key:
                     from langchain_google_genai import ChatGoogleGenerativeAI
@@ -213,25 +233,29 @@ Available document collections:
 - manuals: Equipment manuals, technical specifications
 - compliance: Audit reports, regulatory certificates, inspection records
 - rca: Root cause analysis reports from past failures
-- sensor_data: Timestamped sensor readings (temperature, pressure, vibration)
-- shift_logs: Operator shift handover notes, daily logs
-- quality_reports: QA inspection results, batch test records
 - expert_notes: Informal expert knowledge, tribal knowledge notes
-- training_manuals: Training materials, competency records
+
+Retrieval Strategies:
+- EXACT_METADATA: Use when the query contains exact IDs (e.g., ML-1234, INC-007, SOP-01).
+- STRUCTURED_SQL: Use when the query asks for filters (e.g., by date, severity, technician name, status).
+- KNOWLEDGE_GRAPH: Use when the query explores relationships for an asset.
+- VECTOR_SEARCH: Use for natural language questions needing semantic search.
 
 Respond in this exact JSON format:
 {{
-  "intent": "MAINTENANCE|SAFETY|COMPLIANCE|TROUBLESHOOTING|TRAINING|GENERAL",
+  "intent": "Manual|SOP|Incident|Inspection|Maintenance|Compliance|Asset|General",
+  "retrieval_strategy": "EXACT_METADATA|STRUCTURED_SQL|KNOWLEDGE_GRAPH|VECTOR_SEARCH",
   "primary_collections": ["top 2 collections to search first"],
   "secondary_collections": ["1-2 fallback collections"],
   "search_queries": [
-    "reformulated query 1 optimized for vector search",
+    "reformulated query 1 optimized for search",
     "reformulated query 2 with different keywords"
   ],
+  "exact_ids_extracted": ["list of exact IDs if present like ML-1234", "INC-001"],
+  "structured_filters": {{"severity": "High", "status": "Closed", "technician": "name", "date_range": "2023"}},
   "asset_filter": "asset tag to filter by, or null",
-  "time_filter": "recent|all — use recent if query implies current situation",
-  "requires_sensor_data": true,
-  "reasoning": "Why you chose these collections and queries"
+  "time_filter": "recent|all",
+  "reasoning": "Why you chose these collections and strategy"
 }}
 
 Only output valid JSON."""
