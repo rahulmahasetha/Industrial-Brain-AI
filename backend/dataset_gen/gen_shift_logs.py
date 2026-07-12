@@ -67,3 +67,4 @@ def generate_shift_logs():
 
 if __name__ == "__main__":
     generate_shift_logs()
+
