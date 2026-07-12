@@ -45,20 +45,22 @@ def list_indexed_pages(
     document_id: Optional[int] = None,
     equipment: Optional[str] = None,
     status: Optional[str] = None,
-    limit: int = 100,
+    skip: int = 0,
+    limit: int = 25,
     db: Session = Depends(get_db),
 ):
     page_index_service.sync_legacy_document_pages(db)
     page_index_service.sync_structured_record_pages(db)
-    pages = page_index_service.list_pages(
+    pages, total = page_index_service.list_pages(
         db,
         query=q,
         document_id=document_id,
         equipment=equipment,
         status=status,
+        skip=skip,
         limit=min(limit, 500),
     )
-    return [serialize_page(page) for page in pages]
+    return {"total": total, "data": [serialize_page(page) for page in pages]}
 
 
 @router.get("/search")
@@ -66,19 +68,21 @@ def search_indexed_pages(
     q: str,
     equipment: Optional[str] = None,
     document_id: Optional[int] = None,
+    skip: int = 0,
     limit: int = 25,
     db: Session = Depends(get_db),
 ):
     page_index_service.sync_legacy_document_pages(db)
     page_index_service.sync_structured_record_pages(db)
-    pages = page_index_service.search_pages(
+    pages, total = page_index_service.search_pages(
         db,
         query=q,
         equipment=equipment,
         document_id=document_id,
-        limit=min(limit, 100),
+        skip=skip,
+        limit=min(limit, 500),
     )
-    return [serialize_page(page) for page in pages]
+    return {"total": total, "data": [serialize_page(page) for page in pages]}
 
 
 @router.get("/files/{source}/{file_path:path}")
@@ -120,12 +124,20 @@ def reindex_document(document_id: int, background_tasks: BackgroundTasks, db: Se
     if not doc:
         raise HTTPException(status_code=404, detail="Document not found")
 
+    if doc.file_key:
+        doc.status = "processing"
+        db.commit()
+        # Trigger Celery Task, incremental=False to force re-index
+        process_document_pipeline.delay(doc.id, incremental=False)
+        return {"document_id": doc.id, "status": "processing", "message": "Full page re-index started via Celery."}
+    
+    # Fallback to older mechanism if no file_key (e.g. legacy local files not uploaded via storage_service)
     upload_path = os.path.abspath(os.path.join("uploads", doc.title))
     if os.path.exists(upload_path):
         doc.status = "processing"
         db.commit()
-        background_tasks.add_task(process_document_pipeline, doc.id, upload_path)
-        return {"document_id": doc.id, "status": "processing", "message": "Full page re-index started."}
+        process_document_pipeline.delay(doc.id, incremental=False)
+        return {"document_id": doc.id, "status": "processing", "message": "Full page re-index started via Celery."}
 
     result = page_index_service.reindex_document(db, document_id)
     return {**result, "status": "indexed"}
