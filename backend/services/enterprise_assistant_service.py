@@ -582,19 +582,39 @@ class EnterpriseAssistantService:
             "page_number": procedure_page.page_number if procedure_page else "N/A",
             "section": procedure_page.section_title if procedure_page else "N/A",
             "page_index_id": procedure_page.id if procedure_page else None,
-            "quick_actions": [
-                {"label": "Open Manual", "icon": "FileText", "route": "/documents"},
-                {"label": "Maintenance History", "icon": "Wrench", "route": "/assets"},
-                {"label": "View Incidents", "icon": "AlertTriangle", "route": "/rca"},
-                {"label": "Predictive Health", "icon": "Activity", "route": "/assets"},
-                {"label": "Asset Graph", "icon": "Network", "route": "/knowledge-graph"},
-            ],
+            "quick_actions": self._generate_quick_actions(intent, asset_name, procedure_name),
             "optional_context": {
                 "historical_incidents": related_incidents,
                 "expert_tips": expert_tips or ["No asset-specific expert tip found; follow site SOP and OEM manual."],
                 "predictive_alerts": predictive_alerts,
             },
         }
+
+    def _generate_quick_actions(self, intent: str, asset_name: str, procedure_name: str) -> List[str]:
+        if intent in {"startup_procedure", "shutdown_procedure", "sop"}:
+            return [
+                f"Are there any active alerts or recent incidents for {asset_name}?",
+                f"Show the maintenance history for {asset_name}.",
+                f"What are the compliance and safety requirements for {asset_name}?"
+            ]
+        elif intent in {"root_cause_analysis", "incident_search"}:
+            return [
+                f"What is the predictive failure probability for {asset_name}?",
+                f"Show me the asset knowledge graph for {asset_name}.",
+                f"Are there expert recommendations to prevent this on {asset_name}?"
+            ]
+        elif intent in {"predictive_maintenance", "maintenance", "inspection"}:
+            return [
+                f"Show recent incident reports for {asset_name}.",
+                f"What is the standard operating procedure for {asset_name}?",
+                f"Show expert insights and best practices for {asset_name}."
+            ]
+        else:
+            return [
+                f"What is the current health status of {asset_name}?",
+                f"Show recent incidents for {asset_name}.",
+                f"Show predictive maintenance risk for {asset_name}."
+            ]
 
     def _select_procedure_page(
         self,

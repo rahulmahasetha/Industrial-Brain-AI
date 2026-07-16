@@ -18,6 +18,7 @@ import {
   Route,
   RefreshCcw,
   Send,
+  MessageSquare,
   ShieldCheck,
   Sparkles,
   Download,
@@ -153,14 +154,7 @@ function ApplicableEquipmentBadges({ equipment }: { equipment: string[] }) {
   );
 }
 
-// ── SOP Quick Actions ─────────────────────────────────────────────────────────
-const SOP_QUICK_ACTIONS = [
-  { label: 'Open Manual', icon: FileText, to: '/documents' },
-  { label: 'Maintenance History', icon: Wrench, to: '/assets' },
-  { label: 'View Incidents', icon: AlertTriangle, to: '/rca' },
-  { label: 'Predictive Health', icon: Activity, to: '/assets' },
-  { label: 'Asset Graph', icon: Network, to: '/knowledge-graph' },
-] as const;
+
 
 // ── SOP Card ──────────────────────────────────────────────────────────────────
 function SOPCard({
@@ -170,6 +164,7 @@ function SOPCard({
   evidence,
   onOpenCitation,
   isOpeningCitation,
+  onQuickAction,
 }: {
   messageId?: number;
   procedure: any;
@@ -177,6 +172,7 @@ function SOPCard({
   evidence: any[];
   onOpenCitation: (item: any, index: number) => void;
   isOpeningCitation: number | null;
+  onQuickAction?: (action: string) => void;
 }) {
   const confidence: number = procedure.confidence ?? 0;
   const contentStatus: string = procedure.content_status ?? 'complete';
@@ -368,19 +364,19 @@ function SOPCard({
       </div>
 
       {/* ── Quick Actions ── */}
-      <div className="rounded-md border bg-card/80 p-4">
-        <div className="mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">Quick Actions</div>
-        <div className="flex flex-wrap gap-2">
-          {SOP_QUICK_ACTIONS.map(({ label, icon: Icon, to }) => (
-            <Link key={label} to={to}>
-              <Button variant="outline" size="sm" className="gap-2">
-                <Icon className="h-3.5 w-3.5" />
-                {label}
+      {(procedure.quick_actions?.length > 0) && (
+        <div className="rounded-md border bg-card/80 p-4">
+          <div className="mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">Related Questions</div>
+          <div className="flex flex-wrap gap-2">
+            {procedure.quick_actions.map((question: string, idx: number) => (
+              <Button key={idx} variant="outline" size="sm" className="gap-2" onClick={() => onQuickAction && onQuickAction(question)}>
+                <MessageSquare className="h-3.5 w-3.5" />
+                {question}
               </Button>
-            </Link>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      )}
       {messageId && (
         <div className="rounded-md border border-border bg-muted/80 p-3 text-sm">
           <div className="mb-2 text-xs uppercase tracking-wide text-muted-foreground">Response Feedback</div>
@@ -411,7 +407,7 @@ function SOPCard({
   );
 }
 
-function EnterpriseResponse({ msg }: { msg: any }) {
+function EnterpriseResponse({ msg, onSendMessage }: { msg: any; onSendMessage?: (text: string) => void }) {
   const data = msg.enterprise;
   const [isOpeningCitation, setIsOpeningCitation] = useState<number | null>(null);
 
@@ -489,6 +485,7 @@ function EnterpriseResponse({ msg }: { msg: any }) {
             evidence={evidence}
             onOpenCitation={openCitation}
             isOpeningCitation={isOpeningCitation}
+            onQuickAction={onSendMessage}
           />
           <Accordion type="multiple" className="rounded-md border bg-card px-4">
             <AccordionItem value="timeline">
@@ -1019,7 +1016,7 @@ export default function AICopilot() {
                           <span className="ml-2 text-xs text-muted-foreground">Regenerating response…</span>
                         </div>
                       ) : (
-                        <EnterpriseResponse msg={msg} />
+                        <EnterpriseResponse msg={msg} onSendMessage={sendMessage} />
                       )}
                       
                       {regeneratingIndex !== idx && (
