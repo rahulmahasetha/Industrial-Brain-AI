@@ -39,20 +39,23 @@ class RetrievalPlanner:
             "retrieve": ["Equipment Manual", "Manual", "Asset Specification"],
             "fallback_retrieve": ["SOP", "Expert Notes"],
             "do_not_retrieve": ["Maintenance Log", "Incident Report", "Inspection Report", "Compliance Certificate", "Audit Report", "QA Record", "RCA Report", "Sensor Data"],
-            "response_template": ["Executive Summary", "Source Document", "Prerequisites", "Checklist", "Step-by-Step Procedure", "Safety Warnings", "Related Documents", "Related Questions"]
+            "cross_document": False,
+            "response_template": ["Primary Answer", "Relevant Procedure", "Related SOP", "Document", "Page Number", "Section", "Estimated Duration", "Prerequisites", "Warnings", "Step By Step Instructions"]
         },
         "SOP": {
             "agent": "SOP Agent",
             "retrieve": ["SOP", "Checklist", "Equipment Manual", "Manual"],
             "fallback_retrieve": [],
             "do_not_retrieve": ["Incident Report", "Inspection Report", "Compliance Certificate", "Audit Report", "RCA Report", "Sensor Data", "Maintenance Log", "QA Record", "Expert Notes"],
-            "response_template": ["Executive Summary", "Source Document", "Prerequisites", "Checklist", "Step-by-Step Procedure", "Safety Warnings", "Related Documents", "Related Questions"]
+            "cross_document": False,
+            "response_template": ["Primary Answer", "Relevant Procedure", "Related SOP", "Document", "Page Number", "Section", "Estimated Duration", "Prerequisites", "Warnings", "Step By Step Instructions"]
         },
         "Incident Report": {
             "agent": "Incident Agent",
             "retrieve": ["Incident Report", "Incident"],
             "fallback_retrieve": ["Maintenance Log", "Inspection Report", "RCA Report", "Sensor Data", "QA Record"],
             "do_not_retrieve": ["Equipment Manual", "Manual", "Compliance Certificate", "Audit Report", "SOP", "Checklist", "Asset Specification"],
+            "cross_document": False,
             "response_template": ["Executive Summary", "Incident Overview", "Incident Details (Table)", "Root Cause", "Corrective Actions", "Preventive Actions", "Current Status", "Related Incidents", "Source Documents", "Related Questions"]
         },
         "Maintenance Log": {
@@ -60,6 +63,7 @@ class RetrievalPlanner:
             "retrieve": ["Maintenance Log", "Maintenance", "Completed Work Orders", "Technician Notes"],
             "fallback_retrieve": ["Incident Report", "Inspection Report", "Expert Notes"],
             "do_not_retrieve": ["Equipment Manual", "Manual", "SOP", "Compliance Certificate", "Audit Report", "QA Record", "RCA Report", "Checklist", "Asset Specification"],
+            "cross_document": False,
             "response_template": ["Executive Summary", "Maintenance Timeline", "Recent Activities", "Pending Work", "Recommendations", "Source Documents", "Related Questions"]
         },
         "Inspection Report": {
@@ -67,6 +71,7 @@ class RetrievalPlanner:
             "retrieve": ["Inspection Report", "Inspection", "Checklist"],
             "fallback_retrieve": ["Maintenance Log", "Incident Report", "Compliance Certificate", "Audit Report", "QA Record"],
             "do_not_retrieve": ["SOP", "Equipment Manual", "Manual", "RCA Report", "Asset Specification"],
+            "cross_document": False,
             "response_template": ["Executive Summary", "Inspection Findings", "Observations", "Risk Level", "Recommendations", "Source Documents", "Related Questions"]
         },
         "RCA Report": {
@@ -74,13 +79,15 @@ class RetrievalPlanner:
             "retrieve": ["RCA Report", "RCA"],
             "fallback_retrieve": ["Incident Report", "Inspection Report", "Maintenance Log", "Expert Notes", "Sensor Data", "QA Record"],
             "do_not_retrieve": ["Compliance Certificate", "Audit Report", "SOP", "Equipment Manual", "Manual", "Checklist", "Asset Specification"],
+            "cross_document": False,
             "response_template": ["Executive Summary", "Most Probable Root Cause", "Evidence", "Historical Timeline", "Corrective Actions", "Preventive Actions", "Recommendations", "Source Documents", "Related Questions"]
         },
         "QA Record": {
             "agent": "QA Agent",
-            "retrieve": ["QA Record", "QA", "Inspection Report"],
-            "fallback_retrieve": ["Incident Report", "Maintenance Log", "Audit Report", "Compliance Certificate"],
-            "do_not_retrieve": ["Equipment Manual", "Manual", "SOP", "Checklist", "Asset Specification", "RCA Report", "Sensor Data"],
+            "retrieve": ["QA Record", "QA"],
+            "fallback_retrieve": [],
+            "do_not_retrieve": ["Equipment Manual", "Manual", "SOP", "Checklist", "Asset Specification", "RCA Report", "Sensor Data", "Incident Report", "Inspection Report", "Maintenance Log", "Compliance Certificate", "Audit Report", "Expert Notes"],
+            "cross_document": False,
             "response_template": ["Executive Summary", "Quality Metrics", "Findings", "Deviations", "Recommendations", "Source Documents", "Related Questions"]
         },
         "Predictive": {
@@ -88,13 +95,15 @@ class RetrievalPlanner:
             "retrieve": ["Prediction", "Sensor Data", "Maintenance Log", "Expert Notes"],
             "fallback_retrieve": [],
             "do_not_retrieve": ["SOP", "Equipment Manual", "Manual", "Compliance Certificate", "Audit Report", "Incident Report", "Inspection Report", "QA Record", "RCA Report", "Checklist"],
+            "cross_document": True,
             "response_template": ["Executive Summary", "Asset Health", "Risk Level", "Failure Probability", "Remaining Useful Life (RUL)", "Supporting Evidence", "Recommendations", "Source Documents", "Related Questions"]
         },
         "Compliance Certificate": {
             "agent": "Compliance Agent",
             "retrieve": ["Compliance Certificate", "Compliance", "Audit Report"],
-            "fallback_retrieve": ["Inspection Report", "Maintenance Log", "QA Record"],
-            "do_not_retrieve": ["Sensor Data", "RCA Report", "Expert Notes", "Incident Report", "Manual", "Equipment Manual"],
+            "fallback_retrieve": [],
+            "do_not_retrieve": ["Sensor Data", "RCA Report", "Expert Notes", "Incident Report", "Manual", "Equipment Manual", "SOP", "Checklist", "QA Record", "Maintenance Log", "Inspection Report"],
+            "cross_document": False,
             "response_template": ["Executive Summary", "Compliance Status", "Findings", "Gaps", "Required Actions", "Related Standards", "Source Documents", "Related Questions"]
         },
         "Expert Knowledge": {
@@ -102,6 +111,7 @@ class RetrievalPlanner:
             "retrieve": ["Expert Notes"],
             "fallback_retrieve": ["Maintenance Log", "Incident Report"],
             "do_not_retrieve": ["Compliance Certificate", "Audit Report", "QA Record", "Inspection Report", "RCA Report"],
+            "cross_document": False,
             "response_template": ["Executive Summary", "Most Probable Root Cause", "Evidence", "Historical Similar Failures", "Corrective Actions", "Preventive Actions", "Source Documents"]
         },
         "Asset Overview": {
@@ -109,6 +119,7 @@ class RetrievalPlanner:
             "retrieve": ["Everything"],
             "fallback_retrieve": ["Everything"],
             "do_not_retrieve": [],
+            "cross_document": True,
             "response_template": ["Executive Summary", "Asset Information", "Current Status", "Health", "Active Issues", "Maintenance Summary", "Incident Summary", "Inspection Summary", "Predictive Summary", "Related Documents", "Related Questions"]
         },
     }
@@ -126,6 +137,7 @@ class RetrievalPlanner:
             "allowed_doc_types": config["retrieve"],
             "fallback_doc_types": config.get("fallback_retrieve", []),
             "disallowed_doc_types": config["do_not_retrieve"],
+            "cross_document": config.get("cross_document", False),
             "doc_priority_weights": DOCUMENT_PRIORITY_WEIGHTS,
             "response_template": config["response_template"]
         }

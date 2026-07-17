@@ -514,8 +514,19 @@ def chat_copilot(request: ChatRequest, db: Session = Depends(get_db)):
     intent_time_ms = round((t1_intent - t0_intent) * 1000, 2)
 
     # 3. GraphRAG Database Extraction
+    # Only inject raw Asset/Incident/Maintenance DB rows for cross-document intents.
+    # For single-document intents (QA, Inspection, SOP, Manual, etc.), skip to prevent cross-contamination.
     t0_retrieval = time.time()
-    db_context, db_sources, asset_tag, graph_context = query_database_context(request.message, db)
+    is_cross_document = retrieval_plan.get("cross_document", False)
+    
+    if is_cross_document:
+        db_context, db_sources, asset_tag, graph_context = query_database_context(request.message, db)
+    else:
+        # Still extract asset_tag for metadata filtering, but don't inject DB context
+        asset_tag = extract_equipment_id(request.message)
+        db_context = ""
+        db_sources = []
+        graph_context = None
 
     # 3a. PREDICTIVE INTELLIGENCE LAYER
     # If this is a predictive query, compute a structured risk assessment from live data
@@ -725,7 +736,7 @@ def chat_copilot(request: ChatRequest, db: Session = Depends(get_db)):
         "agent": agent_name,
         "citations": rag_response.get("citations", []),
         "supporting_evidence": rag_response.get("supporting_evidence", []),
-        "data": dynamic_data,
+        "enterprise": dynamic_data,
         "mode": mode,
         "response_type": response_type,
         "grounded": bool(final_sources),

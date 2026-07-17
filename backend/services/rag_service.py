@@ -111,7 +111,10 @@ class RAGEngine:
         if template_fields:
             for field in template_fields:
                 key = field.lower().replace(" ", "_")
-                json_fields.append(f'    "{key}": "...",')  
+                if key in ["prerequisites", "warnings", "step_by_step_instructions"]:
+                    json_fields.append(f'    "{key}": ["...", "..."],')
+                else:
+                    json_fields.append(f'    "{key}": "...",')
         else:
             json_fields.append('    "details": "..."')
             
@@ -175,6 +178,23 @@ class RAGEngine:
                 "- Preserve all technical values, tables, units, warnings, and specifications exactly as written.\n"
             )
         
+        # Determine grounding strictness based on cross_document flag
+        is_cross_document = (retrieval_plan or {}).get("cross_document", False)
+        grounding_rules = (
+            "\nSTRICT EVIDENCE-ONLY GROUNDING RULES:\n"
+            "- Generate your answer ONLY from the retrieved documents provided in the Context below.\n"
+            "- Do NOT invent, fabricate, or hallucinate any observations, findings, recommendations, citations, inspection results, or quality data.\n"
+            "- If the requested information is NOT present in the retrieved documents, respond with: 'No evidence was found in the retrieved document.'\n"
+            "- Every factual statement in your answer MUST be traceable to a specific [Document Name (Page X)] citation from the Context.\n"
+            "- Remove any statement from your answer that cannot be traced to a specific retrieved page.\n"
+            "- Do NOT use your general knowledge or training data to supplement missing information.\n"
+        )
+        if not is_cross_document:
+            grounding_rules += (
+                "- CROSS-DOCUMENT PROTECTION: Do NOT combine findings from different document types (e.g., do not mix QA Reports with Inspection Reports, SOPs, Manuals, Maintenance Logs, or RCA reports).\n"
+                "- If the retrieved context contains pages from an unrelated document type, IGNORE those pages entirely.\n"
+            )
+
         prompt_text = (
             "You are Industrial Brain AI, an expert assistant for FreshFlow Beverages plant operations.\n\n"
             "Answer the operator's question using ONLY the context provided below. If one or more specific sections were requested, restrict your answer strictly to the information within those sections.\n"
@@ -186,7 +206,8 @@ class RAGEngine:
             "3. Format your response dynamically to best answer the user's question.\n"
             "4. Include all relevant timelines, evidence, RCA, and context from the provided documents.\n"
             "5. Always cite your sources using [Document Name (Page X)] format.\n\n"
-            "FORMAT GUIDELINES:\n"
+            + grounding_rules +
+            "\nFORMAT GUIDELINES:\n"
             "- CRITICAL: If there are multiple incidents, details, items, or events, you MUST format the response as a standard Markdown table.\n"
             "- Do not use a rigid template otherwise. Adapt the structure to the specific question.\n"
             "- Only provide recommendations if action is necessary (e.g., for time-sensitive, critical, or specific case-sensitive issues).\n"
@@ -250,6 +271,21 @@ class RAGEngine:
                 "- Preserve all technical values, tables, units, warnings, and specifications exactly as written.\n"
             )
             
+        is_cross_document = (retrieval_plan or {}).get("cross_document", False)
+        grounding_rules = (
+            "\nSTRICT EVIDENCE-ONLY GROUNDING RULES:\n"
+            "- Generate your answer ONLY from the retrieved documents provided in the Context below.\n"
+            "- Do NOT invent, fabricate, or hallucinate any observations, findings, recommendations, citations, inspection results, or quality data.\n"
+            "- If the requested information is NOT present in the retrieved documents, respond with: 'No evidence was found in the retrieved document.'\n"
+            "- Every factual statement MUST include a [Document Name (Page X)] citation.\n"
+            "- Remove any statement that cannot be traced to a specific retrieved page.\n"
+        )
+        if not is_cross_document:
+            grounding_rules += (
+                "- CROSS-DOCUMENT PROTECTION: Do NOT combine findings from different document types.\n"
+                "- If the retrieved context contains pages from an unrelated document type, IGNORE those pages entirely.\n"
+            )
+
         prompt_text = (
             "You are Industrial Brain AI, an expert assistant for FreshFlow Beverages plant operations.\n\n"
             "Answer the operator's question using ONLY the context provided below.\n"
@@ -259,7 +295,8 @@ class RAGEngine:
             "3. Format your response dynamically to best answer the user's question.\n"
             "4. Include all relevant timelines, evidence, RCA, and context from the provided documents.\n"
             "5. Always cite your sources using [Document Name (Page X)] format.\n\n"
-            "FORMAT GUIDELINES:\n"
+            + grounding_rules +
+            "\nFORMAT GUIDELINES:\n"
             "- CRITICAL: If there are multiple incidents, details, items, or events, you MUST format the response as a standard Markdown table.\n"
             "- Do not use a rigid template otherwise. Adapt the structure to the specific question.\n"
             "- Only provide recommendations if action is necessary (e.g., for time-sensitive, critical, or specific case-sensitive issues).\n"
@@ -505,16 +542,21 @@ class RAGEngine:
                     local_log.append(f"- Primary SQL Search ({preferred_doc_types or 'All'}): {len(local_pages)} exact pages found")
                     local_debug.append({"step": "Primary SQL Search", "types": preferred_doc_types, "found": len(local_pages)})
                 else:
-                    # Never fall back to unconstrained search if disallowed_doc_types exists
-                    if retrieval_plan and retrieval_plan.get("disallowed_doc_types"):
-                        allowed = retrieval_plan.get("allowed_doc_types", []) + retrieval_plan.get("fallback_doc_types", [])
+                    # Fallback: try allowed + fallback types first; only go unconstrained for Asset Overview (cross_document=True with empty disallowed)
+                    is_cross_document = (retrieval_plan or {}).get("cross_document", False)
+                    fallback_types = (retrieval_plan or {}).get("fallback_doc_types", [])
+                    if fallback_types:
+                        allowed = (retrieval_plan or {}).get("allowed_doc_types", []) + fallback_types
                         local_pages, _ = page_index_service.search_pages(local_db, query=query_text, equipment=asset_tag, graph_terms=graph_terms, allowed_doc_types=allowed, limit=20)
                         local_log.append(f"- Fallback SQL Search (Strict Types): {len(local_pages)} pages found")
                         local_debug.append({"step": "Fallback SQL Search", "types": allowed, "found": len(local_pages)})
-                    else:
+                    elif is_cross_document:
                         local_pages, _ = page_index_service.search_pages(local_db, query=query_text, equipment=asset_tag, graph_terms=graph_terms, allowed_doc_types=None, limit=20)
-                        local_log.append(f"- Unconstrained SQL Search (All Documents): {len(local_pages)} pages found")
-                        local_debug.append({"step": "Unconstrained SQL Search", "types": "All", "found": len(local_pages)})
+                        local_log.append(f"- Cross-Document SQL Search (All Documents): {len(local_pages)} pages found")
+                        local_debug.append({"step": "Cross-Document SQL Search", "types": "All", "found": len(local_pages)})
+                    else:
+                        local_log.append(f"- SQL Search: 0 results for allowed types. No unconstrained fallback (strict mode).")
+                        local_debug.append({"step": "SQL Search (No Fallback)", "types": preferred_doc_types, "found": 0})
                 
                 metrics["sql_matches"] = len(local_pages)
                 metrics["sql_time"] = time.time() - t_sql_start
@@ -551,11 +593,15 @@ class RAGEngine:
                     local_fb_docs = retriever.invoke(search_q)
                     local_debug.append({"step": "Semantic Vector Search", "types": allowed_types, "found": len(local_fb_docs)})
                     
-                    if not local_fb_docs:
+                    if not local_fb_docs and not allowed_types:
+                        # Only fall back to unconstrained search when NO type filter was requested (Asset Overview)
                         retriever = vectorstore.as_retriever(search_kwargs={"k": 8})
                         local_fb_docs = retriever.invoke(search_q)
                         local_log.append(f"- Unconstrained Vector Fallback: {len(local_fb_docs)} semantic matches found.")
                         local_debug.append({"step": "Unconstrained Semantic Search", "types": "All", "found": len(local_fb_docs)})
+                    elif not local_fb_docs and allowed_types:
+                        local_log.append(f"- Vector Search: 0 results for types {allowed_types}. No unconstrained fallback (strict mode).")
+                        local_debug.append({"step": "Semantic Vector Search (No Fallback)", "types": allowed_types, "found": 0})
                 except Exception as e:
                     print(f"[RAG] ChromaDB retrieval error: {e}")
                     
@@ -636,17 +682,23 @@ class RAGEngine:
         MAX_CHUNKS = 15
         added_count = 0
         
-        # STRICT SOURCE VALIDATION
+        # STRICT SOURCE VALIDATION — Use actual Document.type from DB, not name-based guessing
         disallowed = retrieval_plan.get("disallowed_doc_types", []) if retrieval_plan else []
+        disallowed_lower = {d.lower() for d in disallowed}
+        
+        # Pre-fetch Document.type for all pages in this batch
+        page_doc_ids = list({p.document_id for p in pages if p.document_id})
+        doc_type_map = {}
+        if page_doc_ids and db:
+            from models.domain import Document
+            doc_rows = db.query(Document.id, Document.type).filter(Document.id.in_(page_doc_ids)).all()
+            doc_type_map = {row.id: (row.type or "") for row in doc_rows}
+        
         allowed_docs_only = []
         for page in pages:
-            # Re-fetch doc type from DB to be completely safe, or use cache.
-            # In memory we can loosely guess by document name or status if needed, 
-            # but since we already queried via search_pages we trust it mostly.
-            # We will just do a string check on document_name to be doubly sure for disallowed.
-            doc_name_lower = (page.document_name or "").lower()
-            if any(d_type.lower() in doc_name_lower for d_type in disallowed):
-                search_log.append(f"- Strict Validation: Discarded {page.document_name} due to disallowed type.")
+            actual_type = doc_type_map.get(page.document_id, "")
+            if actual_type.lower() in disallowed_lower:
+                search_log.append(f"- Strict Validation: Discarded '{page.document_name}' (type={actual_type}) — disallowed for this intent.")
                 continue
             allowed_docs_only.append(page)
         
