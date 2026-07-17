@@ -464,6 +464,7 @@ function EnterpriseResponse({ msg, onSendMessage }: { msg: any; onSendMessage?: 
   const incidents = data.historical_incidents || {};
   const maintenance = data.maintenance_history || {};
   const inspection = data.inspection_findings || {};
+  const compliance = data.compliance_record || {};
   const manual = data.manual_recommendation || {};
   const expert = data.expert_recommendation || {};
   const risk = data.predictive_risk || {};
@@ -660,6 +661,13 @@ function EnterpriseResponse({ msg, onSendMessage }: { msg: any; onSendMessage?: 
                   <div className="text-[11px] uppercase tracking-wide text-muted-foreground">Risk Level</div>
                   <Badge variant="outline" className={cn('mt-1', riskClasses(inspection.risk_level))}>{inspection.risk_level || 'N/A'}</Badge>
                 </div>
+              </div>
+            </EnterpriseCard>
+
+            <EnterpriseCard title="Compliance Record" icon={sectionIcons.expert}>
+              <div className="grid gap-4">
+                <Field label="Latest Compliance" value={compliance.latest_compliance} />
+                <Field label="Observations" value={compliance.observations} />
               </div>
             </EnterpriseCard>
 

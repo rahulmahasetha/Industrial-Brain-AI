@@ -336,6 +336,13 @@ class EnterpriseAssistantService:
                 ) if inspection_pages else "Use maintenance symptoms and sensor trend as proxy until inspections are available.",
                 "risk_level": risk,
             },
+            "compliance_record": {
+                "latest_compliance": compliance_pages[0].document_name if compliance_pages else "No compliance record found",
+                "observations": self._safe_page_summary(
+                    compliance_pages[0],
+                    "Compliance document metadata is available; detailed observations require parsed content."
+                ) if compliance_pages else "Use manual lookup for specific compliance standards.",
+            },
             "manual_recommendation": {
                 "relevant_maintenance_procedure": self._manual_recommendation(manual_pages, sop_pages, latest_incident),
                 "document": self._document_name(manual_pages, sop_pages),

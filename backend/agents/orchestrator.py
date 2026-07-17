@@ -167,9 +167,11 @@ class OrchestratorAgent:
             intent = "QA Record"
         elif any(w in lower for w in ["rca report", "why", "root cause", "cause", "stopped", "rca"]):
             intent = "RCA Report"
+        elif any(w in lower for w in ["compliance certificate", "compliance record", "compliance", "iso", "fssai", "audit report", "audit"]):
+            intent = "Compliance Certificate"
         elif any(w in lower for w in ["incident report", "incident", "breakdown", "failure report"]):
             intent = "Incident Report"
-        elif any(w in lower for w in ["inspection report", "inspection", "inspect", "audit report"]):
+        elif any(w in lower for w in ["inspection report", "inspection", "inspect"]):
             intent = "Inspection Report"
         elif any(w in lower for w in [
             "maintenance schedule", "pm schedule", "preventive maintenance",
@@ -182,8 +184,6 @@ class OrchestratorAgent:
             intent = "Maintenance Log"
         elif any(w in lower for w in ["sop", "startup", "shutdown", "procedure", "checklist"]):
             intent = "SOP"
-        elif any(w in lower for w in ["compliance certificate", "compliance", "iso", "fssai"]):
-            intent = "Compliance Certificate"
         elif any(w in lower for w in ["predictive", "predict", "risk", "rul", "health"]):
             intent = "Predictive"
         elif any(w in lower for w in ["full details", "overview"]):
