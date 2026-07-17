@@ -11,7 +11,7 @@ export function FollowUpSuggestions({ suggestions, onSelect }: { suggestions?: s
         <div className="flex h-9 w-9 items-center justify-center rounded-md bg-primary/10 text-primary">
           <Lightbulb className="h-4 w-4" />
         </div>
-        <CardTitle className="text-base">Follow-up Suggestions</CardTitle>
+        <CardTitle className="text-base">Quick Actions</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex flex-wrap gap-2">

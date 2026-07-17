@@ -173,6 +173,7 @@ function SOPCard({
   onOpenCitation: (item: any, index: number) => void;
   isOpeningCitation: number | null;
   onQuickAction?: (action: string) => void;
+  suggestions?: string[];
 }) {
   const confidence: number = procedure.confidence ?? 0;
   const contentStatus: string = procedure.content_status ?? 'complete';
@@ -364,11 +365,11 @@ function SOPCard({
       </div>
 
       {/* ── Quick Actions ── */}
-      {(procedure.quick_actions?.length > 0) && (
+      {(suggestions?.length > 0) && (
         <div className="rounded-md border bg-card/80 p-4">
-          <div className="mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">Related Questions</div>
+          <div className="mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">Quick Actions</div>
           <div className="flex flex-wrap gap-2">
-            {procedure.quick_actions.map((question: string, idx: number) => (
+            {suggestions.map((question: string, idx: number) => (
               <Button key={idx} variant="outline" size="sm" className="gap-2" onClick={() => onQuickAction && onQuickAction(question)}>
                 <MessageSquare className="h-3.5 w-3.5" />
                 {question}
@@ -486,6 +487,7 @@ function EnterpriseResponse({ msg, onSendMessage }: { msg: any; onSendMessage?: 
             onOpenCitation={openCitation}
             isOpeningCitation={isOpeningCitation}
             onQuickAction={onSendMessage}
+            suggestions={msg.follow_up_suggestions}
           />
           <Accordion type="multiple" className="rounded-md border bg-card px-4">
             <AccordionItem value="timeline">
@@ -793,6 +795,21 @@ function EnterpriseResponse({ msg, onSendMessage }: { msg: any; onSendMessage?: 
               </AccordionContent>
             </AccordionItem>
           </Accordion>
+          
+          {/* ── Quick Actions (Enterprise Layout) ── */}
+          {(msg.follow_up_suggestions?.length > 0) && (
+            <div className="rounded-md border bg-card/80 p-4 mt-4">
+              <div className="mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">Quick Actions</div>
+              <div className="flex flex-wrap gap-2">
+                {msg.follow_up_suggestions.map((question: string, idx: number) => (
+                  <Button key={idx} variant="outline" size="sm" className="gap-2" onClick={() => onSendMessage(question)}>
+                    <MessageSquare className="h-3.5 w-3.5" />
+                    {question}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          )}
         </>
       )}
     </div>

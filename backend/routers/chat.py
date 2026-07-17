@@ -274,9 +274,6 @@ def format_enterprise_response(enterprise: dict) -> str:
         sop_evidence = grouped_evidence(evidence)
         sop_citations = citation_list(sop_evidence) if sop_evidence else "- No indexed source citations available."
 
-        # ── Quick Actions ─────────────────────────────────────────────────────
-        quick_actions = "📄 Open Manual  |  🛠 Maintenance History  |  ⚠ View Incidents  |  📈 Predictive Health  |  🕸 Asset Graph"
-
         return f"""# SOP: {procedure.get("sop_name") or procedure.get("relevant_procedure") or "Standard Operating Procedure"}
 
 **Applicable Equipment:**
@@ -311,9 +308,6 @@ def format_enterprise_response(enterprise: dict) -> str:
 
 ## Source Citations
 {sop_citations}
-
----
-**Quick Actions:** {quick_actions}
 """
 
     if route.get("intent") == "manual_lookup":

@@ -205,7 +205,8 @@ class RAGEngine:
             "2. NEVER expose raw JSON, internal schema, backend keys (answer, data, confidence, citations, follow_up_suggestions) to the user.\n"
             "3. Format your response dynamically to best answer the user's question.\n"
             "4. Include all relevant timelines, evidence, RCA, and context from the provided documents.\n"
-            "5. Always cite your sources using [Document Name (Page X)] format.\n\n"
+            "5. Always cite your sources using [Document Name (Page X)] format.\n"
+            "6. RELATED QUESTIONS: Generate exactly 3 highly relevant follow-up questions in the `follow_up_suggestions` array based strictly on the current Chat History and the Question. Do NOT generate generic questions.\n\n"
             + grounding_rules +
             "\nFORMAT GUIDELINES:\n"
             "- CRITICAL: If there are multiple incidents, details, items, or events, you MUST format the response as a standard Markdown table.\n"
@@ -221,6 +222,7 @@ class RAGEngine:
             + json_schema +
             "\n}}\n"
             "\n\nSearch Log:\n{search_log}\n\n"
+            "Chat History:\n{chat_history}\n\n"
             "Context: {context_chunks}\n"
             "Question: {question}"
         )
@@ -749,6 +751,16 @@ class RAGEngine:
             primary_llm = self.primary_llm
             fallback_llm = self.fallback_llm
             
+            chat_history_str = ""
+            if history:
+                # Limit to last 6 messages to save context window
+                for msg in history[-6:]:
+                    role = msg.get("role", "user").capitalize()
+                    content = msg.get("content", "")
+                    chat_history_str += f"{role}: {content}\n"
+            if not chat_history_str:
+                chat_history_str = "No prior history."
+            
             if direct_answer:
                 prompt = self._build_direct_answer_prompt(retrieval_plan=retrieval_plan)
                 try:
@@ -795,6 +807,7 @@ class RAGEngine:
                         "context_chunks": context_str[:7000] if context_str else "No documents matched your query.",
                         "question": query_text,
                         "search_log": search_log_str,
+                        "chat_history": chat_history_str,
                         "asset_tag": asset_tag or "Unknown",
                         "user_role": "Operator"
                     })
@@ -807,6 +820,7 @@ class RAGEngine:
                             "context_chunks": context_str[:7000] if context_str else "No documents matched your query.",
                             "question": query_text,
                             "search_log": search_log_str,
+                            "chat_history": chat_history_str,
                             "asset_tag": asset_tag or "Unknown",
                             "user_role": "Operator"
                         })
