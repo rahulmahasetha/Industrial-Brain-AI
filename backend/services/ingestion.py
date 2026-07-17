@@ -229,6 +229,7 @@ def process_document_pipeline(document_id: int, incremental: bool = True):
                                 "keywords": page_index.keywords,
                                 "chunk_id": chunk["id"],
                                 "procedure_type": page_index.procedure_type,
+                                "type": doc.type or "Document",
                             }
                         )
                     )
