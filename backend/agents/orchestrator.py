@@ -61,16 +61,16 @@ class RetrievalPlanner:
         "Maintenance Log": {
             "agent": "Maintenance Agent",
             "retrieve": ["Maintenance Log", "Maintenance", "Completed Work Orders", "Technician Notes"],
-            "fallback_retrieve": ["Incident Report", "Inspection Report", "Expert Notes"],
-            "do_not_retrieve": ["Equipment Manual", "Manual", "SOP", "Compliance Certificate", "Audit Report", "QA Record", "RCA Report", "Checklist", "Asset Specification"],
+            "fallback_retrieve": [],
+            "do_not_retrieve": ["Equipment Manual", "Manual", "SOP", "Compliance Certificate", "Audit Report", "QA Record", "RCA Report", "Checklist", "Asset Specification", "Incident Report", "Inspection Report", "Expert Notes"],
             "cross_document": False,
             "response_template": ["Executive Summary", "Maintenance Timeline", "Recent Activities", "Pending Work", "Recommendations", "Source Documents", "Related Questions"]
         },
         "Inspection Report": {
             "agent": "Inspection Agent",
             "retrieve": ["Inspection Report", "Inspection", "Checklist"],
-            "fallback_retrieve": ["Maintenance Log", "Incident Report", "Compliance Certificate", "Audit Report", "QA Record"],
-            "do_not_retrieve": ["SOP", "Equipment Manual", "Manual", "RCA Report", "Asset Specification"],
+            "fallback_retrieve": [],
+            "do_not_retrieve": ["SOP", "Equipment Manual", "Manual", "RCA Report", "Asset Specification", "Incident Report", "Maintenance Log", "Compliance Certificate", "Audit Report", "QA Record", "Expert Notes"],
             "cross_document": False,
             "response_template": ["Executive Summary", "Inspection Findings", "Observations", "Risk Level", "Recommendations", "Source Documents", "Related Questions"]
         },
@@ -162,6 +162,7 @@ class OrchestratorAgent:
         intent = "Asset Overview"
         
         # Rule-based regex/keyword routing (strict priorities)
+        # IMPORTANT: More specific multi-word phrases MUST come before single-word matches.
         if any(w in lower for w in ["qa record", "qa report", "quality record", "quality"]):
             intent = "QA Record"
         elif any(w in lower for w in ["rca report", "why", "root cause", "cause", "stopped", "rca"]):
@@ -170,14 +171,19 @@ class OrchestratorAgent:
             intent = "Incident Report"
         elif any(w in lower for w in ["inspection report", "inspection", "inspect", "audit report"]):
             intent = "Inspection Report"
+        elif any(w in lower for w in [
+            "maintenance schedule", "pm schedule", "preventive maintenance",
+            "lubrication schedule", "calibration schedule",
+            "manual", "guide", "troubleshooting", "troubleshoot", "asset specification",
+        ]):
+            # PM schedules, calibration schedules, and lubrication schedules live in equipment manuals
+            intent = "Manual"
         elif any(w in lower for w in ["maintenance log", "maintenance", "service", "history"]):
             intent = "Maintenance Log"
         elif any(w in lower for w in ["sop", "startup", "shutdown", "procedure", "checklist"]):
             intent = "SOP"
         elif any(w in lower for w in ["compliance certificate", "compliance", "iso", "fssai"]):
             intent = "Compliance Certificate"
-        elif any(w in lower for w in ["manual", "guide", "troubleshooting", "troubleshoot", "asset specification"]):
-            intent = "Manual"
         elif any(w in lower for w in ["predictive", "predict", "risk", "rul", "health"]):
             intent = "Predictive"
         elif any(w in lower for w in ["full details", "overview"]):
