@@ -6,6 +6,8 @@ import PageIndex from '@/pages/PageIndex';
 import KnowledgeGraph from '@/pages/KnowledgeGraph';
 import AICopilot from '@/pages/AICopilot';
 import RootCauseAnalysis from '@/pages/RootCauseAnalysis';
+import FailureIntelligence from '@/pages/FailureIntelligence';
+import ComplianceAgent from '@/pages/ComplianceAgent';
 
 import { UserProvider } from '@/contexts/UserContext';
 
@@ -22,6 +24,8 @@ function App() {
             <Route path="graph" element={<KnowledgeGraph />} />
             <Route path="copilot" element={<AICopilot />} />
             <Route path="rca" element={<RootCauseAnalysis />} />
+            <Route path="failure-intelligence" element={<FailureIntelligence />} />
+            <Route path="compliance" element={<ComplianceAgent />} />
           </Route>
         </Routes>
       </BrowserRouter>

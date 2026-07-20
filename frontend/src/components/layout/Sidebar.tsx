@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard, FileText, Network, Bot, Activity,
-  Settings, Brain, Layers3, ChevronRight, UserCircle
+  Settings, Brain, Layers3, ChevronRight, UserCircle,
+  ShieldCheck, Lightbulb
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import SettingsModal from './SettingsModal';
@@ -18,7 +19,9 @@ const overviewNav = [
 ];
 
 const intelligenceNav = [
-  { name: 'Root Cause Analysis', href: '/rca',         icon: Activity,   color: 'text-orange-600' },
+  { name: 'Root Cause Analysis', href: '/rca',                  icon: Activity,   color: 'text-orange-600' },
+  { name: 'Failure Intelligence', href: '/failure-intelligence', icon: Lightbulb,  color: 'text-red-600' },
+  { name: 'Regulatory Compliance', href: '/compliance',          icon: ShieldCheck, color: 'text-green-600' },
 ];
 
 function NavItem({ item }: { item: typeof overviewNav[0] }) {
