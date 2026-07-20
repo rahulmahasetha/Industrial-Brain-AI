@@ -15,6 +15,8 @@ An intelligent application designed to ingest plant documents, extract knowledge
 ![AI Copilot](docs/images/13_2_AI_Copilot_2.png)
 ![Knowledge Graph](docs/images/13_3_Knowledge_Graph.png)
 ![Root Cause Analysis](docs/images/13_4_Root_Cause_Analysis.png)
+![Failure Intelligence](docs/images/13_6_Failure_Intelligence.png)
+![Regulatory Compliance](docs/images/13_7_Regulatory_Compliance.png)
 
 ## Quick Start (Docker)
 Ensure Docker and Docker Compose are installed.
