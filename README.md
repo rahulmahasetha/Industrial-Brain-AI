@@ -10,6 +10,12 @@ An intelligent application designed to ingest plant documents, extract knowledge
 - **Forensic RCA**: Multi-agent engine to investigate failures and generate actionable recommendations.
 - **Knowledge Graph**: Visualizes relationships between physical assets, standards, and incidents.
 
+## Screenshots
+![Dashboard](docs/images/13_1_Dashboard.png)
+![AI Copilot](docs/images/13_2_AI_Copilot_2.png)
+![Knowledge Graph](docs/images/13_3_Knowledge_Graph.png)
+![Root Cause Analysis](docs/images/13_4_Root_Cause_Analysis.png)
+
 ## Quick Start (Docker)
 Ensure Docker and Docker Compose are installed.
 ```bash
