@@ -29,10 +29,10 @@ services:
     # Port is no longer exposed to host directly, Nginx handles it
     expose:
       - "8000"
+    env_file: ./backend/.env
     environment:
       - DATABASE_URL=postgresql://postgres:postgrespassword@postgres:5432/industrial_brain
       - REDIS_URL=redis://redis:6379/0
-      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
       - STORAGE_PROVIDER=local
     depends_on:
       postgres:
@@ -50,10 +50,10 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     command: celery -A celery_app worker --loglevel=info
+    env_file: ./backend/.env
     environment:
       - DATABASE_URL=postgresql://postgres:postgrespassword@postgres:5432/industrial_brain
       - REDIS_URL=redis://redis:6379/0
-      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
       - STORAGE_PROVIDER=local
     depends_on:
       postgres:

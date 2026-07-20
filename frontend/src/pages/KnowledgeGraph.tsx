@@ -131,7 +131,7 @@ export default function KnowledgeGraph() {
         // Keep the initial cluster compact; expansion remains server-backed.
         const initialVisible = new Set<string>();
         formattedData.nodes.forEach((n: any) => {
-          if (['asset', 'incident', 'maintenance', 'inspection', 'document', 'manual', 'sop', 'person', 'rca', 'qa', 'compliance', 'expert'].includes(n.type?.toLowerCase())) {
+          if (['asset', 'incident', 'incident_report', 'maintenance', 'maintenance_log', 'inspection', 'inspection_report', 'document', 'manual', 'equipment_manual', 'sop', 'person', 'technician', 'rca', 'rca_report', 'qa', 'qa_report', 'compliance', 'compliance_certificate', 'expert', 'page_index'].includes(n.type?.toLowerCase())) {
             initialVisible.add(n.id);
           }
         });
@@ -499,7 +499,7 @@ export default function KnowledgeGraph() {
     
     const initialVisible = new Set<string>();
     masterData.nodes.forEach((n: any) => {
-      if (['asset', 'incident', 'maintenance', 'inspection'].includes(n.type?.toLowerCase())) {
+      if (['asset', 'incident', 'incident_report', 'maintenance', 'maintenance_log', 'inspection', 'inspection_report', 'document', 'manual', 'equipment_manual', 'sop', 'person', 'technician', 'rca', 'rca_report', 'qa', 'qa_report', 'compliance', 'compliance_certificate', 'expert', 'page_index'].includes(n.type?.toLowerCase())) {
         initialVisible.add(n.id);
       }
     });
@@ -791,6 +791,9 @@ export default function KnowledgeGraph() {
           <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
             <Network className="w-8 h-8 text-indigo-400" />
             Knowledge Graph Explorer
+            <span className="text-sm font-normal text-slate-500 ml-4">
+              ({renderData.nodes.length} nodes, {renderData.links.length} edges)
+            </span>
           </h1>
           <p className="text-slate-400 mt-1">Enterprise-grade digital twin neural network and relationship mapping.</p>
         </div>
