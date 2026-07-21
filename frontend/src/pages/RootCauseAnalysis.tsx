@@ -11,6 +11,7 @@ import { Separator } from '@/components/ui/separator';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useUser } from '@/contexts/UserContext';
+import { API_BASE_URL } from '@/lib/config';
 
 export default function RootCauseAnalysis() {
   const { profile } = useUser();
@@ -37,7 +38,7 @@ export default function RootCauseAnalysis() {
     try {
       setLoadingStage("Executing forensic RCA pipeline...");
       
-      const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://industrial-brain-ai-zad4.onrender.com/api';
+      
       const res = await fetch(`${API_BASE_URL}/rca/analyze`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -63,7 +64,7 @@ export default function RootCauseAnalysis() {
     setChatResponse("");
     try {
       const prompt = `Context: Root Cause Analysis for ${assetTag}. The user is asking about the following root cause: "${causeDescription}". User question: ${chatInput}`;
-      const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://industrial-brain-ai-zad4.onrender.com/api';
+      
       const res = await fetch(`${API_BASE_URL}/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

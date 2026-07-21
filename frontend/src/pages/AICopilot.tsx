@@ -39,7 +39,7 @@ import { MarkdownMessage } from '@/components/chat/MarkdownMessage';
 import { PrintableReport } from '@/components/chat/PrintableReport';
 import { useUser } from '@/contexts/UserContext';
 
-const API_ORIGIN = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'https://industrial-brain-ai-zad4.onrender.com';
+import { API_ORIGIN } from '@/lib/config';
 
 async function submitResponseFeedback(messageId: number, rating: number, comment = '') {
   await apiClient.post('/chat/feedback', { message_id: messageId, rating, comment });

@@ -1,6 +1,4 @@
-// Using fetch API for a lightweight client
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://industrial-brain-ai-zad4.onrender.com/api';
-
+import { API_BASE_URL } from '@/lib/config';
 export const apiClient = {
   get: async (endpoint: string) => {
     try {
