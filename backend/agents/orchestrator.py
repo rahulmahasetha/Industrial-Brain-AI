@@ -150,7 +150,7 @@ class OrchestratorAgent:
         self.has_api_key = bool(os.environ.get("GOOGLE_API_KEY"))
         if self.has_api_key:
             from langchain_google_genai import ChatGoogleGenerativeAI
-            model_name = os.environ.get("GOOGLE_MODEL", "gemini-2.5-flash")
+            model_name = os.environ.get("GOOGLE_MODEL", "gemini-3.6-flash")
             self.llm = ChatGoogleGenerativeAI(model=model_name, temperature=0.0)
         else:
             self.llm = None

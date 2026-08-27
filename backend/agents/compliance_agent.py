@@ -19,7 +19,7 @@ class ComplianceAgent:
                 from langchain_core.prompts import PromptTemplate
                 from langchain_core.output_parsers import StrOutputParser
                 
-                llm = ChatGoogleGenerativeAI(model=os.environ.get("GOOGLE_MODEL", "gemini-2.5-flash"))
+                llm = ChatGoogleGenerativeAI(model=os.environ.get("GOOGLE_MODEL", "gemini-3.6-flash"))
                 prompt = PromptTemplate.from_template(
                     """You are a multi-agent AI Compliance Copilot. Your job is to check an enterprise plant document against regulatory standards and return a deep forensic analysis.
 
@@ -103,7 +103,7 @@ Only output valid JSON."""
                 
                 match = re.search(r'\{.*\}', result, re.DOTALL)
                 if match:
-                    return json.loads(match.group())
+                    return json.loads(match.group(), strict=False)
             except Exception as e:
                 print(f"LLM check_compliance error: {e}")
                 
@@ -169,9 +169,12 @@ Only output valid JSON."""
         if self.has_api_key:
             try:
                 from langchain_google_genai import ChatGoogleGenerativeAI
-                llm = ChatGoogleGenerativeAI(model=os.environ.get("GOOGLE_MODEL", "gemini-2.5-flash"))
+                llm = ChatGoogleGenerativeAI(model=os.environ.get("GOOGLE_MODEL", "gemini-3.6-flash"))
                 prompt = f"Explain the regulatory requirement '{standard} - {clause}' in simple, plain English for a factory worker. Give a concrete example of compliance and non-compliance."
-                return llm.invoke(prompt).content
+                response = llm.invoke(prompt)
+                if isinstance(response.content, list):
+                    return "".join(block.get("text", "") for block in response.content if isinstance(block, dict) and block.get("type") == "text")
+                return str(response.content)
             except Exception as e:
                 print(f"LLM explain_clause error: {e}")
         return f"This is a mocked plain English explanation of {standard} {clause}. A concrete example would be ensuring records are signed properly. Failing to do so would result in non-compliance."
@@ -181,9 +184,12 @@ Only output valid JSON."""
         if self.has_api_key:
             try:
                 from langchain_google_genai import ChatGoogleGenerativeAI
-                llm = ChatGoogleGenerativeAI(model=os.environ.get("GOOGLE_MODEL", "gemini-2.5-flash"))
+                llm = ChatGoogleGenerativeAI(model=os.environ.get("GOOGLE_MODEL", "gemini-3.6-flash"))
                 prompt = f"You are an AI Compliance Expert. Based on this compliance gap:\n{gap_details}\n\nAnswer the user's question: {user_query}"
-                return llm.invoke(prompt).content
+                response = llm.invoke(prompt)
+                if isinstance(response.content, list):
+                    return "".join(block.get("text", "") for block in response.content if isinstance(block, dict) and block.get("type") == "text")
+                return str(response.content)
             except Exception as e:
                 print(f"LLM chat_gap error: {e}")
         return f"This is a mocked response to your question '{user_query}' regarding the compliance gap."
@@ -206,7 +212,7 @@ class ExpertKnowledgeAgent:
                 from langchain_core.prompts import PromptTemplate
                 from langchain_core.output_parsers import StrOutputParser
                 
-                llm = ChatGoogleGenerativeAI(model=os.environ.get("GOOGLE_MODEL", "gemini-2.5-flash"))
+                llm = ChatGoogleGenerativeAI(model=os.environ.get("GOOGLE_MODEL", "gemini-3.6-flash"))
                 prompt = PromptTemplate.from_template(
                     """You are an industrial knowledge engineer. Your task is to extract structured expert knowledge from unstructured plant text (shift logs, expert notes, maintenance records).
 
@@ -250,7 +256,7 @@ Extract every condition-action pair you find. If none exist, return an empty str
                 
                 match = re.search(r'\{.*\}', result, re.DOTALL)
                 if match:
-                    return json.loads(match.group())
+                    return json.loads(match.group(), strict=False)
             except Exception as e:
                 print(f"LLM extract_knowledge error: {e}")
         

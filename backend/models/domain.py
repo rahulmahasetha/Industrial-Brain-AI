@@ -87,15 +87,26 @@ class ExpertKnowledge(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
 
+class ChatSession(Base):
+    __tablename__ = "chat_sessions"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, default="New Chat")
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
 class ChatMessage(Base):
     __tablename__ = "chat_messages"
 
     id = Column(Integer, primary_key=True, index=True)
+    session_id = Column(Integer, index=True, default=1)
     role = Column(String)
     content = Column(Text)
     sources = Column(String, default="")    # comma-separated source refs
     confidence = Column(Integer, nullable=True)
     time = Column(String)
+    enterprise_json = Column(Text, default="{}")
+    response_type = Column(String, default="")
     created_at = Column(DateTime, default=datetime.utcnow)
 
 

@@ -41,10 +41,10 @@ class RAGEngine:
         if self.has_api_key:
             try:
                 from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
-                model_name = os.environ.get("GOOGLE_MODEL", "gemini-2.5-flash")
+                model_name = os.environ.get("GOOGLE_MODEL", "gemini-3.6-flash")
                 embedding_model = os.environ.get("GOOGLE_EMBEDDING_MODEL", "gemini-embedding-001")
                 self.llm = ChatGoogleGenerativeAI(model=model_name)
-                self.fallback_llm = self.llm
+                self.primary_llm = self.llm  # Gemini is primary (more reliable)
                 self.embeddings = GoogleGenerativeAIEmbeddings(model=embedding_model)
                 print(f"RAG Engine initialized with Gemini LLM={model_name} EMBED={embedding_model}")
             except Exception as e:
@@ -54,17 +54,18 @@ class RAGEngine:
         if self.has_groq_key:
             try:
                 from langchain_groq import ChatGroq
-                self.primary_llm = ChatGroq(
+                groq_llm = ChatGroq(
                     api_key=os.environ.get("GROQ_API_KEY"),
-                    model="llama-3.1-8b-instant"
+                    model=os.environ.get("GROQ_MODEL", "qwen/qwen3.6-27b")
                 )
-                print("Groq LLM initialized as primary.")
+                if not self.primary_llm:
+                    self.primary_llm = groq_llm
+                    print("Groq LLM initialized as primary (Gemini unavailable).")
+                else:
+                    self.fallback_llm = groq_llm
+                    print("Groq LLM initialized as fallback.")
             except Exception as e:
                 print(f"Failed to init Groq: {e}")
-            
-        if not self.primary_llm and self.fallback_llm:
-            self.primary_llm = self.fallback_llm
-            print("Using Gemini as primary LLM (Groq unavailable).")
 
         if not self.has_api_key and not self.has_groq_key:
             print("RAG Engine initialized in Mock mode (no GOOGLE_API_KEY or GROQ_API_KEY found)")
@@ -318,9 +319,9 @@ class RAGEngine:
         # Cache document types to avoid N+1 queries if db is available
         doc_types = {}
         if db:
-            from models.domain import Document
+            from models.domain import Document as DomainDocument
             doc_ids = list({p.document_id for p in pages})
-            docs = db.query(Document).filter(Document.id.in_(doc_ids)).all()
+            docs = db.query(DomainDocument).filter(DomainDocument.id.in_(doc_ids)).all()
             for d in docs:
                 doc_types[d.id] = d.type
                 
@@ -494,8 +495,12 @@ class RAGEngine:
             local_debug = []
             local_pages = []
             try:
-                page_index_service.sync_legacy_document_pages(local_db)
-                page_index_service.sync_structured_record_pages(local_db)
+                try:
+                    page_index_service.sync_legacy_document_pages(local_db)
+                    page_index_service.sync_structured_record_pages(local_db)
+                except Exception as sync_e:
+                    print(f"Skipping sync due to DB error: {sync_e}")
+                    local_db.rollback()
                 
                 # EXACT METADATA BYPASS
                 exact_ids = extract_enterprise_ids(query_text)
@@ -692,8 +697,8 @@ class RAGEngine:
         page_doc_ids = list({p.document_id for p in pages if p.document_id})
         doc_type_map = {}
         if page_doc_ids and db:
-            from models.domain import Document
-            doc_rows = db.query(Document.id, Document.type).filter(Document.id.in_(page_doc_ids)).all()
+            from models.domain import Document as DomainDocument
+            doc_rows = db.query(DomainDocument.id, DomainDocument.type).filter(DomainDocument.id.in_(page_doc_ids)).all()
             doc_type_map = {row.id: (row.type or "") for row in doc_rows}
         
         allowed_docs_only = []
@@ -834,12 +839,12 @@ class RAGEngine:
                     # Fix common unescaped newlines in JSON strings by replacing literal newlines with \n
                     # Only do this if standard parsing fails
                     try:
-                        parsed_json = json.loads(json_str)
+                        parsed_json = json.loads(json_str, strict=False)
                     except json.JSONDecodeError:
-                        # naive attempt to escape newlines inside the JSON string
-                        # just escape all newlines since the JSON schema doesn't strictly need them
-                        json_str_fixed = json_str.replace('\n', '\\n')
-                        parsed_json = json.loads(json_str_fixed)
+                        # Sometimes LLM wraps response in markdown ```json ... ```
+                        json_str_clean = re.sub(r'^```json\s*', '', json_str, flags=re.IGNORECASE)
+                        json_str_clean = re.sub(r'```\s*$', '', json_str_clean)
+                        parsed_json = json.loads(json_str_clean, strict=False)
                         
                     return record_metrics({
                         "mode": "full_card",

@@ -7,15 +7,11 @@ from sqlalchemy.orm import sessionmaker
 def migrate_to_render_http(render_url: str):
     print(f"Starting HTTP migration to: {render_url}")
     
-    # Setup local SQLite engine
-    sqlite_url = "sqlite:///industrial_brain.db"
-    if not os.path.exists("industrial_brain.db"):
-        print("Error: industrial_brain.db not found!")
-        sys.exit(1)
-        
-    sqlite_engine = create_engine(sqlite_url)
+    # Setup local PostgreSQL engine
+    local_url = "postgresql://postgres:postgrespassword@localhost:5432/industrial_brain"
+    local_engine = create_engine(local_url)
     metadata = MetaData()
-    metadata.reflect(bind=sqlite_engine)
+    metadata.reflect(bind=local_engine)
     
     tables = metadata.sorted_tables
     
@@ -28,10 +24,10 @@ def migrate_to_render_http(render_url: str):
             print(f"  Warning: Failed to truncate {table.name}: {resp.text}")
 
     # 2. Copy data
-    with sqlite_engine.connect() as sqlite_conn:
+    with local_engine.connect() as local_conn:
         for table in tables:
             print(f"Copying table '{table.name}'...")
-            records = sqlite_conn.execute(table.select()).fetchall()
+            records = local_conn.execute(table.select()).fetchall()
             
             if not records:
                 print("  No records to copy.")
@@ -69,7 +65,7 @@ def migrate_to_render_http(render_url: str):
                     print(f"  Inserted batch of {inserted} rows...")
                 else:
                     print(f"  Error inserting batch: {resp.status_code} - {resp.text}")
-                    sys.exit(1)
+                    break # Skip the rest of this table and move to next table
                     
             print(f"  Total inserted for '{table.name}': {total_inserted}")
             

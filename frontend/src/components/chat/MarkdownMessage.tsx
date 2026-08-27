@@ -190,15 +190,15 @@ export function MarkdownMessage({
               },
               table: ({node, ...props}) => (
                 <div className="overflow-x-auto print:overflow-visible my-5 rounded-xl border border-border/60 shadow-sm bg-card">
-                  <table className="w-full text-base print:text-[11px] border-collapse" {...props} />
+                  <table className="w-full min-w-max text-base print:text-[11px] border-collapse" {...props} />
                 </div>
               ),
-              th: ({node, ...props}) => <th className="bg-muted/60 p-3.5 print:p-2 font-semibold text-left text-foreground border-b border-border/60" {...props} />,
+              th: ({node, ...props}) => <th className="bg-muted/60 p-4 print:p-2 font-semibold text-left text-foreground border-b border-border/60 min-w-[180px]" {...props} />,
               td: ({node, children, ...props}) => {
                 const text = String(children);
                 const badge = renderBadgeIfMatch(text, children);
                 return (
-                  <td className="p-3.5 print:p-2 border-b border-border/40 text-muted-foreground align-middle print:break-words" {...props}>
+                  <td className="p-4 print:p-2 border-b border-border/40 text-muted-foreground align-top print:break-words min-w-[180px]" {...props}>
                     {badge ? badge : renderWithBr(children)}
                   </td>
                 );
@@ -217,7 +217,7 @@ export function MarkdownMessage({
                     </Badge>
                   );
                 }
-                return <a className="text-primary hover:underline font-medium" {...props} />;
+                return <a className="text-primary hover:underline font-medium mx-1" {...props} />;
               }
             }}
           >

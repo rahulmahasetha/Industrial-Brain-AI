@@ -185,10 +185,10 @@ class RootCauseAnalysisAgent:
                 
                 if has_groq:
                     from langchain_groq import ChatGroq
-                    llm = ChatGroq(model="llama-3.1-8b-instant", api_key=os.environ.get("GROQ_API_KEY"))
+                    llm = ChatGroq(model=os.environ.get("GROQ_MODEL", "qwen/qwen3.6-27b"), api_key=os.environ.get("GROQ_API_KEY"), max_tokens=4096, temperature=0.1)
                 else:
                     from langchain_google_genai import ChatGoogleGenerativeAI
-                    llm = ChatGoogleGenerativeAI(model=os.environ.get("GOOGLE_MODEL", "gemini-2.5-flash"))
+                    llm = ChatGoogleGenerativeAI(model=os.environ.get("GOOGLE_MODEL", "gemini-3.6-flash"), max_output_tokens=4096, temperature=0.1)
                 
                 # Build context with evidence classification
                 evidence_summary = "\n".join([
@@ -253,24 +253,32 @@ Respond in this exact JSON format:
   "final_decision": "Summary explaining exactly why the AI selected this root cause..."
 }}
 
-Only output valid JSON. No preamble or markdown."""
+Only output valid JSON. No preamble, no markdown, and Do NOT use <think> blocks."""
                 )
-                chain = prompt | llm | StrOutputParser()
-                result = chain.invoke({
-                    "anomaly": anomaly,
-                    "asset_tag": state.get("asset_tag", ""),
-                    "intent": state.get("intent", ""),
-                    "logs": json.dumps(logs[:3], indent=2),
-                    "evidence_summary": evidence_summary,
-                    "context": context[:2000]
-                })
+                prompt_text = prompt.format(
+                    anomaly=anomaly,
+                    asset_tag=state.get("asset_tag", ""),
+                    intent=state.get("intent", ""),
+                    logs=json.dumps(logs[:3], indent=2),
+                    evidence_summary=evidence_summary,
+                    context=context[:2000]
+                )
+                response = llm.invoke(prompt_text)
+                if isinstance(response.content, list):
+                    result = "".join(block.get("text", "") for block in response.content if isinstance(block, dict) and block.get("type") == "text")
+                else:
+                    result = str(response.content)
                 
                 # Parse the new JSON format
+                import re
+                # Clean up <think> blocks
+                cleaned_result = re.sub(r'<think>.*?</think>', '', result, flags=re.DOTALL)
+                
                 # Find the first { and last } to extract JSON robustly
-                start_idx = result.find('{')
-                end_idx = result.rfind('}')
+                start_idx = cleaned_result.find('{')
+                end_idx = cleaned_result.rfind('}')
                 if start_idx != -1 and end_idx != -1 and end_idx > start_idx:
-                    json_str = result[start_idx:end_idx+1]
+                    json_str = cleaned_result[start_idx:end_idx+1]
                     try:
                         # strict=False allows unescaped newlines in strings
                         parsed_result = json.loads(json_str, strict=False)
@@ -298,15 +306,16 @@ Only output valid JSON. No preamble or markdown."""
                             "supporting_evidence": cause.get("supporting_evidence", [])
                         })
                     
-                    return {
-                        "causes": causes if causes else [{"description": "Unable to determine specific root cause", "probability": 50}],
-                        "ai_reasoning": parsed_causes[0].get("ai_reasoning", "") if parsed_causes else "",
-                        "evidence_chain": parsed_causes[0].get("evidence_chain", []) if parsed_causes else [],
-                        "supporting_evidence": parsed_causes[0].get("supporting_evidence", []) if parsed_causes else [],
-                        "contradicting_evidence": parsed_result.get("contradicting_evidence", []),
-                        "missing_evidence": parsed_result.get("missing_evidence", []),
-                        "final_decision": parsed_result.get("final_decision", "")
-                    }
+                    if causes:
+                        return {
+                            "causes": causes,
+                            "ai_reasoning": parsed_causes[0].get("ai_reasoning", ""),
+                            "evidence_chain": parsed_causes[0].get("evidence_chain", []),
+                            "supporting_evidence": parsed_causes[0].get("supporting_evidence", []),
+                            "contradicting_evidence": parsed_result.get("contradicting_evidence", []),
+                            "missing_evidence": parsed_result.get("missing_evidence", []),
+                            "final_decision": parsed_result.get("final_decision", "")
+                        }
             except Exception as e:
                 print(f"LLM analyze_causes error: {e}")
         
@@ -445,10 +454,10 @@ Only output valid JSON. No preamble or markdown."""
                 
                 if has_groq:
                     from langchain_groq import ChatGroq
-                    llm = ChatGroq(model="llama-3.1-8b-instant", api_key=os.environ.get("GROQ_API_KEY"))
+                    llm = ChatGroq(model=os.environ.get("GROQ_MODEL", "qwen/qwen3.6-27b"), api_key=os.environ.get("GROQ_API_KEY"), max_tokens=4096, temperature=0.1)
                 else:
                     from langchain_google_genai import ChatGoogleGenerativeAI
-                    llm = ChatGoogleGenerativeAI(model=os.environ.get("GOOGLE_MODEL", "gemini-2.5-flash"))
+                    llm = ChatGoogleGenerativeAI(model=os.environ.get("GOOGLE_MODEL", "gemini-3.6-flash"), max_output_tokens=4096, temperature=0.1)
                 prompt = PromptTemplate.from_template(
                     """You are a senior maintenance engineer at an industrial beverage plant.
 
@@ -481,25 +490,33 @@ Generate recommendations in this exact JSON format:
   "estimated_downtime": "e.g. 4-6 hours"
 }}
 
-Base recommendations on the evidence. If a similar incident occurred before, reference what was done then. Only output valid JSON."""
+Base recommendations on the evidence. If a similar incident occurred before, reference what was done then. Only output valid JSON. No preamble, no markdown, and Do NOT use <think> blocks."""
                 )
-                chain = prompt | llm | StrOutputParser()
-                result = chain.invoke({
-                    "anomaly": anomaly,
-                    "asset_tag": asset_tag,
-                    "filtered_causes": json.dumps(filtered_causes[:2], indent=2),
-                    "similar_incidents": json.dumps(similar_incidents[:2], indent=2)
-                })
+                prompt_text = prompt.format(
+                    anomaly=anomaly,
+                    asset_tag=asset_tag,
+                    filtered_causes=json.dumps(filtered_causes[:2], indent=2),
+                    similar_incidents=json.dumps(similar_incidents[:2], indent=2)
+                )
+                response = llm.invoke(prompt_text)
+                if isinstance(response.content, list):
+                    result = "".join(block.get("text", "") for block in response.content if isinstance(block, dict) and block.get("type") == "text")
+                else:
+                    result = str(response.content)
                 
-                start_idx = result.find('{')
-                end_idx = result.rfind('}')
+                import re
+                cleaned_result = re.sub(r'<think>.*?</think>', '', result, flags=re.DOTALL)
+                
+                start_idx = cleaned_result.find('{')
+                end_idx = cleaned_result.rfind('}')
                 if start_idx != -1 and end_idx != -1 and end_idx > start_idx:
-                    json_str = result[start_idx:end_idx+1]
+                    json_str = cleaned_result[start_idx:end_idx+1]
                     try:
                         recommendations = json.loads(json_str, strict=False)
                     except json.JSONDecodeError:
                         import ast
-                        recommendations = ast.literal_eval(json_str)
+                        clean_str = json_str.replace('true', 'True').replace('false', 'False').replace('null', 'None')
+                        recommendations = ast.literal_eval(clean_str)
             except Exception as e:
                 print(f"LLM generate_recommendations error: {e}")
         

@@ -22,7 +22,7 @@ class LessonsLearnedService:
                 from langchain_groq import ChatGroq
                 self.primary_llm = ChatGroq(
                     api_key=os.environ.get("GROQ_API_KEY"),
-                    model="llama-3.3-70b-versatile"
+                    model=os.environ.get("GROQ_MODEL", "qwen/qwen3.6-27b")
                 )
             except Exception as e:
                 print(f"Failed to init Groq in lessons learned: {e}")
@@ -30,7 +30,7 @@ class LessonsLearnedService:
         if self.has_api_key:
             try:
                 from langchain_google_genai import ChatGoogleGenerativeAI
-                model_name = os.environ.get("GOOGLE_MODEL", "gemini-2.5-flash")
+                model_name = os.environ.get("GOOGLE_MODEL", "gemini-3.6-flash")
                 gemini_llm = ChatGoogleGenerativeAI(model=model_name)
                 
                 if not self.primary_llm:
@@ -108,7 +108,7 @@ Respond in EXACTLY this JSON format:
                     
             match = re.search(r'\{.*\}', raw, re.DOTALL)
             if match:
-                return json.loads(match.group())
+                return json.loads(match.group(), strict=False)
             return {"lessons": [], "status": "parse_error"}
         except Exception as e:
             print(f"[lessons_learned] Error: {e}")

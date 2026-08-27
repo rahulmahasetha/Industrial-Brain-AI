@@ -328,12 +328,12 @@ class PredictiveMaintenanceAssistant:
                     from langchain_groq import ChatGroq
                     primary_llm = ChatGroq(
                         api_key=os.environ.get("GROQ_API_KEY"),
-                        model="llama-3.3-70b-versatile"
+                        model=os.environ.get("GROQ_MODEL", "qwen/qwen3.6-27b")
                     )
                     
                 if has_api_key:
                     from langchain_google_genai import ChatGoogleGenerativeAI
-                    gemini_llm = ChatGoogleGenerativeAI(model=os.environ.get("GOOGLE_MODEL", "gemini-2.5-flash"))
+                    gemini_llm = ChatGoogleGenerativeAI(model=os.environ.get("GOOGLE_MODEL", "gemini-3.6-flash"))
                     if not primary_llm:
                         primary_llm = gemini_llm
                     else:
@@ -417,7 +417,7 @@ Base the risk assessment on the actual numbers provided. Only output valid JSON.
                 
                 match = re.search(r'\{.*\}', result, re.DOTALL)
                 if match:
-                    return json.loads(match.group())
+                    return json.loads(match.group(), strict=False)
             except Exception as e:
                 print(f"LLM generate_advisory error: {e}")
                 

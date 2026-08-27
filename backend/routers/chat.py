@@ -6,7 +6,7 @@ import time
 import re
 from sqlalchemy.orm import Session
 from database import get_db
-from models.domain import ChatMessage as DBMessage, Incident, Asset, KnowledgeEdge, KnowledgeNode
+from models.domain import ChatMessage as DBMessage, ChatSession, Incident, Asset, KnowledgeEdge, KnowledgeNode
 from services.enterprise_assistant_service import enterprise_assistant
 from services.graph_service import graph_engine
 from services.rag_service import rag_engine
@@ -22,6 +22,7 @@ class ChatMessage(BaseModel):
 
 class ChatRequest(BaseModel):
     message: str
+    session_id: Optional[int] = None
     history: List[ChatMessage] = []
     retry: Optional[bool] = False
 
@@ -404,9 +405,72 @@ Asset: {asset.get('asset_name')} | Health: {asset.get('current_health')} | Statu
 {evidence_lines}
 """
 
+import json
+
 @router.get("/history")
-def get_chat_history(db: Session = Depends(get_db)):
-    return db.query(DBMessage).order_by(DBMessage.id).all()
+def get_chat_history(session_id: Optional[int] = None, db: Session = Depends(get_db)):
+    query = db.query(DBMessage)
+    if session_id:
+        query = query.filter(DBMessage.session_id == session_id)
+    messages = query.order_by(DBMessage.id).all()
+    out = []
+    for m in messages:
+        ent = {}
+        if m.enterprise_json:
+            try:
+                ent = json.loads(m.enterprise_json)
+            except Exception:
+                pass
+        out.append({
+            "id": m.id,
+            "session_id": m.session_id,
+            "role": m.role,
+            "content": m.content,
+            "sources": [s for s in m.sources.split(",") if s] if m.sources else [],
+            "confidence": m.confidence,
+            "time": m.time,
+            "response_type": m.response_type,
+            "enterprise": ent
+        })
+    return out
+
+@router.get("/sessions")
+def get_chat_sessions(db: Session = Depends(get_db)):
+    sessions = db.query(ChatSession).order_by(ChatSession.updated_at.desc()).all()
+    return [{"id": s.id, "title": s.title, "created_at": s.created_at, "updated_at": s.updated_at} for s in sessions]
+
+@router.post("/sessions")
+def create_chat_session(request: dict, db: Session = Depends(get_db)):
+    title = request.get("title", "New Chat")
+    session = ChatSession(title=title)
+    db.add(session)
+    db.commit()
+    db.refresh(session)
+    return {"id": session.id, "title": session.title, "created_at": session.created_at, "updated_at": session.updated_at}
+
+@router.put("/sessions/{session_id}")
+def rename_chat_session(session_id: int, request: dict, db: Session = Depends(get_db)):
+    session = db.query(ChatSession).filter(ChatSession.id == session_id).first()
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    title = request.get("title")
+    if title:
+        session.title = title
+        session.updated_at = datetime.datetime.utcnow()
+        db.commit()
+        db.refresh(session)
+    return {"id": session.id, "title": session.title, "created_at": session.created_at, "updated_at": session.updated_at}
+
+@router.delete("/sessions/{session_id}")
+def delete_chat_session(session_id: int, db: Session = Depends(get_db)):
+    session = db.query(ChatSession).filter(ChatSession.id == session_id).first()
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    # Delete associated messages
+    db.query(DBMessage).filter(DBMessage.session_id == session_id).delete()
+    db.delete(session)
+    db.commit()
+    return {"status": "success"}
 
 @router.delete("/history")
 def clear_chat_history(db: Session = Depends(get_db)):
@@ -459,7 +523,7 @@ def chat_copilot(request: ChatRequest, db: Session = Depends(get_db)):
             cached_response["time"] = now_str
             cached_response["cached"] = True
             
-            user_msg = DBMessage(role="user", content=request.message, time=now_str)
+            user_msg = DBMessage(role="user", content=request.message, time=now_str, session_id=request.session_id)
             db.add(user_msg)
             db.flush()
             
@@ -467,6 +531,7 @@ def chat_copilot(request: ChatRequest, db: Session = Depends(get_db)):
                 role="assistant",
                 content=cached_response.get("content", ""),
                 time=now_str,
+                session_id=request.session_id,
                 sources=",".join(cached_response.get("sources", [])[:12]),
                 confidence=cached_response.get("confidence", 0),
             )
@@ -482,7 +547,7 @@ def chat_copilot(request: ChatRequest, db: Session = Depends(get_db)):
             return cached_response
             
     # Save user message to DB
-    user_msg = DBMessage(role="user", content=request.message, time=now_str)
+    user_msg = DBMessage(role="user", content=request.message, time=now_str, session_id=request.session_id)
     db.add(user_msg)
     db.flush()
 
@@ -601,13 +666,17 @@ def chat_copilot(request: ChatRequest, db: Session = Depends(get_db)):
     
     # 4. Page-first GraphRAG retrieval. Graph context narrows pages; Chroma ranks
     # page-scoped chunks; Gemini receives exact pages only.
-    conversation_history = request.history or [
-        {"role": msg.role, "content": msg.content}
-        for msg in db.query(DBMessage)
-            .order_by(DBMessage.id.desc())
-            .limit(12)
-            .all()[::-1]
-    ]
+    if request.session_id:
+        conversation_history = request.history or [
+            {"role": msg.role, "content": msg.content}
+            for msg in db.query(DBMessage)
+                .filter(DBMessage.session_id == request.session_id)
+                .order_by(DBMessage.id.desc())
+                .limit(12)
+                .all()[::-1]
+        ]
+    else:
+        conversation_history = request.history or []
 
 
     try:
@@ -631,8 +700,11 @@ def chat_copilot(request: ChatRequest, db: Session = Depends(get_db)):
                 role="assistant",
                 content=answer,
                 time=now_str,
+                session_id=request.session_id,
                 sources=",".join(final_sources[:12]),
                 confidence=confidence,
+                response_type="concise",
+                enterprise_json="{}"
             )
             db.add(bot_msg)
             db.commit()
@@ -712,8 +784,11 @@ def chat_copilot(request: ChatRequest, db: Session = Depends(get_db)):
         role="assistant",
         content=answer,
         time=now_str,
+        session_id=request.session_id,
         sources=",".join(final_sources[:12]),
         confidence=confidence,
+        response_type=response_type,
+        enterprise_json=json.dumps(dynamic_data) if dynamic_data else "{}"
     )
     db.add(bot_msg)
     db.commit()
@@ -767,7 +842,7 @@ def chat_stream(request: ChatRequest, db: Session = Depends(get_db)):
     now_str = datetime.datetime.now().strftime("%I:%M %p")
     
     # Save user message
-    user_msg = DBMessage(role="user", content=request.message, time=now_str)
+    user_msg = DBMessage(role="user", content=request.message, time=now_str, session_id=request.session_id)
     db.add(user_msg)
     db.flush()
 
@@ -780,13 +855,17 @@ def chat_stream(request: ChatRequest, db: Session = Depends(get_db)):
 
     db_context, db_sources, asset_tag, graph_context = query_database_context(request.message, db)
 
-    conversation_history = request.history or [
-        {"role": msg.role, "content": msg.content}
-        for msg in db.query(DBMessage)
-            .order_by(DBMessage.id.desc())
-            .limit(12)
-            .all()[::-1]
-    ]
+    if request.session_id:
+        conversation_history = request.history or [
+            {"role": msg.role, "content": msg.content}
+            for msg in db.query(DBMessage)
+                .filter(DBMessage.session_id == request.session_id)
+                .order_by(DBMessage.id.desc())
+                .limit(12)
+                .all()[::-1]
+        ]
+    else:
+        conversation_history = request.history or []
 
     generator = rag_engine.query(
         request.message,

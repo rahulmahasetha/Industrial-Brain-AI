@@ -28,7 +28,7 @@ class ChunkingService:
             if api_key:
                 self.llm = ChatGroq(
                     api_key=api_key,
-                    model="llama-3.1-8b-instant",
+                    model=os.environ.get("GROQ_MODEL", "qwen/qwen3.6-27b"),
                     temperature=0.0
                 )
 
